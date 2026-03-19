@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+    --tamanho-navbar: 81.76px;
+    --tamanho-conteudo: calc(100vh - var(--tamanho-navbar));
+}
+
+* {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+}
+
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#conteudo {
+    display: flex;
+    background: linear-gradient(to right, #72BFFF, #5148EB);
+    justify-content: center;
+    align-items: center;
+    height: var(--tamanho-conteudo);
+}
+
+#conteudo p {
+    color: #FFFF;
+    font-size: 20px;
+    font-weight: bold;
+}
+#div-simulacao{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+#div-simulacao p {
+    align-self: center;
+}
+
+#simule-lucro {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFF;
+    height: 310px;
+    width: 390px;
+    border-radius: 12px;
+    border: solid 2px #4262FF;
+    padding: 20px;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.div_labelInput{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+#simule-lucro button {
+    border-radius: 5px;
+    height: 40px;
+    width: 130px;
+    border: none;
+    background: linear-gradient(to right, #72BFFF, #5148EB);
+    color: #FFFF;
+    font-weight: bold;
+}
+
+#div_inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input {
+    border-radius: 10px;
+    height: 30px;
+    width: 350px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    padding-left: 10px;
+}
+
+#navbar {
+    height: 81.76px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#resultado {
+    display: flex;
+    background-color: #FFFF;
+    height: 570px;
+    width: 390px;
+    border-radius: 12px;
+    border: solid 2px #4262FF;
+    padding: 20px;
+}
+#resultado p {
+    color: black;
+    font-size: 13px;
+    align-self: center;
+}
+.separacao-canvas{
+    display: flex;
+    flex-direction: column;
+}
+#resposta{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+canvas{
+    width: 312.96px;
+}

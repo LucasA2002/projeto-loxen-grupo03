@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora Financeira</title>
+</head>
+
+<body>
+
+<h2>Calculadora Financeira - Loxen</h2> 
+<img width="40%" src="loxen.png"  alt=""><br>
+
+Pessoas por dia: <br> <input type="number" id="inp_pessoas"><br>
+
+Ticket médio (R$): <br> <input type="number" id="inp_ticket"><br>
+
+Produtos vendidos por dia: <br>  <input type="number" id="inp_vendas"><br>
+
+Lucro diário atual (R$): <br>  <input type="number" id="inp_lucro"><br>
+
+<button onclick="calcular()">Calcular</button>
+
+<div id="resultado"></div>
+
+<script>
+
+function calcular(){
+
+    let numPessoas = Number(inp_pessoas.value);
+    let ticketMedio = Number(inp_ticket.value);
+    let numVendas = Number(inp_vendas.value);
+    let numLucro = Number(inp_lucro.value);
+
+    let aumentoVendas = numVendas * 1.20;
+    let aumentoLucro = numLucro * 1.30;
+
+
+    resultado.innerHTML = `
+    <p>Sua loja recebe aproximadamente ${numPessoas} pessoas por dia.</p>
+
+    <p>O ticket médio é R$${ticketMedio} e você vende cerca de ${numVendas} produtos diariamente.</p>
+
+    <p>Seu lucro atual é aproximadamente R$${numLucro} por dia.</p>
+
+    <p>Com sensores da Loxen você pode:</p>
+
+    <ul>
+        <li>Mapear fluxo de clientes</li>
+        <li>Identificar setores mais movimentados</li>
+        <li>Melhorar distribuição de funcionários</li>
+        <li>Gerar gráficos e mapas de calor</li>
+    </ul>
+
+    <p>Projeção com o sistema:</p>
+
+    <p>Vendas estimadas: ${aumentoVendas.toFixed(0)} produtos por dia</p>
+    <p>Lucro estimado: R$${aumentoLucro.toFixed(2)} por dia</p>
+
+    <p>Possível aumento de até 20% nas vendas e 30% no lucro.</p>
+    `;
+}
+
+</script>
+
+</body>
+</html>

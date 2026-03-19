@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<!-- Idioma da página -->
+<html lang="pt-br">
+
+<!-- Cabeça do HTML, contem informações como tamanho da pagina, titulo e escala -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financeira</title>
+</head>
+
+<!-- Corpo da página -->
+<body>
+    <h2> Descubra seus possiveis lucros </h2>
+
+    Insira seus lucros mensais (R$): <input type="text" id="Input_Lucros"><br><br>
+
+    Insira o ticket médio (R$): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="Input_Ticket"><br><br>
+
+    Insira o fluxo de clientes: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="Input_fluxo"><br><br>
+
+    Periodo Total: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="number" id="input_Periodo"><span id="span_opção"></span> 
+    <br>
+    Selecione o periodo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <button onclick="Meses()">Meses</button> <button onclick="Anos()">anos</button>
+
+    <br>
+    <p id="p_periodoTempo"></p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="Simular()">Simular agora</button>
+
+    <br><br>
+    <div id="resultado"></div>
+</body>
+
+</html>
+
+<script>
+    let Periodo = 0;
+    let periodoEmMeses = 0;
+
+    function Meses(){
+        let tempo = Number(input_Periodo.value);
+        let DiasSimulação = 30;
+
+        Periodo = tempo * DiasSimulação; 
+
+        let sobra = tempo % 12; 
+        let mesesEmAnosCompletos = tempo - sobra; 
+        let diasExtras = (mesesEmAnosCompletos / 12) * 5; 
+        Periodo = Periodo + diasExtras;
+
+        periodoEmMeses = tempo;
+
+        span_opção.innerHTML = ` ➤ <b style="color:green">${tempo} Meses </b>(${Periodo} dias)`;
+    }
+
+    function Anos(){
+        let tempo = Number(input_Periodo.value);
+        let DiasSimulação = 365;
+        periodoEmMeses = tempo * 12;
+
+        span_opção.innerHTML = ` ➤ <b style="color:green">${tempo} Anos </b>(${Periodo} dias)`;
+    }
+
+    function Simular() {
+
+        let lucros = Number(Input_Lucros.value);
+        let ticket = Number(Input_Ticket.value);
+        let fluxo  = Number(Input_fluxo.value);
+
+        // Receita base mensal
+        let receitaBase = lucros + (ticket * fluxo);
+
+        // Projeção: crescimento de 1% e 30% sobre a receita base por mês
+        let ganhoMin = receitaBase * 0.01 * periodoEmMeses;
+        let ganhoMax = receitaBase * 0.30 * periodoEmMeses;
+
+        let totalMin = (receitaBase * periodoEmMeses) + ganhoMin;
+        let totalMax = (receitaBase * periodoEmMeses) + ganhoMax;
+
+        // Clientes adicionais
+        let clientesMin = fluxo * 0.01 * periodoEmMeses;
+        let clientesMax = fluxo * 0.30 * periodoEmMeses;
+
+        resultado.innerHTML = `
+            <br>
+            <h3>Resultado da Simulação</h3>
+            <br><b>Receita base mensal: </b> R$ ${receitaBase}
+            <br><b>Lucros Totais:       </b> R$ ${lucros}
+            <br><b>Período:             </b> ${periodoEmMeses} meses (${Periodo} dias)
+            <br>
+            <h4 style="color:#2a7a2a">Cenário Mínimo esperado —> +1%</h4>
+            <br>Receita total:          <b>R$ ${totalMin}</b>
+            <br>Ganho extra:            <b>+R$ ${ganhoMin}</b>
+            <br>Clientes a mais:        <b>+${clientesMin}</b>
+            <br>
+            <h4 style="color:#1a5ca8">Cenário Máximo esperado —> +30%</h4>
+            <br>Receita total:          <b>R$ ${totalMax}</b>
+            <br>Ganho extra:            <b>+R$ ${ganhoMax}</b>
+            <br>Clientes a mais:        <b>+${clientesMax}></b>
+            <br>
+            <br>
+            --lucros podem ser maiores ou menores do que os esperados--
+        `;
+    }
+</script>
