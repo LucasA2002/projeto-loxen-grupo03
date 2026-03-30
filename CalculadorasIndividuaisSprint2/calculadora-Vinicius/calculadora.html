@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora Loxen</title>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <h2>Calculadora Loxen</h2>
+
+        Faturamento total do mês (em reais):<br>
+        <input type="text" id="ipt_faturamento"><br><br>
+
+        Quantidade total de vendas realizadas (Número total de compras registradas no caixa no mês):<br>
+        <input type="text" id="ipt_vendas"><br><br>
+
+        <label>Custo da ação comercial (em reais):</label><br>
+        <small>Valor investido na ação (ex: promoção, destaque de produto, mudança de layout)</small><br>
+        <input type="text" id="ipt_custo"><br><br>
+
+        <label>Impacto estimado da ação (%):</label><br>
+        <small>
+            Percentual estimado de aumento nas vendas.<br>
+            Referência comum: entre 20% e 30% para ações de merchandising.
+        </small><br>
+        <input type="text" id="ipt_impacto"><br><br>
+
+        <button onclick="calcular()">Analisar</button>
+
+        <div id="exibir"></div>
+
+    </div>
+
+    <script>
+        function calcular() {
+
+            let faturamento = Number(ipt_faturamento.value);
+            let vendas = Number(ipt_vendas.value);
+            let custo = Number(ipt_custo.value);
+            let impacto = Number(ipt_impacto.value) / 100;
+
+            if (!faturamento || !vendas || !custo || !impacto) {
+                exibir.innerHTML = "Preencha todos os campos corretamente.";
+                return;
+            }
+
+            let ticket = faturamento / vendas;
+
+            let novasVendas = vendas * (1 + impacto);
+            let novoFaturamento = novasVendas * ticket;
+
+            let ganhoExtra = novoFaturamento - faturamento;
+
+            let roi = (ganhoExtra - custo) / custo;
+
+            let decisao = ``;
+
+            if (ganhoExtra > custo) {
+                decisao = `A ação é VIÁVEL (gera lucro superior ao custo)`;
+            } else {
+                decisao = `A ação NÃO é viável (custo maior que retorno)`;
+            }
+
+            exibir.innerHTML = `
+<h3>Resultado da Análise</h3>
+
+Ticket médio atual: R$ ${ticket.toFixed(2)} <br><br>
+
+Faturamento estimado após ação: R$ ${novoFaturamento.toFixed(2)} <br>
+Ganho adicional estimado: R$ ${ganhoExtra.toFixed(2)} <br><br>
+
+ROI da ação: ${(roi * 100).toFixed(1)}% <br><br>
+
+<strong>${decisao}</strong><br><br>
+
+<hr>
+
+<h4>Como essa estimativa foi calculada:</h4>
+
+A projeção utiliza um aumento percentual nas vendas baseado em práticas comuns de varejo.<br><br>
+
+Estudos de merchandising e organização de loja mostram que ações como:<br>
+- melhor posicionamento de produtos<br>
+- destaque visual<br>
+- reorganização de layout<br><br>
+
+podem aumentar as vendas entre <strong>20% e 30%</strong> nos itens impactados.<br><br>
+
+Isso acontece porque essas ações melhoram:<br>
+- visibilidade do produto<br>
+- facilidade de acesso<br>
+- decisão de compra do cliente<br><br>
+
+Fontes e referências:<br><br>
+
+<a href="https://mgmt.com.br/o-guia-definitivo-5-estrategias-de-gondola-que-vao-disparar-as-vendas-do-seu-supermercado-em-20/" target="_blank">
+Estratégias de gôndola (MGMT)</a><br>
+
+<a href="https://www.leafio.ai/pt/blog/merchandising-supermercado/" target="_blank">
+Merchandising e performance (Leafio)</a><br>
+
+<a href="https://planohero.com/en/blog/how-supermarkets-optimize-shelf-layouts-to-boost-sales/" target="_blank">
+Otimização de layout (PlanoHero)</a><br><br>
+
+Observação: os valores são estimativas médias e podem variar conforme o tipo de ação e o perfil do mercado.
+`;
+        }
+    </script>
+
+</body>
+
+</html>
