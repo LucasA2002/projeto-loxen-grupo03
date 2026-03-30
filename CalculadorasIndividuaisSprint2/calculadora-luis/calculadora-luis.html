@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<body>
+    Insira o faturamento total: <input type="text" id="ipt_faturamento"> <br>
+    Insira a quantidade de vendas: <input type="text" id="ipt_vendas"> <br>
+    Insira o fluxo total de pessoas: <input type="text" id="ipt_fluxo"> <br>
+    <button onclick="calcular()">Calcular</button>
+    <div id="div_mensagem"></div> 
+</body>
+</html>
+<script>
+    function calcular(){
+        let faturamento = Number(ipt_faturamento.value)
+        let vendas = Number(ipt_vendas.value)
+        let fluxo = Number(ipt_fluxo.value)
+
+        let ticketMedio = faturamento / vendas
+        let taxaConversao = (vendas / fluxo) * 100
+        let lucroPotencial = (fluxo - vendas) * ticketMedio
+
+        div_mensagem.innerHTML = `
+        <b>Resultados da Análise:</b> <br>
+        Ticket médio por cliente: <b>R$ ${ticketMedio.toFixed(2)}</b> <br> <br>
+
+        Total de pessoas que entraram na loja: <b>${fluxo}</b> <br>
+        Clientes que realizaram compras: <b>${vendas}</b> <br>
+        Taxa de conversão de clientes: <b>${taxaConversao.toFixed(2)}%</b> <br><br>
+        
+        Pessoas que não compraram: <b>${fluxo - vendas}</b> <br> 
+        Se essas pessoas tivessem comprado mantendo o ticket médio atual,
+        o faturamento potencial seria de aproximadamente: <b>R$ ${lucroPotencial.toFixed(2)}</b>`
+
+    }
+</script>
