@@ -1,0 +1,103 @@
+ body {
+    margin: 0;
+ }
+ 
+ .cadastro {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+ }
+
+ .info{
+    display: flex;
+    flex: 2;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.formulario {
+   display: flex;
+   flex-direction: column;
+   width: 60%;
+   justify-content: left;
+   gap: 2px;
+}
+
+.formulario p {
+   color: rgb(129, 129, 129);
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 13px;
+   margin: 5px 0;
+}
+
+.formulario h3 {
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 25px;
+   font-weight: bold;
+   margin: 5px 0;
+}
+
+.formulario input {
+   border: none;
+   border-bottom: 2px solid rgb(129, 129, 129);
+   outline: none;
+}
+
+.formulario input:focus {
+    border-bottom: 2px solid rgb(0, 0, 0);
+}
+
+.formulario input::placeholder {
+   color: black;
+   font-size: 14px;
+}
+
+.formulario select {
+   border: none;
+   border-bottom: 2px solid rgb(129, 129, 129);
+}
+
+.formulario select:focus {
+   border-bottom: 2px solid rgb(0, 0, 0);
+}
+
+.formulario option {
+   color: black;
+}
+
+.formulario button {
+   background-color: rgb(12, 33, 193);
+   color: white;
+   border: none;
+   border-radius: 20px;
+   height: 40px;
+   margin-top: 30px;
+}
+
+.formulario img {
+   display: flex;
+   width: 160px;
+   height: auto;
+   margin-bottom: 50px;
+   align-self: center;
+}
+
+.painel {
+    display: flex;
+    flex: 2;
+    justify-content: left;
+    align-items: center;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    height: 100vh;
+    background-image: url("../assets/img/painel_cadastroFilial.png");
+ }
+
+ .painel h1 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 50px;
+    text-align: left;
+    margin-left: 80px;
+ }

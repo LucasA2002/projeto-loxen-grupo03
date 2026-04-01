@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cadastro.css">
+    <title>Loxen - Cadastro</title>
+</head>
+
+<body>
+
+    <div class="cadastro">
+        <div class="info">
+            <div class="formulario">
+                <img src="assets/icon/logo.png" alt="Logo">
+                <h3>Cadastro Filial</h3>
+                <p>Nome</p><input type="text" id="ipt_nome" placeholder="Insira o nome da filial"><br>
+                <p>CNPJ</p><input type="text" id="ipt_cnpj" placeholder="Insira o CNPJ"><br>
+                <p>Rua</p><input type="text" id="ipt_rua" placeholder="Insira a Rua da filial"><br>
+                <p>Estado</p><select id="slt_uf">
+                    <option disabled selected>Selecione o Estado</option>
+                    <option value="Acre">AC</option>
+                    <option value="Alagoas">AL</option>
+                    <option value="Amapá">AP</option>
+                    <option value="Amazonas">AM</option>
+                    <option value="Bahia">BA</option>
+                    <option value="Ceará">CE</option>
+                    <option value="Distrito Federal">DF</option>
+                    <option value="Espírito Santo">ES</option>
+                    <option value="Goiás">GO</option>
+                    <option value="Maranhão">MA</option>
+                    <option value="Mato Grosso">MT</option>
+                    <option value="Mato Grosso do Sul">MS</option>
+                    <option value="Minas Gerais">MG</option>
+                    <option value="Pará">PA</option>
+                    <option value="Paraíba">PB</option>
+                    <option value="Paraná">PR</option>
+                    <option value="Pernambuco">PE</option>
+                    <option value="Piauí">PI</option>
+                    <option value="Rio de Janeiro">RJ</option>
+                    <option value="Rio Grande do Norte">RN</option>
+                    <option value="Rio Grande do Sul">RS</option>
+                    <option value="Rondônia">RO</option>
+                    <option value="Roraima">RR</option>
+                    <option value="Santa Catarina">SC</option>
+                    <option value="São Paulo">SP</option>
+                    <option value="Sergipe">SE</option>
+                    <option value="Tocantins">TO</option>
+                </select><br>
+                <p>CEP</p><input type="text" id="ipt_cep" placeholder="Insira o CEP"><br>
+                <button onclick="registrar()">Registre</button>
+            </div>
+        </div>
+
+        <div class="painel">
+            <h1>Venha começar <br> sua jornada <br> conosco</h1>
+        </div>
+    </div>
+
+</body>
+
+</html>
