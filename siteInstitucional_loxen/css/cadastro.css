@@ -21,7 +21,7 @@
    flex-direction: column;
    width: 60%;
    justify-content: left;
-   gap: 2px;
+   gap: 10px;
 }
 
 .formulario p {
