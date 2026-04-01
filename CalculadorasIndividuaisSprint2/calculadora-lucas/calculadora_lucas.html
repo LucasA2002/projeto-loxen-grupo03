@@ -18,11 +18,7 @@
     <input type="text" name="" id="ipt_faturamento">
     <br><br>
 
-    Custo com Funcionários (R$/Mês):
-    <input type="text" name="" id="ipt_custo_func">
-    <br><br>
-
-    Gasto com Trade Marketing (R$/Mês):
+    Receita com Trade Marketing (R$/Mês):
     <input type="text" name="" id="ipt_trade_marketing">
     <br><br>
 
@@ -37,11 +33,10 @@
     // inputs
     let vendas = Number(ipt_qtd_vendas.value);
     let faturamento = Number(ipt_faturamento.value);
-    let custoFunc = Number(ipt_custo_func.value);
     let trade = Number(ipt_trade_marketing.value);
 
     // validação
-    if (vendas <= 0 || faturamento <= 0 || custoFunc < 0 || trade < 0) {
+    if (vendas <= 0 || faturamento <= 0 || trade < 0) {
       id_mensagem.innerHTML = "Preencha os campos com valores válidos.";
     }
 
@@ -49,57 +44,49 @@
     let ticketMedio = faturamento / vendas;
 
     // premissas
-    let ganhoFaturamento = faturamento * 0.02; // Aumento de 2% no faturamento
-    let economiaFuncionarios = custoFunc * 0.03; // 12% em 20% (parcela de horas extras) do custo com funcionários => aproximadamente 3% do total
-    let ganhoTrade = trade * 0.2; // 20%
-    let custoSolucao = 5000 // Custo mensal da solução
+    let ganhoFaturamento = faturamento * 0.05; // Aumento de 5% no faturamento
+    let ganhoTrade = trade * 0.20; // Aumento de 20% na receita de Trade Marketing
+    let custoSolucao = 60000; // Custo anual da solução (5000 ao mês)
 
     // benefício bruto e liquido
-    let beneficioBruto = ganhoFaturamento + economiaFuncionarios + ganhoTrade
-    let beneficioLiquido = beneficioBruto - custoSolucao
+    let beneficioBrutoMensal = ganhoFaturamento + ganhoTrade
+    let beneficioLiquidoAnual = beneficioBrutoMensal * 12 - custoSolucao
+    let beneficioLiquidoMensal = beneficioLiquidoAnual / 12
 
     // payback
-    let payback = custoSolucao / beneficioBruto
+    let payback = custoSolucao / beneficioBrutoMensal
     let mensagemPayback = ``
 
     if (payback.toFixed() == 1){
-        mensagemPayback = `${payback.toFixed()} mês`
+        mensagemPayback = `Aproximadamente ${payback.toFixed()} mês`
     } else if (payback.toFixed() == 0){
         mensagemPayback = `Menos de 1 mês!`
     } else {
-        mensagemPayback = `${payback.toFixed()} meses`
+        mensagemPayback = `Aproximadamente ${payback.toFixed()} meses`
     }
 
+    console.log(payback)
     // mensagem
     id_mensagem.innerHTML =
     `
     <h3>Resumo financeiro estimado</h3>
 
     Com base nos valores informados, o <b>ticket médio estimado</b> é de <b>R$ ${ticketMedio.toFixed(2)}</b> por compra.<br>
-    A partir disso, projetamos os benefícios mensais abaixo, considerando melhorias operacionais obtidas pelo monitoramento de fluxo por corredores.
+    A partir disso, projetamos os benefícios mensais abaixo:
     <br><br>
 
     <b>Ganho no faturamento:</b> R$ ${ganhoFaturamento.toFixed(2)} / mês<br>
-    Premissa: <b>+1%</b> no faturamento por melhor execução operacional (reposições e ações no corredor certo no horário de pico).<br>
-    Utilizamos 1% como valor conservador para não prometer ganhos irreais.
+    A partir da otimização de layout, estimamos um aumento de <b>5%</b> em faturamento.<br>
+    <b>Fontes:</b> NielsenIQ; McKinsey & Company.
     <br><br>
 
-    <b>Economia com funcionários:</b> R$ ${economiaFuncionarios.toFixed(2)} / mês<br>
-    Premissa: o impacto ocorre principalmente na parcela “otimizável” do time (picos, realocação e melhor escala).<br>
-    Por isso aplicamos uma redução de <b>2,4%</b> no custo total (equivalente a 12% em 20% do custo).<br>
-    Estudos de melhoria de escala em varejo indicam potencial de redução de custo de mão de obra de <b>até 12%</b> com programação mais inteligente.<br>
-    <a href="https://www.mckinsey.com.br/our-insights/smarter-schedules-better-budgets-how-to-improve-store-operations" target="_blank">Fonte: McKinsey</a>
+    <b>Ganho na receita com Trade Marketing:</b> R$ ${ganhoTrade.toFixed(2)} / mês<br>
+    A partir da importante análise do fluxo de clientes, estimamos um aumento de <b>+20%</b> na receita de Trade Marketing.<br>
+    <b>Fontes:</b> Deloitte; PwC.<br>
     <br><br>
 
-    <b>Ganho com Trade Marketing:</b> R$ ${ganhoTrade.toFixed(2)} / mês<br>
-    Premissa: <b>+10%</b> de eficiência no trade (melhor timing e melhor alocação de ações onde há maior fluxo).<br>
-    Publicações de consultorias mostram que o uso de analytics pode gerar melhorias relevantes em efetividade/ROI de marketing,<br>
-    com faixas típicas de otimização (ex.: 15% a 20% do orçamento podendo ser realocado sem perda de ROI).<br>
-    <a href="https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/smart-analytics-can-tap-up-to-20-of-lost-roi" target="_blank">Fonte: McKinsey</a>
-    <br><br>
-
-    <b>Benefício total estimado por mês:</b> R$ ${beneficioLiquido.toFixed(2)}<br>
-    <b>Investimento na solução (mensal):</b> R$ ${custoSolucao.toFixed(2)}<br>
+    <b>Investimento na solução (anual):</b> R$ ${custoSolucao.toFixed(2)}<br>
+    <b>Benefício líquido total estimado por mês:</b> R$ ${beneficioLiquidoMensal.toFixed(2)} (<b>Anual:</b> R$ ${beneficioLiquidoAnual})<br>
     <b>Payback estimado:</b> ${mensagemPayback}
     <br><br>
 
