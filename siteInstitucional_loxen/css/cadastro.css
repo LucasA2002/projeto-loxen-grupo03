@@ -8,6 +8,7 @@
     justify-content: space-between;
  }
 
+
  .info{
     display: flex;
     flex: 2;
@@ -108,4 +109,20 @@
     font-size: 50px;
     text-align: left;
     margin-left: 80px;
+ }
+
+   .cadastro_usuario {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+ }
+
+ .cadastro_usuario .painel{
+    background-image: url("../assets/img/painel_cadastro_usuario.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+ }
+
+ .cadastro_usuario .painel h1 {
+    font-size: 60px;
  }
