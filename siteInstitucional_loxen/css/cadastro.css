@@ -126,3 +126,22 @@
  .cadastro_usuario .painel h1 {
     font-size: 60px;
  }
+.campo-senha {
+    position: relative;
+}
+.campo-senha input {
+   border: none;
+   border-bottom: 2px solid rgb(129, 129, 129);
+   outline: none;
+   padding-bottom: 8px;
+   width: 95%;
+   padding-right: 30px;
+}
+.campo-senha .olho {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: rgb(129, 129, 129);
+}

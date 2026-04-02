@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/cadastro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Loxen - Cadastro Usuário</title>
 </head>
 
@@ -17,8 +18,17 @@
                 <h3>Cadastro de Usuário</h3>
                 <p>Email</p><input type="text" id="ipt_email" placeholder="Insira o seu email"><br>
                 <p>Nome</p><input type="text" id="ipt_nome_usuario" placeholder="Insira o seu nome"><br>
-                <p>Senha</p><input type="password" id="ipt_senha" placeholder="Insira sua Senha"><br>
-                <p>Confirme sua Senha</p><input type="password" id="ipt_senha_confirmar" placeholder="Insira novamente sua Senha"><br>
+                
+                <div class="campo-senha">
+                <p>Senha</p><input type="password" id="ipt_senha" placeholder="Insira sua Senha"> 
+                <i class="fa-solid fa-eye olho" onclick="mostrar()"></i><br>
+                </div>
+                
+                <div class="campo-senha">
+                <p>Confirme sua Senha</p><input type="password" id="ipt_senha_confirmada" placeholder="Insira novamente sua Senha">
+                <i class="fa-solid fa-eye olho" onclick="mostrar2()"></i><br>
+                </div>
+                
                 <p>Cargo</p><select id="slt_cargo">
                     <option disabled selected>Selecione o Cargo</option>
                     <option value="1">Funcionário</option>
@@ -37,5 +47,62 @@
 </body>
 
 </html>
-</body>
-</html>
+<script>
+    function registrar () {
+        let email = ipt_email.value
+        let verificacao_email_arroba = email.indexOf('@')
+        let verificacao_email_com = email.indexOf('.com')
+        let arroba_antes_com  = verificacao_email_arroba < verificacao_email_com
+
+        let senha = ipt_senha.value
+        let senha_confirmada = ipt_senha_confirmada.value
+        let tamanho = senha.length
+        let senha_maiuscula = senha.toUpperCase()
+        let senha_minuscula = senha.toLowerCase()
+        let especial = ['!', '@','#','$','%','&','*','~',';','.',',','/','+','-','=','|']
+        let tem_especial = false
+
+        if (verificacao_email_arroba == -1) {
+            alert('Insira um email válido')
+        } else if (verificacao_email_com == -1) {
+            alert('Insira um email válido')
+        } else if (arroba_antes_com == false) {
+            alert('Insira um email válido')
+        } else {
+            if (tamanho < 8) {
+                alert('A senha precisa ter no mínimo 8 caractéres')
+            } else if (senha == senha_maiuscula) {
+                alert('A senha precisa conter ao menos uma letra minúscula')
+            } else if (senha == senha_minuscula) {
+                alert('A senha precisa conter ao menos uma letra maiúscula')
+            } else if (senha !== senha_confirmada) {
+                alert('As senhas não se coincidem')
+            } else {
+                for (let i = 0; i < tamanho; i++) {
+                if (especial.includes(senha[i])) {
+                 tem_especial = true;
+                    break; 
+                }
+                }
+                
+                if (!tem_especial) {
+                alert('A senha precisa ter pelo menos um caractere especial');
+                }
+            }
+        }
+    }
+    function mostrar() {
+    if (ipt_senha.type === "password") {
+        ipt_senha.type = "text";
+    } else {
+        ipt_senha.type = "password";
+    }
+    }
+    function mostrar2() {
+    if (ipt_senha_confirmada.type === "password") {
+        ipt_senha_confirmada.type = "text";
+    } else {
+        ipt_senha_confirmada.type = "password";
+    }
+    }
+</script>
