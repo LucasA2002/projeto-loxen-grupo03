@@ -131,6 +131,7 @@ a{
     margin: 0 100px;
     text-align: left;
     font-size: 20px;
+    color: #68718B;
 }
 
 .conteudo {
@@ -169,6 +170,7 @@ a{
 .dados1 p,
 .dados2 p {
     font-size: 20px;
+    color: #68718B;
 }
 
 .dados {
