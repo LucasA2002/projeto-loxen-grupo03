@@ -1,0 +1,274 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: url(../assets/img/BackgroundHero.png) no-repeat;
+    background-size: contain;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 10px;
+    padding: 0 50px;
+    font-size: 18px;
+}
+
+header button {
+    font-size: 15px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    gap: 35px;
+
+    list-style: none;
+}
+
+.navbar li:hover {
+    cursor: pointer;
+}
+
+.entrar {
+    margin-right: 80px;
+}
+
+.agora {
+    font-weight: bold;
+}
+
+.botao1,
+.botao2 {
+    border-radius: 6px;
+    color: white;
+}
+
+.botao1 {
+    border: none;
+    background: linear-gradient(90deg, #6A36FF, #AC5FE6);
+}
+
+.botao1:hover {
+    background: linear-gradient(90deg, #6c36ff80, #ac5fe67d);
+    cursor: pointer;
+}
+
+.botao2 {
+    border: 1px solid white;
+    background-color: transparent;
+    padding: 5px 15px;
+}
+
+.botao2:hover {
+    background-color: #ffffff5f;
+    cursor: pointer;
+}
+
+.inicio {
+    margin-top: 60px;
+    text-align: center;
+    color: white;
+}
+
+.inicio h1 {
+    font-size: 60px;
+}
+
+.inicio p {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.botao_inicio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px 50px;
+    height: 45px;
+}
+
+.div_botoes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.dashboard_exemblo {
+    display: flex;
+    justify-content: center;
+}
+
+.solucao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+.solucao h2,
+.dados h2 {
+    color: #14358A;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 80px;
+}
+
+.solucao p {
+    margin: 0 100px;
+    text-align: left;
+    font-size: 20px;
+}
+
+.conteudo {
+    display: flex;
+}
+
+.sensor_imagem {
+    margin: auto;
+}
+
+.pilares {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.countainer1 {
+    margin: 100px 50px 0 100px;
+}
+
+.countainer2 {
+    margin: 100px 100px 0 50px;
+}
+
+.pilares_conteudo {
+    margin-bottom: 40px;
+}
+
+.titulo_pilar {
+    color: #006FBA;
+    margin: 10px 0;
+    font-size: 25px;
+}
+
+.pilares p,
+.dados1 p,
+.dados2 p {
+    font-size: 20px;
+}
+
+.dados {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+}
+
+.dados1,
+.dados2 {
+    display: flex;
+    align-items: center;
+    margin: 0 100px 80px;
+}
+
+.dados1 .dados_conteudo {
+    margin-right: 100px;
+}
+
+.dados2 .dados_conteudo {
+    margin-left: 200px;
+}
+
+.grafico_dados {
+    margin-right: 80px;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: url(../assets/img/footer.png) no-repeat center;
+    background-size: 100% 100%;
+    height: 800px;
+}
+
+.footer1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    margin-bottom: 200px;
+}
+
+.titulo_footer {
+    color: #14358A;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 30px;
+}
+
+.botao_footer {
+    border: 1px solid #AC5FE6;
+    background-color: transparent;
+    padding: 15px;
+    color: #AC5FE6;
+    border-radius: 6px;
+
+    width: 150px;
+    align-self: center;
+}
+
+.botao_footer:hover {
+    background-color: #ac5fe654;
+    cursor: pointer;
+}
+
+.footer2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    text-align: center;
+    color: white;
+    
+    width: 50%;
+}
+
+
+.footer h1,
+.footer p,
+.footer hr {
+    margin-bottom: 20px;
+}
+
+.footer hr {
+    width: 100%;
+}
+
+.social {
+    margin-bottom: 80px;
+}
+
+.social img {
+    margin: 0 10px;
+}
+
+.social img:hover {
+    cursor: pointer;
+}
+
