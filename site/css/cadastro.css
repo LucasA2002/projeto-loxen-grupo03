@@ -1,7 +1,7 @@
  body {
     margin: 0;
  }
- 
+
  .cadastro {
     display: flex;
     flex-direction: row;
@@ -9,90 +9,90 @@
  }
 
 
- .info{
+ .info {
     display: flex;
     flex: 2;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
+ }
 
-.formulario {
-   display: flex;
-   flex-direction: column;
-   width: 60%;
-   justify-content: left;
-   gap: 10px;
-}
+ .formulario {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    justify-content: left;
+    gap: 10px;
+ }
 
-.formulario p {
-   color: rgb(129, 129, 129);
-   font-family: Arial, Helvetica, sans-serif;
-   font-size: 13px;
-   margin: 5px 0;
-}
+ .formulario p {
+    color: rgb(129, 129, 129);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    margin: 5px 0;
+ }
 
-.formulario h3 {
-   font-family: Arial, Helvetica, sans-serif;
-   font-size: 25px;
-   font-weight: bold;
-   margin: 5px 0;
-}
+ .formulario h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 5px 0;
+ }
 
-.formulario input {
-   border: none;
-   border-bottom: 2px solid rgb(129, 129, 129);
-   outline: none;
-   padding-bottom: 8px;
-}
+ .formulario input {
+    border: none;
+    border-bottom: 2px solid rgb(129, 129, 129);
+    outline: none;
+    padding-bottom: 8px;
+ }
 
-.formulario input:focus {
+ .formulario input:focus {
     border-bottom: 2px solid rgb(0, 0, 0);
-}
+ }
 
-.formulario input::placeholder {
-   color: black;
-   font-size: 14px;
-}
+ .formulario input::placeholder {
+    color: black;
+    font-size: 14px;
+ }
 
-.formulario select {
-   border: none;
-   border-bottom: 2px solid rgb(129, 129, 129);
-   outline: none;
-   padding-bottom: 8px;
-}
+ .formulario select {
+    border: none;
+    border-bottom: 2px solid rgb(129, 129, 129);
+    outline: none;
+    padding-bottom: 8px;
+ }
 
-.formulario select:focus {
-   border-bottom: 2px solid rgb(0, 0, 0);
-}
+ .formulario select:focus {
+    border-bottom: 2px solid rgb(0, 0, 0);
+ }
 
-.formulario option {
-   color: black;
-}
+ .formulario option {
+    color: black;
+ }
 
-.formulario button {
-   background-color: rgb(12, 33, 193);
-   color: white;
-   border: none;
-   border-radius: 20px;
-   height: 40px;
-   margin-top: 15px;
-}
+ .formulario button {
+    background-color: rgb(12, 33, 193);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    height: 40px;
+    margin-top: 15px;
+ }
 
-.formulario button:hover {
-   background-color: rgb(11, 25, 134);
-   cursor: pointer;
-}
+ .formulario button:hover {
+    background-color: rgb(11, 25, 134);
+    cursor: pointer;
+ }
 
-.formulario img {
-   display: flex;
-   width: 160px;
-   height: auto;
-   margin-bottom: 50px;
-   align-self: center;
-}
+ .formulario img {
+    display: flex;
+    width: 160px;
+    height: auto;
+    margin-bottom: 50px;
+    align-self: center;
+ }
 
-.painel {
+ .painel {
     display: flex;
     flex: 2;
     justify-content: left;
@@ -100,7 +100,7 @@
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     height: 100vh;
-    background-image: url("../assets/img/painel_cadastroFilial.png");
+    background-image: url("../assets/img/painel_cadastro_usuario.png");
  }
 
  .painel h1 {
@@ -111,13 +111,13 @@
     margin-left: 80px;
  }
 
-   .cadastro_usuario {
+ .cadastro_usuario {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
  }
 
- .cadastro_usuario .painel{
+ .cadastro_usuario .painel {
     background-image: url("../assets/img/painel_cadastro_usuario.png");
     background-repeat: no-repeat;
     background-size: cover;
@@ -126,22 +126,38 @@
  .cadastro_usuario .painel h1 {
     font-size: 60px;
  }
-.campo-senha {
+
+ .campo-senha {
     position: relative;
-}
-.campo-senha input {
-   border: none;
-   border-bottom: 2px solid rgb(129, 129, 129);
-   outline: none;
-   padding-bottom: 8px;
-   width: 95%;
-   padding-right: 30px;
-}
-.campo-senha .olho {
+
+ }
+
+ .campo-senha input {
+    border: none;
+    border-bottom: 2px solid rgb(129, 129, 129);
+    outline: none;
+    padding-bottom: 8px;
+    width: 93%;
+    padding-right: 30px;
+ }
+
+ .campo-senha .olho {
     position: absolute;
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     color: rgb(129, 129, 129);
-}
+ }
+
+ .cadastro_usuario .formulario {
+    gap: 40px;
+ }
+
+ .cadastro_usuario .formulario img {
+    display: flex;
+    width: 160px;
+    height: auto;
+    margin-bottom: 10px;
+    align-self: center;
+ }

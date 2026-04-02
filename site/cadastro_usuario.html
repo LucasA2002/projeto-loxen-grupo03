@@ -16,25 +16,25 @@
             <div class="formulario">
                 <img src="assets/icon/logo.png" alt="Logo">
                 <h3>Cadastro de Usuário</h3>
-                <p>Email</p><input type="text" id="ipt_email" placeholder="Insira o seu email"><br>
-                <p>Nome</p><input type="text" id="ipt_nome_usuario" placeholder="Insira o seu nome"><br>
+                <input type="text" id="ipt_email" placeholder="Email">
+                <input type="text" id="ipt_nome_usuario" placeholder="Nome">
                 
                 <div class="campo-senha">
-                <p>Senha</p><input type="password" id="ipt_senha" placeholder="Insira sua Senha"> 
-                <i class="fa-solid fa-eye olho" onclick="mostrar()"></i><br>
+                <input type="password" id="ipt_senha" placeholder="Senha"> 
+                <i class="fa-solid fa-eye olho" onclick="mostrar()"></i>
                 </div>
                 
                 <div class="campo-senha">
-                <p>Confirme sua Senha</p><input type="password" id="ipt_senha_confirmada" placeholder="Insira novamente sua Senha">
-                <i class="fa-solid fa-eye olho" onclick="mostrar2()"></i><br>
+                <input type="password" id="ipt_senha_confirmada" placeholder="Insira novamente sua Senha">
+                <i class="fa-solid fa-eye olho" onclick="mostrar2()"></i>
                 </div>
                 
-                <p>Cargo</p><select id="slt_cargo">
+                <select id="slt_cargo">
                     <option disabled selected>Selecione o Cargo</option>
                     <option value="1">Funcionário</option>
                     <option value="2">Gerente</option>
                     <option value="3">Administrador</option>
-                </select><br>
+                </select>   
                 <button onclick="registrar()">Registrar</button>
             </div>
         </div>
