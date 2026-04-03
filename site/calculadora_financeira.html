@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financeira</title>
+    <link rel="stylesheet" href="css/calculadora.css">
+</head>
+<body>
+    <div class="header">
+    <h1>Simulador de Benefícios Financeiros</h1>
+    <p>
+    Insira os dados de uma de suas filiais para calcular os impactos da solução!<br>
+    Nossa projeção utiliza algoritmos de otimização patrimonial para estimar o crescimento real do seu ecossistema.
+    </p>
+    <br>
+    </div>
+
+    <div class="painel">
+        <div class="card card-esquerda destaque-azul">
+        Quantidade de Vendas (Quantidade/Mês):
+        <input type="text" name="" id="ipt_qtd_vendas">
+        <br><br>
+
+        Faturamento (R$/Mês):
+        <input type="text" name="" id="ipt_faturamento">
+        <br><br>
+
+        Receita com Trade Marketing (R$/Mês):
+        <input type="text" name="" id="ipt_trade_marketing">
+        <br><br>
+
+        <button onclick="calcular()">Calcular Benefícios</button>
+        <br><br>
+        </div>
+
+        <div class="card card-direita">
+            <div class="topo-direita">
+                <h2>Projeção de Performance</h2>
+                <span class="tag">ESTIMATIVA PRELIMINAR</span>
+            </div>
+
+            <div class="grid-cards">
+                <div class="mini-card destaque-azul">
+                    <p>TICKET MÉDIO ESTIMADO</p>
+                    <h3>R$ --</h3>
+                </div>
+
+                <div class="mini-card destaque-azul">
+                    <p>GANHO NO FATURAMENTO (+5%)</p>
+                    <h3>R$ --</h3>
+                </div>
+
+                <div class="mini-card destaque-azul">
+                    <p>GANHO NO TRADE (+20%)</p>
+                    <h3>R$ --</h3>
+                </div>
+
+                <div class="mini-card destaque-laranja">
+                    <p>INVESTIMENTO ANUAL</p>
+                    <h3>R$ 60.000,00</h3>
+                </div>
+
+        </div>
+    </div>
+
+    <div id="id_mensagem"></div>
+</body>
+</html>
+<script>
+    function calcular(){
+    // inputs
+    let vendas = Number(ipt_qtd_vendas.value);
+    let faturamento = Number(ipt_faturamento.value);
+    let trade = Number(ipt_trade_marketing.value);
+
+    // validação
+    if (vendas <= 0 || faturamento <= 0 || trade < 0) {
+      id_mensagem.innerHTML = "Preencha os campos com valores válidos.";
+    }
+
+    // métricas
+    let ticketMedio = faturamento / vendas;
+
+    // premissas
+    let ganhoFaturamento = faturamento * 0.05; // Aumento de 5% no faturamento
+    let ganhoTrade = trade * 0.20; // Aumento de 20% na receita de Trade Marketing
+    let custoSolucao = 60000; // Custo anual da solução (5000 ao mês)
+
+    // benefício bruto e liquido
+    let beneficioBrutoMensal = ganhoFaturamento + ganhoTrade
+    let beneficioLiquidoAnual = beneficioBrutoMensal * 12 - custoSolucao
+    let beneficioLiquidoMensal = beneficioLiquidoAnual / 12
+
+    // payback
+    let payback = custoSolucao / beneficioBrutoMensal
+    let mensagemPayback = ``
+
+    if (payback.toFixed() == 1){
+        mensagemPayback = `Aproximadamente ${payback.toFixed()} mês`
+    } else if (payback.toFixed() == 0){
+        mensagemPayback = `Menos de 1 mês!`
+    } else {
+        mensagemPayback = `Aproximadamente ${payback.toFixed()} meses`
+    }
+
+    console.log(payback)
+    // mensagem
+    id_mensagem.innerHTML =
+    `
+    <h3>Resumo financeiro estimado</h3>
+
+    Com base nos valores informados, o <b>ticket médio estimado</b> é de <b>R$ ${ticketMedio.toFixed(2)}</b> por compra.<br>
+    A partir disso, projetamos os benefícios mensais abaixo:
+    <br><br>
+
+    <b>Ganho no faturamento:</b> R$ ${ganhoFaturamento.toFixed(2)} / mês<br>
+    A partir da otimização de layout, estimamos um aumento de <b>5%</b> em faturamento.<br>
+    <b>Fontes:</b> NielsenIQ; McKinsey & Company.
+    <br><br>
+
+    <b>Ganho na receita com Trade Marketing:</b> R$ ${ganhoTrade.toFixed(2)} / mês<br>
+    A partir da importante análise do fluxo de clientes, estimamos um aumento de <b>+20%</b> na receita de Trade Marketing.<br>
+    <b>Fontes:</b> Deloitte; PwC.<br>
+    <br><br>
+
+    <b>Investimento na solução (anual):</b> R$ ${custoSolucao.toFixed(2)}<br>
+    <b>Benefício líquido total estimado por mês:</b> R$ ${beneficioLiquidoMensal.toFixed(2)} (<b>Anual:</b> R$ ${beneficioLiquidoAnual})<br>
+    <b>Payback estimado:</b> ${mensagemPayback}
+    <br><br>
+
+    Nota de transparência: estas projeções são uma <b>simulação</b> com premissas conservadoras para apoiar decisão.<br>
+    O valor real deve ser validado em piloto, comparando períodos “antes vs depois” com os dados coletados.
+    `
+    }
+</script>
