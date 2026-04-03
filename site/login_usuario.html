@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cadastro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Loxen - Login</title>
+</head>
+
+<body>
+
+    <div class="cadastro_usuario">
+        <div class="info">
+            <div class="formulario">
+                <img src="assets/icon/logo.png" alt="Logo">
+                <h3>Entre</h3>
+                <input type="text" id="ipt_email" placeholder="Entre com seu email">
+                
+                <div class="campo-senha">
+                <input type="password" id="ipt_senha" placeholder="Insira a sua senha"> 
+                <i class="fa-solid fa-eye olho" onclick="mostrar()"></i>
+                </div>
+                
+                <button onclick="entrar()">Entrar</button>
+            </div>
+        </div>
+
+        <div class="painel">
+            <h1>Bem-Vindo de <br> Volta!</h1>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    function entrar () {
+        let email = ipt_email.value
+        let verificacao_email_arroba = email.indexOf('@')
+        let verificacao_email_com = email.indexOf('.com')
+        let arroba_antes_com  = verificacao_email_arroba < verificacao_email_com
+
+        if (verificacao_email_arroba == -1) {
+            alert('Insira um email válido')
+        } else if (verificacao_email_com == -1) {
+            alert('Insira um email válido')
+        } else if (arroba_antes_com == false) {
+            alert('Insira um email válido')
+        }
+    }
+    function mostrar() {
+    if (ipt_senha.type === "password") {
+        ipt_senha.type = "text";
+    } else {
+        ipt_senha.type = "password";
+    }
+    }
+</script>
