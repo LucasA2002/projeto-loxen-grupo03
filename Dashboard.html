@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOXEN | Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="dash.css">
+</head>
+<body style="display: flex;" class="graficos">
+    <div>
+        <canvas class="canva1" id="myChart"style="position: relative; height:45vh; width:45vw">
+    <canvas id="chart"></canvas>
+    </div>
+    <div>
+        <canvas class="canva2" id="myChart2" style="position: relative; height:45vh; width:45vw">
+    <canvas id="chart"></canvas>
+    </div>
+    <div>
+        <canvas class="canva3" id="myChart3" style="position: relative">
+    <canvas id="chart"></canvas>
+    </div>
+</body>
+<script>    
+    const labels = [ // Gráfico de linha
+        'Seg', 
+        'Ter', 
+        'Qua', 
+        'Qui', 
+        'Sex', 
+        'Sab'
+    ]
+  const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Fluxo de pessoas',
+            backgroundColor: 'rgb(165, 90, 232)',
+            borderColor: 'rgb(165, 90, 232)',
+            data: [40, 130, 79, 197, 122, 150]
+        }]
+    };
+    
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {}
+  }
+
+  const data2 = { // Gráfico de barra
+        labels: labels,
+        datasets: [{
+            label: 'Higiene',
+            backgroundColor: 'rgb(94, 25, 255)',
+            borderColor: 'rgb(94, 25, 255)',
+            borderRadius: 7,
+            data: [12, 14, 27, 17, 30, 21]
+        },
+        {
+            label: 'Hortifruti',
+            backgroundColor: 'rgb(64, 233, 134)',
+            borderColor: 'rgb(64, 233, 134)',
+            borderRadius: 7,
+            data: [20, 19, 10, 25, 13, 22]
+        }
+    ]
+  };
+
+
+  const config2 = {  // Gráfico de donnut
+    type: 'bar',
+    data: data2,
+    options: {}
+  }
+
+  
+    const labels3 = [
+        'Açougue', 
+        'Padaria', 
+        'Higiene', 
+        'Bebidas', 
+        'Hortifrut', 
+        'Laticínios'
+    ]
+  const data3 = {
+        labels: labels3,
+        datasets: [{
+            label: 'Fluxo',
+            backgroundColor: [
+            'rgb(46, 11, 127)',
+            'rgb(165, 90, 232)',
+            'rgb(94, 25, 255)',
+            'rgb(0, 151, 253)',
+            'rgb(64, 233, 134)',
+            'rgb(255, 174, 0)',
+            ],
+            data: [40, 130, 79, 197, 122, 150]
+        }]
+  };
+
+
+  const config3 = {
+    type: 'doughnut',
+    data: data3,
+    options: {}
+  }
+
+
+</script>
+<script>
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    )
+
+    const myChart2 = new Chart(
+        document.getElementById('myChart2'),
+        config2
+    )
+
+    const myChart3 = new Chart(
+        document.getElementById('myChart3'),
+        config3
+    )
+</script>
+</html>
