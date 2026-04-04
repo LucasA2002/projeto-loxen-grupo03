@@ -7,64 +7,115 @@
     <link rel="stylesheet" href="css/calculadora.css">
 </head>
 <body>
-    <div class="header">
-    <h1>Simulador de Benefícios Financeiros</h1>
-    <p>
-    Insira os dados de uma de suas filiais para calcular os impactos da solução!<br>
-    Nossa projeção utiliza algoritmos de otimização patrimonial para estimar o crescimento real do seu ecossistema.
-    </p>
-    <br>
-    </div>
+    <header>
+        <div class="logo">
+            <img src="assets/icon/logo.png" alt="" height="70px" width="200px">
+        </div>
+        <ul class="navbar">
+            <li>
+                <a href="home.html">Home</a>
+            </li>
+            <li>
+                <a href="home.html#solucao">Solução</a>
+            </li>
+            <li>
+                <a href="">Fale Conosco</a>
+            </li>
+            <li class="agora">
+                <a href="calculadora_financeira.html">Simulador Financeiro</a>
+            </li>
+            <li>
+                <a href="">Dashboard</a>
+            </li>  
+        </ul>
+            <div class="entrar">
+                <a href="login_usuario.html">
+                    <button class="botao2">Entrar</button>
+                </a>
+            </div>
+    </header>
 
-    <div class="painel">
-        <div class="card card-esquerda destaque-azul">
-        Quantidade de Vendas (Quantidade/Mês):
-        <input type="text" name="" id="ipt_qtd_vendas">
-        <br><br>
-
-        Faturamento (R$/Mês):
-        <input type="text" name="" id="ipt_faturamento">
-        <br><br>
-
-        Receita com Trade Marketing (R$/Mês):
-        <input type="text" name="" id="ipt_trade_marketing">
-        <br><br>
-
-        <button onclick="calcular()">Calcular Benefícios</button>
-        <br><br>
+    <div class="calculadora">
+        <div class="header">
+            <h1>Simulador de Benefícios Financeiros</h1>
+            <p>
+            Insira os dados de uma de suas filiais para calcular os impactos da solução!<br>
+            Nossa projeção utiliza algoritmos de otimização patrimonial para estimar o crescimento real do seu ecossistema.
+            </p>
+            <br>
         </div>
 
-        <div class="card card-direita">
-            <div class="topo-direita">
-                <h2>Projeção de Performance</h2>
-                <span class="tag">ESTIMATIVA PRELIMINAR</span>
+        <div class="painel">
+            <div class="card card-esquerda destaque-azul">
+                Quantidade de Vendas (Quantidade/Mês):
+                <input type="text" name="" id="ipt_qtd_vendas">
+                <br><br>
+
+                Faturamento (R$/Mês):
+                <input type="text" name="" id="ipt_faturamento">
+                <br><br>
+
+                Receita com Trade Marketing (R$/Mês):
+                <input type="text" name="" id="ipt_trade_marketing">
+                <br><br>
+
+                <button onclick="calcular()">Calcular Benefícios</button>
+                <br><br>
             </div>
 
-            <div class="grid-cards">
-                <div class="mini-card destaque-azul">
-                    <p>TICKET MÉDIO ESTIMADO</p>
-                    <h3>R$ --</h3>
+            <div class="card card-direita">
+                <div class="topo-direita">
+                    <h2>Projeção de Performance</h2>
+                    <span class="tag">ESTIMATIVA PRELIMINAR</span>
                 </div>
 
-                <div class="mini-card destaque-azul">
-                    <p>GANHO NO FATURAMENTO (+5%)</p>
-                    <h3>R$ --</h3>
-                </div>
+                <div class="grid-cards">
+                    <div class="mini-card destaque-azul">
+                        <p>TICKET MÉDIO ESTIMADO</p>
+                        <h3>R$ --</h3>
+                    </div>
 
-                <div class="mini-card destaque-azul">
-                    <p>GANHO NO TRADE (+20%)</p>
-                    <h3>R$ --</h3>
-                </div>
+                    <div class="mini-card destaque-azul">
+                        <p>GANHO NO FATURAMENTO (+5%)</p>
+                        <h3>R$ --</h3>
+                    </div>
 
-                <div class="mini-card destaque-laranja">
-                    <p>INVESTIMENTO ANUAL</p>
-                    <h3>R$ 60.000,00</h3>
-                </div>
+                    <div class="mini-card destaque-azul">
+                        <p>GANHO NO TRADE (+20%)</p>
+                        <h3>R$ --</h3>
+                    </div>
 
+                    <div class="mini-card destaque-laranja">
+                        <p>INVESTIMENTO ANUAL</p>
+                        <h3>R$ 60.000,00</h3>
+                    </div>
+
+            </div>
         </div>
+
+        <div id="id_mensagem"></div>
     </div>
 
-    <div id="id_mensagem"></div>
+    <footer class="footer">
+        <div class="footer1"> 
+            <h2 class="titulo_footer">Vamos começar a expandir o <br>
+                seu negócio!</h2>
+            <button class="botao_footer">Contate-nos</button>
+        </div>
+
+        <div class="footer2">
+            <p>Transformamos o fluxo de clientes em decisões inteligentes <br> que aumentam as vendas no seu supermercado.</p>
+            <div class="social">
+                <img src="assets/img/Icon_gmail.png" alt="">
+                <img src="assets/img/Icon_face.png" alt="">
+                <img src="assets/img/Icon_twiter.png" alt="">
+                <img src="assets/img/Icon_linkedin.png" alt="">
+            </div>
+            <hr>
+            <p>© LOXEN </p>
+        </div>
+        
+    </footer>
 </body>
 </html>
 <script>

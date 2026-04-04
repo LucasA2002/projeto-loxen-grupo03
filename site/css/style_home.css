@@ -1,4 +1,5 @@
 * {
+  box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -49,8 +50,21 @@ a{
     list-style: none;
 }
 
+.navbar li{
+    transition: all 0.3s ease;
+}
+
 .navbar li:hover {
-    cursor: pointer;
+    color: #fff;
+
+    text-shadow:
+        0 0 5px #b4b4b4,
+        0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 40px #fff;
+
+    transform: scale(1.05);
+
 }
 
 .entrar {
@@ -73,8 +87,16 @@ a{
 }
 
 .botao1:hover {
-    background: linear-gradient(90deg, #6c36ff80, #ac5fe67d);
     cursor: pointer;
+
+    transform: translateY(-3px) scale(1.03);
+
+    box-shadow:
+        0 0 10px #a855f7,
+        0 0 20px #a855f7,
+        0 0 40px rgba(168, 85, 247, 0.6);
+
+    filter: brightness(1.1);
 }
 
 .botao2 {
@@ -86,6 +108,14 @@ a{
 .botao2:hover {
     background-color: #ffffff5f;
     cursor: pointer;
+    
+    text-shadow:
+        0 0 5px #b4b4b4,
+        0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 40px #fff;
+
+    transform: scale(1.05);
 }
 
 .inicio {
@@ -246,8 +276,17 @@ a{
 }
 
 .botao_footer:hover {
-    background-color: #ac5fe654;
+    background-color: #ac5fe621;
     cursor: pointer;
+
+    transform: translateY(-3px) scale(1.03);
+
+    box-shadow:
+        0 0 10px #a855f7,
+        0 0 20px #a855f7,
+        0 0 40px rgba(168, 85, 247, 0.6);
+
+    filter: brightness(1.1);
 }
 
 .footer2 {

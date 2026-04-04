@@ -7,8 +7,94 @@
 
 body {
     background-color: white;
-    padding: 30px;
+    padding-top: 80px;
+    width: 100%;
 }
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: url(../assets/img/BackgroundHero.png) no-repeat;
+    background-size: cover;
+
+    padding: 0 50px;
+    font-size: 18px;
+
+    position: fixed;   
+    top: 0;            
+    left: 0;
+    width: 100%;      
+    z-index: 1000;   
+}
+
+header button {
+    font-size: 15px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    gap: 35px;
+
+    list-style: none;
+}
+.navbar li{
+    transition: all 0.3s ease;
+}
+
+.navbar li:hover {
+    color: #fff;
+
+    text-shadow:
+        0 0 5px #b4b4b4,
+        0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 40px #fff;
+
+    transform: scale(1.05);
+
+}
+
+.entrar {
+    margin-right: 80px;
+}
+
+.agora {
+    font-weight: bold;
+}
+
+.botao2 {
+    border-radius: 6px;
+    color: white;
+}
+
+.botao2 {
+    border: 1px solid white;
+    background-color: transparent;
+    padding: 5px 15px;
+}
+
+.botao2:hover {
+    background-color: #ffffff5f;
+    cursor: pointer;
+
+    text-shadow:
+        0 0 5px #b4b4b4,
+        0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 40px #fff;
+
+    transform: scale(1.05);
+}
+    
 
 .header {
     display: flex;
@@ -39,6 +125,7 @@ body {
 .painel {
     max-width: 1200px;
     margin: 0 auto;
+    margin-bottom: 100px;
     display: flex;
     gap: 30px;
     align-items: stretch;
@@ -179,4 +266,83 @@ body {
 .payback {
     text-align: right;
 }
+
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: url(../assets/img/footer.png) no-repeat center;
+    background-size: 100% 100%;
+    height: 800px;
+}
+
+.footer1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    margin-bottom: 200px;
+}
+
+.titulo_footer {
+    color: #14358A;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 30px;
+}
+
+.botao_footer {
+    border: 1px solid #AC5FE6;
+    background-color: transparent;
+    padding: 15px;
+    color: #AC5FE6;
+    border-radius: 6px;
+
+    width: 150px;
+    align-self: center;
+}
+
+.botao_footer:hover {
+    background-color: #ac5fe654;
+    cursor: pointer;
+}
+
+.footer2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    text-align: center;
+    color: white;
+    
+    width: 50%;
+}
+
+
+.footer h1,
+.footer p,
+.footer hr {
+    margin-bottom: 20px;
+}
+
+.footer hr {
+    width: 100%;
+}
+
+.social {
+    margin-bottom: 80px;
+}
+
+.social img {
+    margin: 0 10px;
+}
+
+.social img:hover {
+    cursor: pointer;
+}
+
+
 
