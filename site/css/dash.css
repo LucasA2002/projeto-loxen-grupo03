@@ -1,0 +1,21 @@
+.graficos{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.canva1{
+    margin-left: 40px;
+}
+
+.canva2{
+    margin-right: 40px;
+}
+
+.canva3{
+    height: 300px;
+    width: 300px;
+    margin-left: 250px;
+    margin-top: 30px;
+}
