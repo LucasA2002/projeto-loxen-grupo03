@@ -38,9 +38,20 @@
 <script>
     function entrar () {
         let email = ipt_email.value
+        let senha = ipt_senha.value
         let verificacao_email_arroba = email.indexOf('@')
         let verificacao_email_com = email.indexOf('.com')
         let arroba_antes_com  = verificacao_email_arroba < verificacao_email_com
+
+        let email_certo = `sptech.consulting@gmail.com`
+        let senha_certa = `Urubu100@`
+
+
+        if (email == email_certo && senha == senha_certa) {
+            alert('Login Efetuado')
+        } else {
+            alert('Usuario ou Senha inválidos')
+        }
 
         if (verificacao_email_arroba == -1) {
             alert('Insira um email válido')
