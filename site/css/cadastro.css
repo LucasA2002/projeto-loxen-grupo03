@@ -22,7 +22,7 @@
     flex-direction: column;
     width: 60%;
     justify-content: left;
-    gap: 10px;
+    gap: 40px;
  }
 
  .formulario p {
@@ -86,9 +86,10 @@
 
  .formulario img {
     display: flex;
-    width: 160px;
-    height: auto;
-    margin-bottom: 50px;
+    width: 310px;
+    height: 115px;
+    margin-bottom: 35px;
+    margin-top: -30px;
     align-self: center;
  }
 
@@ -124,12 +125,11 @@
  }
 
  .cadastro_usuario .painel h1 {
-    font-size: 60px;
+    font-size: 50px;
  }
 
  .campo-senha {
     position: relative;
-
  }
 
  .campo-senha input {
@@ -139,7 +139,7 @@
     padding-bottom: 8px;
     width: 94%;
     padding-right: 30px;
-    
+
  }
 
  .campo-senha .olho {
@@ -151,19 +151,7 @@
     color: rgb(129, 129, 129);
  }
 
- .cadastro_usuario .formulario {
-    gap: 40px;
- }
-
- .cadastro_usuario .formulario img {
-    display: flex;
-    width: 310px;
-    height: 115px;
-    margin-bottom: 35px;
-    margin-top: -30px;
-    align-self: center;
- }
-  .login_usuario {
+ .login_usuario {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -175,68 +163,68 @@
     background-size: cover;
  }
 
-.login_usuario input {
-   margin-bottom: 25px;
-      
-}
-.login_usuario img {
+ .login_usuario input {
+    margin-bottom: 25px;
+ }
+
+ .login_usuario img {
     display: flex;
     width: 310px;
     height: 115px;
     margin-top: -100px;
     margin-bottom: 80px;
     align-self: center;
-}
+ }
 
-.login_usuario .formulario h3 {
+ .login_usuario .formulario h3 {
     font-size: 30px;
     margin-bottom: 12px;
-}
+ }
 
-.login_usuario .formulario input {
-   font-size: 18px;
-   padding: 14px 10px;
-}
-
-.login_usuario .formulario .campo-senha input {
+ .login_usuario .formulario input {
     font-size: 18px;
     padding: 14px 10px;
-}
+ }
 
-.login_usuario .formulario button {
+ .login_usuario .formulario .campo-senha input {
+    font-size: 18px;
+    padding: 14px 10px;
+ }
+
+ .login_usuario .formulario button {
     height: 52px;
     font-size: 18px;
     border-radius: 24px;
-}
+ }
 
-.login_usuario .painel h1 {
+ .login_usuario .painel h1 {
     font-size: 58px;
-}
+ }
 
-.login_usuario .formulario {
+ .login_usuario .formulario {
     width: 82%;
     gap: 20px;
     margin-top: -30px;
-}
+ }
 
-.login_usuario .formulario input::placeholder {
+ .login_usuario .formulario input::placeholder {
     font-size: 14px;
-}
+ }
 
-.login_usuario .campo-senha {
+ .login_usuario .campo-senha {
     position: relative;
-}
+ }
 
-.login_usuario .campo-senha input {
+ .login_usuario .campo-senha input {
     width: 100%;
     box-sizing: border-box;
-}
+ }
 
-.login_usuario .campo-senha .olho {
+ .login_usuario .campo-senha .olho {
     position: absolute;
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     color: rgb(129, 129, 129);
-}
+ }
