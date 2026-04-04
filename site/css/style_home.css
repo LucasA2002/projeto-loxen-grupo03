@@ -5,8 +5,10 @@
 }
 
 body {
+    padding-top: 80px;
     background: url(../assets/img/BackgroundHero.png) no-repeat;
     background-size: contain;
+    width: 100%;
 }
 
 header {
@@ -14,10 +16,20 @@ header {
     align-items: center;
     justify-content: space-between;
 
-    margin-top: 10px;
+    background: url(../assets/img/BackgroundHero.png) no-repeat;
+    background-size: cover;
+
     padding: 0 50px;
     font-size: 18px;
+
+    position: fixed;   
+    top: 0;            
+    left: 0;
+    width: 100%;      
+    z-index: 1000;   
+    
 }
+
 
 header button {
     font-size: 15px;
