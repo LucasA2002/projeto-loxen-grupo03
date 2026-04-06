@@ -157,6 +157,8 @@
     justify-content: space-between;
  }
 
+
+
  .login_usuario .painel {
     background-image: url("../assets/img/painel_cadastro_usuario.png");
     background-repeat: no-repeat;
@@ -176,6 +178,11 @@
     align-self: center;
  }
 
+ .login_usuario .formulario {
+   display: flex;
+   width: 65% !important;
+ }
+
  .login_usuario .formulario h3 {
     font-size: 30px;
     margin-bottom: 12px;
@@ -192,7 +199,8 @@
  }
 
  .login_usuario .formulario button {
-    height: 52px;
+    height: 40px;
+    width: auto;
     font-size: 18px;
     border-radius: 24px;
  }
