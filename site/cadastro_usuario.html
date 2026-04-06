@@ -16,6 +16,7 @@
             <div class="formulario">
                 <img src="assets/icon/logo.png" alt="Logo">
                 <h3>Cadastro de Usuário</h3>
+                <input type="text" id="ipt_codigo" placeholder="Código de Ativação">
                 <input type="text" id="ipt_email" placeholder="Email">
                 <input type="text" id="ipt_nome_usuario" placeholder="Nome">
                 
@@ -51,8 +52,7 @@
     function registrar () {
         let email = ipt_email.value
         let verificacao_email_arroba = email.indexOf('@')
-        let verificacao_email_com = email.indexOf('.com')
-        let arroba_antes_com  = verificacao_email_arroba < verificacao_email_com
+        let verificacao_email_com = email.indexOf('.')
 
         let senha = ipt_senha.value
         let senha_confirmada = ipt_senha_confirmada.value
@@ -65,8 +65,6 @@
         if (verificacao_email_arroba == -1) {
             alert('Insira um email válido')
         } else if (verificacao_email_com == -1) {
-            alert('Insira um email válido')
-        } else if (arroba_antes_com == false) {
             alert('Insira um email válido')
         } else {
             if (tamanho < 8) {

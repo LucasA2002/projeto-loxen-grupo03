@@ -236,3 +236,14 @@
     cursor: pointer;
     color: rgb(129, 129, 129);
  }
+    .voltar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    text-decoration: none;
+    background-color: #eee;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: black;
+}
