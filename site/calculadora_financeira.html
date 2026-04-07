@@ -65,35 +65,48 @@
 
             <div class="card card-direita">
                 <div class="topo-direita">
-                    <h2>Projeção de Performance</h2>
+                    <h2>Projeção de Performance Mensal</h2>
                     <span class="tag">ESTIMATIVA PRELIMINAR</span>
                 </div>
 
                 <div class="grid-cards">
-                    <div class="mini-card destaque-azul">
-                        <p>TICKET MÉDIO ESTIMADO</p>
-                        <h3>R$ --</h3>
+                    <div class="mini-card destaque-laranja">
+                        <p>TICKET MÉDIO ATUAL</p>
+                        <h3 id="id_output_ticket_atual">R$ --</h3>
                     </div>
 
                     <div class="mini-card destaque-azul">
-                        <p>GANHO NO FATURAMENTO (+5%)</p>
-                        <h3>R$ --</h3>
-                    </div>
-
-                    <div class="mini-card destaque-azul">
-                        <p>GANHO NO TRADE (+20%)</p>
-                        <h3>R$ --</h3>
+                        <p>TICKET MÉDIO PROJETADO</p>
+                        <h3 id="id_output_ticket_projetado">R$ --</h3>
                     </div>
 
                     <div class="mini-card destaque-laranja">
-                        <p>INVESTIMENTO ANUAL</p>
-                        <h3>R$ 60.000,00</h3>
+                        <p>FATURAMENTO ATUAL COM TRADE MARKETING</p>
+                        <h3 id="id_output_trade_atual">R$ --</h3>
+                    </div>
+
+                    <div class="mini-card destaque-azul">
+                        <p>FATURAMENTO COM TRADE MARKETING PROJETADO</p>
+                        <h3 id="id_output_trade_projetado">R$ --</h3>
+                    </div>
+
+                    <div class="mini-card destaque-laranja">
+                        <p>FATURAMENTO TOTAL ATUAL</p>
+                        <h3 id="id_output_faturamento_atual">R$ --</h3>
+                    </div>
+
+                    <div class="mini-card destaque-azul">
+                        <p>FATURAMENTO TOTAL PROJETADO</p>
+                        <h3 id="id_output_faturamento_projetado">R$ --</h3>
+                    </div>
+
+                    <div class="card-final">
+                        <p>PAYBACK</p>
+                        <h2 id="id_output_payback">Descubra em quantos meses a solução se paga!</h2>
                     </div>
 
             </div>
         </div>
-
-        <div id="id_mensagem"></div>
     </div>
 
     <footer class="footer">
@@ -143,6 +156,11 @@
     let beneficioLiquidoAnual = beneficioBrutoMensal * 12 - custoSolucao
     let beneficioLiquidoMensal = beneficioLiquidoAnual / 12
 
+    // valores projetados
+    let faturamentoProjetado = faturamento + ganhoFaturamento
+    let ticketProjetado = faturamentoProjetado / vendas
+    let tradeProjetado = trade + ganhoTrade
+
     // payback
     let payback = custoSolucao / beneficioBrutoMensal
     let mensagemPayback = ``
@@ -155,33 +173,40 @@
         mensagemPayback = `Aproximadamente ${payback.toFixed()} meses`
     }
 
-    console.log(payback)
-    // mensagem
-    id_mensagem.innerHTML =
-    `
-    <h3>Resumo financeiro estimado</h3>
+    // mensagens
+    id_output_ticket_atual.innerHTML = `R$ ${ticketMedio.toFixed(2)}`
+    id_output_trade_atual.innerHTML = `R$ ${trade.toFixed(2)}`
+    id_output_faturamento_atual.innerHTML = `R$ ${faturamento.toFixed(2)}`
+    id_output_ticket_projetado.innerHTML = `R$ ${ticketProjetado.toFixed(2)}`
+    id_output_trade_projetado.innerHTML = `R$ ${tradeProjetado.toFixed(2)}`
+    id_output_faturamento_projetado.innerHTML = `R$ ${faturamentoProjetado.toFixed(2)}`
+    id_output_payback.innerHTML = mensagemPayback
 
-    Com base nos valores informados, o <b>ticket médio estimado</b> é de <b>R$ ${ticketMedio.toFixed(2)}</b> por compra.<br>
-    A partir disso, projetamos os benefícios mensais abaixo:
-    <br><br>
+    // id_mensagem.innerHTML =
+    // `
+    // <h3>Resumo financeiro estimado</h3>
 
-    <b>Ganho no faturamento:</b> R$ ${ganhoFaturamento.toFixed(2)} / mês<br>
-    A partir da otimização de layout, estimamos um aumento de <b>5%</b> em faturamento.<br>
-    <b>Fontes:</b> NielsenIQ; McKinsey & Company.
-    <br><br>
+    // Com base nos valores informados, o <b>ticket médio estimado</b> é de <b>R$ ${ticketMedio.toFixed(2)}</b> por compra.<br>
+    // A partir disso, projetamos os benefícios mensais abaixo:
+    // <br><br>
 
-    <b>Ganho na receita com Trade Marketing:</b> R$ ${ganhoTrade.toFixed(2)} / mês<br>
-    A partir da importante análise do fluxo de clientes, estimamos um aumento de <b>+20%</b> na receita de Trade Marketing.<br>
-    <b>Fontes:</b> Deloitte; PwC.<br>
-    <br><br>
+    // <b>Ganho no faturamento:</b> R$ ${ganhoFaturamento.toFixed(2)} / mês<br>
+    // A partir da otimização de layout, estimamos um aumento de <b>5%</b> em faturamento.<br>
+    // <b>Fontes:</b> NielsenIQ; McKinsey & Company.
+    // <br><br>
 
-    <b>Investimento na solução (anual):</b> R$ ${custoSolucao.toFixed(2)}<br>
-    <b>Benefício líquido total estimado por mês:</b> R$ ${beneficioLiquidoMensal.toFixed(2)} (<b>Anual:</b> R$ ${beneficioLiquidoAnual})<br>
-    <b>Payback estimado:</b> ${mensagemPayback}
-    <br><br>
+    // <b>Ganho na receita com Trade Marketing:</b> R$ ${ganhoTrade.toFixed(2)} / mês<br>
+    // A partir da importante análise do fluxo de clientes, estimamos um aumento de <b>+20%</b> na receita de Trade Marketing.<br>
+    // <b>Fontes:</b> Deloitte; PwC.<br>
+    // <br><br>
 
-    Nota de transparência: estas projeções são uma <b>simulação</b> com premissas conservadoras para apoiar decisão.<br>
-    O valor real deve ser validado em piloto, comparando períodos “antes vs depois” com os dados coletados.
-    `
+    // <b>Investimento na solução (anual):</b> R$ ${custoSolucao.toFixed(2)}<br>
+    // <b>Benefício líquido total estimado por mês:</b> R$ ${beneficioLiquidoMensal.toFixed(2)} (<b>Anual:</b> R$ ${beneficioLiquidoAnual})<br>
+    // <b>Payback estimado:</b> ${mensagemPayback}
+    // <br><br>
+
+    // Nota de transparência: estas projeções são uma <b>simulação</b> com premissas conservadoras para apoiar decisão.<br>
+    // O valor real deve ser validado em piloto, comparando períodos “antes vs depois” com os dados coletados.
+    // `
     }
 </script>
