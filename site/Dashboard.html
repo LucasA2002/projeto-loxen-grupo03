@@ -1,36 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOXEN | Dashboard</title>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="dash.css">
+    <link rel="stylesheet" href="css/dash.css">
+
 </head>
-<body style="display: flex;" class="graficos">
-    <div>
-        <canvas class="canva1" id="myChart"style="position: relative; height:45vh; width:45vw">
-    <canvas id="chart"></canvas>
+
+<body>
+
+    <div class="sidebar">
+        <img src="assets/icon/logo.png" alt="Logo">
+        <ul class="menu">
+            <li class="agora">Dashboard</li>
+            <li>Cadastrar Colaborador</li>
+            <li>Cadastrar Filial</li>
+        </ul>
+        <button class="btn-sair">Sair</button>
     </div>
-    <div>
-        <canvas class="canva2" id="myChart2" style="position: relative; height:45vh; width:45vw">
-    <canvas id="chart"></canvas>
+
+    <div class="conteudo">
+        <h2 class="filial">Filial - SPTech</h2>
+        <div class="kpis">
+            <div class="card">
+                <p>Taxa de Ocupação</p>
+                <h3>65%</h3>
+            </div>
+            <div class="card">
+                <p>Crescimento de Fluxo (%)</p>
+                <h3>10%</h3>
+            </div>
+            <div class="card">
+                <p>Fluxo Mês</p>
+                <h3>2458</h3>
+            </div>
+        </div>
+
+        <div class="graficos">
+            <div class="grafico">
+                <h3>Dias com maior fluxo</h3>
+                <canvas class="canva1" id="myChart"></canvas>
+            </div>
+            <div class="grafico">
+                <h3>Fluxo por Setor</h3>
+                <canvas class="canva2" id="myChart2"></canvas>
+            </div>
+
+            <div class="grafico">
+                <h3>Setores mais visitados</h3>
+                <canvas class="canva3" id="myChart3"></canvas>
+            </div>
+        </div>
+
     </div>
-    <div>
-        <canvas class="canva3" id="myChart3" style="position: relative">
-    <canvas id="chart"></canvas>
-    </div>
+
 </body>
-<script>    
-    const labels = [ // Gráfico de linha
-        'Seg', 
-        'Ter', 
-        'Qua', 
-        'Qui', 
-        'Sex', 
+
+</html>
+<script>
+
+    const labels = [
+        'Seg',
+        'Ter',
+        'Qua',
+        'Qui',
+        'Sex',
         'Sab'
     ]
-  const data = {
+
+    const data = {
         labels: labels,
         datasets: [{
             label: 'Fluxo de pessoas',
@@ -39,15 +81,14 @@
             data: [40, 130, 79, 197, 122, 150]
         }]
     };
-    
 
-  const config = {
-    type: 'line',
-    data: data,
-    options: {}
-  }
+    const config = {
+        type: 'line',
+        data: data,
+        options: {}
+    }
 
-  const data2 = { // Gráfico de barra
+    const data2 = {
         labels: labels,
         datasets: [{
             label: 'Higiene',
@@ -58,56 +99,51 @@
         },
         {
             label: 'Hortifruti',
-            backgroundColor: 'rgb(64, 233, 134)',
-            borderColor: 'rgb(64, 233, 134)',
+            backgroundColor: 'rgb(64,233,134)',
+            borderColor: 'rgb(64,233,134)',
             borderRadius: 7,
             data: [20, 19, 10, 25, 13, 22]
         }
-    ]
-  };
+        ]
+    };
 
+    const config2 = {
+        type: 'bar',
+        data: data2,
+        options: {}
+    }
 
-  const config2 = {  // Gráfico de donnut
-    type: 'bar',
-    data: data2,
-    options: {}
-  }
-
-  
     const labels3 = [
-        'Açougue', 
-        'Padaria', 
-        'Higiene', 
-        'Bebidas', 
-        'Hortifrut', 
+        'Açougue',
+        'Padaria',
+        'Higiene',
+        'Bebidas',
+        'Hortifrut',
         'Laticínios'
     ]
-  const data3 = {
+
+    const data3 = {
         labels: labels3,
         datasets: [{
             label: 'Fluxo',
             backgroundColor: [
-            'rgb(46, 11, 127)',
-            'rgb(165, 90, 232)',
-            'rgb(94, 25, 255)',
-            'rgb(0, 151, 253)',
-            'rgb(64, 233, 134)',
-            'rgb(255, 174, 0)',
+                'rgb(46,11,127)',
+                'rgb(165,90,232)',
+                'rgb(94,25,255)',
+                'rgb(0,151,253)',
+                'rgb(64,233,134)',
+                'rgb(255,174,0)'
             ],
             data: [40, 130, 79, 197, 122, 150]
         }]
-  };
+    };
 
+    const config3 = {
+        type: 'doughnut',
+        data: data3,
+        options: {}
+    }
 
-  const config3 = {
-    type: 'doughnut',
-    data: data3,
-    options: {}
-  }
-
-
-</script>
-<script>
     const myChart = new Chart(
         document.getElementById('myChart'),
         config
@@ -122,5 +158,5 @@
         document.getElementById('myChart3'),
         config3
     )
+
 </script>
-</html>
