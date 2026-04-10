@@ -12,7 +12,9 @@
 <body>
 
     <div class="login_usuario">
-        <a href="home.html" class="voltar">←</a>
+        <a href="home.html" class="voltar">
+            <img src="../site/assets/img/arrow-left.png">
+        </a>
         <div class="info">
             <div class="formulario">
                 <img src="assets/icon/logo.png" alt="Logo">
@@ -46,7 +48,6 @@
 
 
         if (email == email_certo && senha == senha_certa) {
-            alert('Login Efetuado!');
             window.location.href="dashboard.html"
         } else {
             alert('Usuario ou Senha inválidos')

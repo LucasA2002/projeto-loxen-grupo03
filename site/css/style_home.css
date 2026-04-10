@@ -5,6 +5,8 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+
+
 body {
     padding-top: 80px;
     background: url(../assets/img/BackgroundHero.png) no-repeat;
@@ -173,6 +175,7 @@ a{
     margin: 0 100px;
     text-align: left;
     font-size: 20px;
+    color: #333333;
 }
 
 .conteudo {
@@ -211,6 +214,7 @@ a{
 .dados1 p,
 .dados2 p {
     font-size: 20px;
+    color: #333333;
 }
 
 .dados {
