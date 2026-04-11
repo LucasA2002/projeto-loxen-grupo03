@@ -11,6 +11,7 @@ body {
     width: 100%;
 }
 
+/* header */
 header {
     display: flex;
     align-items: center;
@@ -121,10 +122,11 @@ a{
     color: #424752;
 }
 
+/* body */
 .painel {
     max-width: 1200px;
     margin: 0 auto;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
     display: flex;
     gap: 30px;
     align-items: stretch;
@@ -135,12 +137,15 @@ a{
     border-radius: 18px;
     padding: 28px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
 }
 
 .card-esquerda {
     width: 38%;
     display: flex;
     flex-direction: column;
+    position: relative;
+    justify-content: space-between;
 }
 
 .card-esquerda h2 {
@@ -164,10 +169,10 @@ a{
     border-radius: 50px;
     background-color: #e9ecef;
     padding: 0 16px;
-    margin-top: 16px;
     margin-bottom: 16px;
     font-size: 1rem;
     color: #333;
+    position: relative;
 }
 
 .card-esquerda button {
@@ -180,6 +185,7 @@ a{
     font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
+    position: relative;
 }
 
 .card-direita {
@@ -237,6 +243,7 @@ a{
 
 .destaque-azul {
     border-left: 4px solid #0057b8;
+    position: relative;
 }
 
 .destaque-laranja {
@@ -265,7 +272,23 @@ a{
     font-weight: bold;;
 }
 
+.mensagem-referencias {
+    grid-column: span 2;
+    text-align: center;
+    color: #64748b;
+}
 
+.mensagem-erro {
+    text-align: center;
+    color: rgb(92, 18, 18);
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    bottom: 90px;
+    min-height: 20px;
+}
+
+/* footer */
 .footer {
     display: flex;
     flex-direction: column;

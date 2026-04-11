@@ -47,18 +47,16 @@
             <div class="card card-esquerda destaque-azul">
                 Quantidade de Vendas (Quantidade/Mês):
                 <input type="text" name="" id="ipt_qtd_vendas">
-                <br><br>
 
                 Faturamento (R$/Mês):
                 <input type="text" name="" id="ipt_faturamento">
-                <br><br>
 
                 Receita com Trade Marketing (R$/Mês):
                 <input type="text" name="" id="ipt_trade_marketing">
-                <br><br>
 
+                <div id="id_mensagem_erro" class="mensagem-erro"></div>
+                
                 <button onclick="calcular()">Calcular Benefícios</button>
-                <br><br>
             </div>
 
             <div class="card card-direita">
@@ -102,9 +100,12 @@
                         <p>PAYBACK</p>
                         <h2 id="id_output_payback">Descubra em quantos meses a solução se paga!</h2>
                     </div>
-
+                    
+                </div>
             </div>
         </div>
+
+        <div id="id_mensagem_referencias" class="mensagem-referencias"></div>
     </div>
 
     <footer class="footer">
@@ -131,80 +132,67 @@
 </html>
 <script>
     function calcular(){
-    // inputs
-    let vendas = Number(ipt_qtd_vendas.value);
-    let faturamento = Number(ipt_faturamento.value);
-    let trade = Number(ipt_trade_marketing.value);
+        // valores dos inputs
+        let vendas = Number(ipt_qtd_vendas.value);
+        let faturamento = Number(ipt_faturamento.value);
+        let trade = Number(ipt_trade_marketing.value);
 
-    // validação
-    if (vendas <= 0 || faturamento <= 0 || trade < 0) {
-      id_mensagem.innerHTML = "Preencha os campos com valores válidos.";
-    }
+        // validação de inputs
+        if (vendas <= 0 || faturamento <= 0 || trade < 0) {
+            id_mensagem_erro.innerHTML = "Preencha todos os campos com valores válidos.";
 
-    // métricas
-    let ticketMedio = faturamento / vendas;
+            id_output_ticket_atual.innerHTML = `R$ --`
+            id_output_trade_atual.innerHTML = `R$ --`
+            id_output_faturamento_atual.innerHTML = `R$ --`
+            id_output_ticket_projetado.innerHTML = `R$ --`
+            id_output_trade_projetado.innerHTML = `R$ --`
+            id_output_faturamento_projetado.innerHTML = `R$ --`
+            id_output_payback.innerHTML = `Descubra em quantos meses a solução se paga!`
+            id_mensagem_referencias.innerHTML = ``
+        } else {
 
-    // premissas
-    let ganhoFaturamento = faturamento * 0.05; // Aumento de 5% no faturamento
-    let ganhoTrade = trade * 0.20; // Aumento de 20% na receita de Trade Marketing
-    let custoSolucao = 60000; // Custo anual da solução (5000 ao mês)
+            // métrica de ticket médio atual
+            let ticketMedio = faturamento / vendas;
 
-    // benefício bruto e liquido
-    let beneficioBrutoMensal = ganhoFaturamento + ganhoTrade
-    let beneficioLiquidoAnual = beneficioBrutoMensal * 12 - custoSolucao
-    let beneficioLiquidoMensal = beneficioLiquidoAnual / 12
+            // premissas estipuladas
+            let ganhoFaturamento = faturamento * 0.05; // Aumento de 5% no faturamento
+            let ganhoTrade = trade * 0.20; // Aumento de 20% na receita de Trade Marketing
+            let custoSolucao = 60000; // Custo anual da solução (5000 ao mês)
 
-    // valores projetados
-    let faturamentoProjetado = faturamento + ganhoFaturamento
-    let ticketProjetado = faturamentoProjetado / vendas
-    let tradeProjetado = trade + ganhoTrade
+            // benefício bruto e liquido
+            let beneficioBrutoMensal = ganhoFaturamento + ganhoTrade
+            let beneficioLiquidoAnual = beneficioBrutoMensal * 12 - custoSolucao
+            let beneficioLiquidoMensal = beneficioLiquidoAnual / 12
 
-    // payback
-    let payback = custoSolucao / beneficioBrutoMensal
-    let mensagemPayback = ``
+            // valores projetados
+            let faturamentoProjetado = faturamento + ganhoFaturamento
+            let ticketProjetado = faturamentoProjetado / vendas
+            let tradeProjetado = trade + ganhoTrade
 
-    if (payback.toFixed() == 1){
-        mensagemPayback = `Aproximadamente ${payback.toFixed()} mês`
-    } else if (payback.toFixed() == 0){
-        mensagemPayback = `Menos de 1 mês!`
-    } else {
-        mensagemPayback = `Aproximadamente ${payback.toFixed()} meses`
-    }
+            // payback
+            let payback = custoSolucao / beneficioBrutoMensal
+            let mensagemPayback = ``
 
-    // mensagens
-    id_output_ticket_atual.innerHTML = `R$ ${ticketMedio.toFixed(2)}`
-    id_output_trade_atual.innerHTML = `R$ ${trade.toFixed(2)}`
-    id_output_faturamento_atual.innerHTML = `R$ ${faturamento.toFixed(2)}`
-    id_output_ticket_projetado.innerHTML = `R$ ${ticketProjetado.toFixed(2)}`
-    id_output_trade_projetado.innerHTML = `R$ ${tradeProjetado.toFixed(2)}`
-    id_output_faturamento_projetado.innerHTML = `R$ ${faturamentoProjetado.toFixed(2)}`
-    id_output_payback.innerHTML = mensagemPayback
+            if (payback.toFixed() == 1){
+                mensagemPayback = `aproximadamente ${payback.toFixed()} mês`
+            } else if (payback.toFixed() == 0){
+                mensagemPayback = `menos de 1 mês!`
+            } else {
+                mensagemPayback = `aproximadamente ${payback.toFixed()} meses`
+            }
 
-    // id_mensagem.innerHTML =
-    // `
-    // <h3>Resumo financeiro estimado</h3>
-
-    // Com base nos valores informados, o <b>ticket médio estimado</b> é de <b>R$ ${ticketMedio.toFixed(2)}</b> por compra.<br>
-    // A partir disso, projetamos os benefícios mensais abaixo:
-    // <br><br>
-
-    // <b>Ganho no faturamento:</b> R$ ${ganhoFaturamento.toFixed(2)} / mês<br>
-    // A partir da otimização de layout, estimamos um aumento de <b>5%</b> em faturamento.<br>
-    // <b>Fontes:</b> NielsenIQ; McKinsey & Company.
-    // <br><br>
-
-    // <b>Ganho na receita com Trade Marketing:</b> R$ ${ganhoTrade.toFixed(2)} / mês<br>
-    // A partir da importante análise do fluxo de clientes, estimamos um aumento de <b>+20%</b> na receita de Trade Marketing.<br>
-    // <b>Fontes:</b> Deloitte; PwC.<br>
-    // <br><br>
-
-    // <b>Investimento na solução (anual):</b> R$ ${custoSolucao.toFixed(2)}<br>
-    // <b>Benefício líquido total estimado por mês:</b> R$ ${beneficioLiquidoMensal.toFixed(2)} (<b>Anual:</b> R$ ${beneficioLiquidoAnual})<br>
-    // <b>Payback estimado:</b> ${mensagemPayback}
-    // <br><br>
-
-    // Nota de transparência: estas projeções são uma <b>simulação</b> com premissas conservadoras para apoiar decisão.<br>
-    // O valor real deve ser validado em piloto, comparando períodos “antes vs depois” com os dados coletados.
-    // `
+            // mensagens
+            id_output_ticket_atual.innerHTML = `R$ ${ticketMedio.toFixed(2)}`
+            id_output_trade_atual.innerHTML = `R$ ${trade.toFixed(2)}`
+            id_output_faturamento_atual.innerHTML = `R$ ${faturamento.toFixed(2)}`
+            id_output_ticket_projetado.innerHTML = `R$ ${ticketProjetado.toFixed(2)}`
+            id_output_trade_projetado.innerHTML = `R$ ${tradeProjetado.toFixed(2)}`
+            id_output_faturamento_projetado.innerHTML = `R$ ${faturamentoProjetado.toFixed(2)}`
+            id_output_payback.innerHTML = `A solução se paga em ${mensagemPayback}!`
+            id_mensagem_referencias.innerHTML = `<b>Fontes: NielsenIQ; McKinsey & Company; Deloitte; PwC.</b><br><br>
+                                                <b>Nota de transparência:</b><br>
+                                                Estas projeções são uma simulação com premissas conservadoras para apoiar decisão.<br>
+                                                O valor real deve ser validado em piloto, comparando períodos “antes vs depois” com os dados coletados.`
+        }
     }
 </script>
