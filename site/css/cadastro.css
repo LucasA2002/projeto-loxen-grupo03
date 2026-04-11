@@ -135,6 +135,7 @@
    }
 
    .campo-senha input {
+      position: relative;
       border: none;
       border-bottom: 2px solid rgb(129, 129, 129);
       outline: none;
@@ -143,11 +144,26 @@
       padding-right: 30px;
 
    }
+   .validacao {
+      position: absolute;
+      color: rgb(182, 13, 13);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      padding-top: 5px;
+   }
+
+    .validacao2 {
+      position: absolute;
+      color: rgb(182, 13, 13);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      padding-top: 5px;
+   }
 
    .campo-senha .olho {
       position: absolute;
       right: 10px;
-      top: 50%;
+      top: 35%;
       transform: translateY(-50%);
       cursor: pointer;
       color: rgb(129, 129, 129);
@@ -231,8 +247,7 @@
    .login_usuario .campo-senha .olho {
       position: absolute;
       right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 35%;
       cursor: pointer;
       color: rgb(129, 129, 129);
    }

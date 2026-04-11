@@ -20,12 +20,12 @@
                 <img src="assets/icon/logo.png" alt="Logo">
                 <h3>Entre</h3>
                 <input type="text" id="ipt_email" placeholder="Entre com seu email">
-                
+
                 <div class="campo-senha">
-                <input type="password" id="ipt_senha" placeholder="Insira a sua senha"> 
-                <i class="fa-solid fa-eye olho" onclick="mostrar()"></i>
+                    <input type="password" id="ipt_senha" placeholder="Insira a sua senha">
+                    <i class="fa-solid fa-eye olho" onclick="mostrar()"></i>
                 </div>
-                
+
                 <button onclick="entrar()">Entrar</button>
             </div>
         </div>
@@ -39,25 +39,37 @@
 
 </html>
 <script>
-    function entrar () {
+    let tentativas = 3
+    function entrar() {
         let email = ipt_email.value
         let senha = ipt_senha.value
 
         let email_certo = `sptech.consulting@gmail.com`
         let senha_certa = `Urubu100@`
 
-
-        if (email == email_certo && senha == senha_certa) {
-            window.location.href="dashboard.html"
-        } else {
-            alert('Usuario ou Senha inválidos')
+        while (tentativas > 0) {
+            if (email == email_certo && senha == senha_certa) {
+                window.location.href = "dashboard.html"
+            } else {
+                tentativas--
+                alert(`Usuário ou senha inválidos! Tentativas restantes: ${tentativas}`)
+                break;
+            }
+            
         }
+
+        if (tentativas == 0) {
+            alert('Muitas tentativas falhas de login! Redirecionando para a página inicial')
+            window.location.href = "home.html"
+        }
+
     }
+
     function mostrar() {
-    if (ipt_senha.type === "password") {
-        ipt_senha.type = "text";
-    } else {
-        ipt_senha.type = "password";
-    }
+        if (ipt_senha.type === "password") {
+            ipt_senha.type = "text";
+        } else {
+            ipt_senha.type = "password";
+        }
     }
 </script>
