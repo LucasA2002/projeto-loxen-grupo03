@@ -19,7 +19,7 @@
                 <img src="assets/icon/logo.png" alt="Logo">
                 <h3>Cadastro Filial</h3>
                 <input type="text" id="ipt_nome" placeholder="Nome da Filial">
-                <input type="text" id="ipt_cnpj" oninput="cnpj()" placeholder="CNPJ">
+                <input type="text" id="ipt_cnpj" oninput="cnpj()" placeholder="CNPJ" maxlength="18">
                 <input type="text" id="ipt_rua" placeholder="Rua da filial">
                 <input type="text" id="ipt_cidade" placeholder="Cidade da filial">
                
@@ -53,7 +53,7 @@
                     <option value="Sergipe">SE</option>
                     <option value="Tocantins">TO</option>
                 </select>
-                <input type="text" id="ipt_cep" oninput="cep()" placeholder="CEP">
+                <input type="text" id="ipt_cep" oninput="cep()" placeholder="CEP" maxlength="9">
                 <button onclick="registrar()">Registrar</button>
             </div>
         </div>
