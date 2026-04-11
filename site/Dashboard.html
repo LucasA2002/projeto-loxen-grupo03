@@ -5,16 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOXEN | Dashboard</title>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="css/dash.css">
 
 </head>
 
 <body>
-
     <div class="sidebar">
-        <img src="assets/icon/logo.png" alt="Logo">
+        <img class="logo" src="assets/icon/logo.png" alt="Logo">
         <ul class="menu">
             <li class="agora">Dashboard</li>
             <li><a href="cadastro_usuario.html">Cadastrar Colaborador</a></li>
@@ -22,24 +20,31 @@
         </ul>
         <button onclick="logout()" class="btn-sair">Sair</button>
     </div>
-
     <div class="conteudo">
-        <h2 class="filial">Filial - SPTech</h2>
+        <h2 class="filial">Filial - SPTech<img class="seta" src="assets/img/setaDash.png" alt=""></h2>
         <div class="kpis">
             <div class="card">
                 <p>Taxa de Ocupação</p>
-                <h3>65%</h3>
+                <div class="conteudoKpi">
+                    <img class="kpiImg" src="assets/img/kpi1.png">
+                    <h3>65%</h3>
+                </div>
             </div>
             <div class="card">
                 <p>Crescimento de Fluxo (%)</p>
-                <h3>10%</h3>
+                <div class="conteudoKpi">
+                    <img class="kpiImg" src="assets/img/kpi2.png">
+                    <h3>10%</h3>
+                </div>
             </div>
             <div class="card">
                 <p>Fluxo Mês</p>
-                <h3>2458</h3>
+                <div class="conteudoKpi">
+                    <img class="kpiImg" src="assets/img/kpi3.png">
+                    <h3>2458</h3>
+                </div>
             </div>
         </div>
-
         <div class="graficos">
             <div class="grafico">
                 <h3>Dias com maior fluxo</h3>
@@ -54,100 +59,149 @@
                 <h3>Setores mais visitados</h3>
                 <canvas class="canva3" id="myChart3"></canvas>
             </div>
+            <div class="grafico">
+                <h3>Mapa de fluxo de pessoas</h3>
+                <img src="assets/img/mapaCalor.png" alt="">
+            </div>
         </div>
-
     </div>
-
 </body>
 
 </html>
+
 <script>
 
     function logout() {
         window.location.href = `home.html`;
     }
 
-    const labels = [
+    let meta = 180;
+    const labels = [ // Gráfico de barra - média fluxo do mercado inteiro por mês
         'Seg',
         'Ter',
         'Qua',
         'Qui',
         'Sex',
-        'Sab'
+        'Sab',
+        'Dom'
     ]
-
     const data = {
         labels: labels,
         datasets: [{
-            label: 'Fluxo de pessoas',
+            label: 'Meta',
+            data: [meta, meta, meta, meta, meta, meta, meta],
+            borderColor: 'rgb(46, 11, 127)',
+            backgroundColor: 'rgb(46, 11, 127)',
+            type: 'line',
+            order: 0
+        },
+        {
+            label: 'Média de fluxo - Março',
+            borderRadius: 7,
             backgroundColor: 'rgb(165, 90, 232)',
             borderColor: 'rgb(165, 90, 232)',
-            data: [40, 130, 79, 197, 122, 150]
-        }]
+            data: [40, 130, 79, 197, 122, 150, 100]
+        },
+        ]
     };
 
+
     const config = {
-        type: 'line',
+        type: 'bar',
         data: data,
         options: {}
     }
 
-    const data2 = {
+    const data2 = { // Gráfico de linha - fluxo por setor na semana
         labels: labels,
         datasets: [{
             label: 'Higiene',
             backgroundColor: 'rgb(94, 25, 255)',
             borderColor: 'rgb(94, 25, 255)',
             borderRadius: 7,
-            data: [12, 14, 27, 17, 30, 21]
+            data: [12, 14, 27, 17, 30, 21, 12]
         },
         {
             label: 'Hortifruti',
-            backgroundColor: 'rgb(64,233,134)',
-            borderColor: 'rgb(64,233,134)',
+            backgroundColor: 'rgb(64, 233, 134)',
+            borderColor: 'rgb(64, 233, 134)',
             borderRadius: 7,
-            data: [20, 19, 10, 25, 13, 22]
+            data: [20, 19, 10, 25, 13, 22, 12]
+        },
+        {
+            label: 'Açougue',
+            backgroundColor: 'rgb(46, 11, 127)',
+            borderColor: 'rgb(46, 11, 127)',
+            borderRadius: 7,
+            data: [17, 17, 20, 35, 8, 21, 17]
+        },
+        {
+            label: 'Padaria',
+            backgroundColor: 'rgb(165, 90, 232)',
+            borderColor: 'rgb(165, 90, 232)',
+            borderRadius: 7,
+            data: [21, 27, 10, 25, 13, 22, 20]
+        },
+        {
+            label: 'Bebidas',
+            backgroundColor: 'rgb(0, 151, 253)',
+            borderColor: 'rgb(0, 151, 253)',
+            borderRadius: 7,
+            data: [10, 18, 15, 30, 18, 40, 28]
+        },
+        {
+            label: 'Laticínios',
+            backgroundColor: 'rgb(255, 174, 0)',
+            borderColor: 'rgb(255, 174, 0)',
+            borderRadius: 7,
+            data: [19, 20, 17, 22, 14, 33, 37]
         }
         ]
     };
 
+
     const config2 = {
-        type: 'bar',
+        type: 'line',
         data: data2,
         options: {}
     }
 
-    const labels3 = [
-        'Açougue',
-        'Padaria',
-        'Higiene',
-        'Bebidas',
-        'Hortifrut',
-        'Laticínios'
-    ]
 
+
+    const labels3 = [ // Gráfico de barra - Fluxo por horário de um dia específico
+        '8h',
+        '9h',
+        '10h',
+        '11h',
+        '12h',
+        '13h',
+        '14h',
+        '15h',
+        '16h',
+        '17h',
+        '18h',
+        '19h',
+        '20h',
+        '21h',
+        '22h'
+    ]
     const data3 = {
         labels: labels3,
         datasets: [{
-            label: 'Fluxo',
-            backgroundColor: [
-                'rgb(46,11,127)',
-                'rgb(165,90,232)',
-                'rgb(94,25,255)',
-                'rgb(0,151,253)',
-                'rgb(64,233,134)',
-                'rgb(255,174,0)'
-            ],
-            data: [40, 130, 79, 197, 122, 150]
+            label: `Setor: Higiene`,
+            borderColor: 'rgb(94, 25, 255)',
+            backgroundColor: 'rgb(94, 25, 255)',
+            borderRadius: 7,
+            data: [10, 30, 29, 17, 12, 10, 10, 22, 11, 20, 27, 14, 39, 22, 32]
         }]
     };
 
+
     const config3 = {
-        type: 'doughnut',
+        type: 'bar',
         data: data3,
         options: {}
     }
-
     const myChart = new Chart(
         document.getElementById('myChart'),
         config
