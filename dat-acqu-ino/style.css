@@ -1,0 +1,8 @@
+.grafico{
+    display: flex;
+    justify-content: center;
+}
+
+h1{
+    justify-self: center;
+}
