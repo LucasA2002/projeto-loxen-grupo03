@@ -50,6 +50,7 @@
         while (tentativas > 0) {
             if (email == email_certo && senha == senha_certa) {
                 window.location.href = "dashboard.html"
+                break;
             } else {
                 tentativas--
                 alert(`Usuário ou senha inválidos! Tentativas restantes: ${tentativas}`)
