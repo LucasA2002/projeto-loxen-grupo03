@@ -19,10 +19,13 @@
                 <img src="assets/icon/logo.png" alt="Logo">
                 <h3>Cadastro Filial</h3>
                 <input type="text" id="ipt_nome" placeholder="Nome da Filial">
-                <input type="text" id="ipt_cnpj" oninput="cnpj()" placeholder="CNPJ" maxlength="18">
+                <div oninput="cnpj()" class="validacao-campo">
+                    <input type="text" id="ipt_cnpj" oninput="cnpj()" placeholder="CNPJ" maxlength="18">
+                    <div id="validacao" class="validacao"></div>
+                </div>
                 <input type="text" id="ipt_rua" placeholder="Rua da filial">
                 <input type="text" id="ipt_cidade" placeholder="Cidade da filial">
-               
+
                 <select id="slt_uf">
                     <option value="vazio" disabled selected>Selecione o Estado</option>
                     <option value="Acre">AC</option>
@@ -53,7 +56,10 @@
                     <option value="Sergipe">SE</option>
                     <option value="Tocantins">TO</option>
                 </select>
+                <div oninput="cnpj()" class="validacao-campo">
                 <input type="text" id="ipt_cep" oninput="cep()" placeholder="CEP" maxlength="9">
+                <div id="validacao2" class="validacao"></div>
+                </div>
                 <button onclick="registrar()">Registrar</button>
             </div>
         </div>
@@ -70,48 +76,31 @@
 <script>
 
     function cnpj() {
-        /* let cnpj = ipt_cnpj.value.replace(/\D/g, ``);
+        let cnpj = ipt_cnpj.value.replace(/\D/g, ``);
         let tamanhoCnpj = cnpj.length;
         let formatado = ``;
-    
+
+        if (tamanhoCnpj !== 18) {
+            validacao.innerHTML = `O CNPJ precisa ter 14 números.`;
+        }
+
         if (tamanhoCnpj > 0) {
             formatado = cnpj.slice(0, 2);
-    
+
             if (tamanhoCnpj > 2) {
                 formatado += `.` + cnpj.slice(2, 5);
             }
-    
+
             if (tamanhoCnpj > 5) {
                 formatado += `.` + cnpj.slice(5, 8);
             }
-    
+
             if (tamanhoCnpj > 8) {
                 formatado += `/` + cnpj.slice(8, 12);
             }
-    
+
             if (tamanhoCnpj > 12) {
                 formatado += `-` + cnpj.slice(12, 14);
-            }
-        }
-    
-        ipt_cnpj.value = formatado;  */
-
-        let cnpj = ipt_cnpj.value;
-        let tamanhoCnpj = cnpj.length;
-        let formatado = ``;
-
-        if (tamanhoCnpj > 0) {
-            formatado = cnpj;
-            if (tamanhoCnpj == 2) {
-                formatado += `.`;
-            }
-            if (tamanhoCnpj == 6) {
-                formatado += `.`;
-            }
-            if (tamanhoCnpj == 10) {
-                formatado += `/`;
-            } if (tamanhoCnpj == 15) {
-                formatado += `-`;
             }
         }
 
@@ -120,30 +109,21 @@
     }
 
     function cep() {
-        /*let cep = ipt_cep.value.replace(/\D/g, ``);
+        let cep = ipt_cep.value.replace(/\D/g, ``);
         let tamanhoCep = cep.length;
         let formatado = ``;
-        
-        if (tamanhoCep > 0) {
-            formatado = cep.slice(0,5);
-            
-            if (tamanhoCep > 5) {
-                formatado += `-` + cep.slice(5,8);
-            }
-            
+
+        if (tamanhoCep !== 8) {
+            validacao2.innerHTML = `O CEP precisa ter 8 números.`;
         }
-        
-        ipt_cep.value = formatado; */
-
-        let cep = ipt_cep.value;
-        let tamanhoCep = cep.length;
-        let formatado = ``;
 
         if (tamanhoCep > 0) {
-            formatado = cep;
-            if (tamanhoCep == 5) {
-                formatado += `-`;
+            formatado = cep.slice(0, 5);
+
+            if (tamanhoCep > 5) {
+                formatado += `-` + cep.slice(5, 8);
             }
+
         }
 
         ipt_cep.value = formatado;
@@ -160,40 +140,14 @@
 
         // variáveis para a lógica
 
-        let num = [`0`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`];
-        let sinaisCnpj = [`/`, `-`, `.`];
-        let sinaisCep = [`-`];
-        let tem_sinal_cnpj = false;
-        let tem_letra_cnpj = false;
         let tamanhoCnpj = cnpj.length;
-        let tem_sinal_cep = false;
-        let tem_letra_cep = false;
         let tamanhoCep = cep.length;
-
-        for (let cont1 = 0; cont1 < tamanhoCep; cont1++) {
-            if (sinaisCep.includes(cep[cont1])) {
-                tem_sinal_cep = true;
-            }
-            if (!num.includes(cep[cont1]) && cep[cont1] !== "-") {
-                tem_letra_cep = true;
-            }
-        }
-
-        for (let cont2 = 0; cont2 < tamanhoCnpj; cont2++) {
-            if (sinaisCnpj.includes(cnpj[cont2])) {
-                tem_sinal_cnpj = true;
-            }
-            if (!num.includes(cnpj[cont2]) && !sinaisCnpj.includes(cnpj[cont2])) {
-                tem_letra_cnpj = true;
-            }
-        }
-
 
         if (nome == `` || cep == `` || cnpj == `` || rua == `` || uf == `vazio`) {
             alert(`Preencha todos os campos!`);
-        } else if (tem_letra_cnpj || !tem_sinal_cnpj || tamanhoCnpj != 18) {
+        } else if (tamanhoCnpj !== 18) {
             alert(`Insira um CNPJ válido!`);
-        } else if (tem_letra_cep || !tem_sinal_cep || tamanhoCep != 9) {
+        } else if (tamanhoCep !== 9) {
             alert(`Insira um CEP válido!`);
         } else {
             alert(`Cadastro realizado com sucesso!`);

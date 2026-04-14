@@ -130,11 +130,11 @@
       font-size: 50px;
    }
 
-   .campo-senha {
+   .validacao-campo {
       position: relative;
    }
 
-   .campo-senha input {
+   .validacao-campo input {
       position: relative;
       border: none;
       border-bottom: 2px solid rgb(129, 129, 129);
@@ -160,7 +160,7 @@
       padding-top: 5px;
    }
 
-   .campo-senha .olho {
+   .validacao-campo .olho {
       position: absolute;
       right: 10px;
       top: 35%;
@@ -209,7 +209,7 @@
       padding: 14px 10px;
    }
 
-   .login_usuario .formulario .campo-senha input {
+   .login_usuario .formulario .validacao-campo input {
       font-size: 18px;
       padding: 14px 10px;
    }
@@ -235,16 +235,16 @@
       font-size: 14px;
    }
 
-   .login_usuario .campo-senha {
+   .login_usuario .validacao-campo {
       position: relative;
    }
 
-   .login_usuario .campo-senha input {
+   .login_usuario .validacao-campo input {
       width: 100%;
       box-sizing: border-box;
    }
 
-   .login_usuario .campo-senha .olho {
+   .login_usuario .validacao-campo .olho {
       position: absolute;
       right: 10px;
       top: 35%;
