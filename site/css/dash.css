@@ -48,6 +48,22 @@ body {
     border-radius: 6px;
     font-weight: bold;
 }
+.user {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    padding: 15px;
+}
+.userIcon {
+    width: 150px;
+    height: 150px;
+    align-self: center;
+}
+
+.sidebar b {
+    align-self: center;
+}
 
 .btn-sair {
     background: red;
@@ -65,9 +81,10 @@ body {
     flex-direction: column;
     padding: 10px;
     overflow: hidden;
+    background-color: rgb(215, 215, 215);
 }
 
-.filial {
+.conteudo h2 {
     margin-bottom: 10px;
 }
 
@@ -88,6 +105,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-top: 7px;
 }
 
 .kpiImg {
@@ -98,14 +116,16 @@ body {
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 40px 80px;
     min-height: 0;
+    width: 90%;
+    align-self: center;
 }
 
 .grafico {
     background: white;
     border-radius: 10px;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     min-height: 0;
