@@ -31,7 +31,7 @@
                 <p>Comparação de Fluxo (Abril X Março)</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi1.png">
-                    <h3>-12% (495 Acessos)</h3>
+                    <h3><span style="color: red;">-12%</span> (495 Acessos)</h3>
                 </div>
             </div>
             <div class="card">
@@ -39,7 +39,7 @@
                 <p>Setor Mais Visitado - Mês de Abril</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi2.png">
-                    <h3>Lacticínios - 486 Acessos</h3>
+                    <h3>Lacticínios - <span style="color: green;">486 Acessos</span></h3>
                 </div>
             </div>
             <div class="card">
@@ -47,7 +47,7 @@
                 <p>Setor Menos Visitado - Mês de Abril</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi2.png">
-                    <h3>Hortifruti - 363 Acessos</h3>
+                    <h3>Hortifruti - <span style="color: red;">363 Acessos</span></h3>
                 </div>
             </div>
             <div class="card">
@@ -60,20 +60,20 @@
         </div>
         <div class="graficos">
             <div class="grafico">
-                <h3>Dias com maior fluxo</h3>
+                <h3>Fluxo Médio Mensal | Março</h3>
                 <canvas class="canva1" id="myChart"></canvas>
             </div>
             <div class="grafico">
-                <h3>Média do Fluxo por Setor do Mês de Abril</h3>
+                <h3>Fluxo Médio Semanal por Setor | 20/04 - 26/04</h3>
                 <canvas class="canva2" id="myChart2"></canvas>
             </div>
 
             <div class="grafico">
-                <h3>Fluxo por hora - 26/04/2026</h3>
+                <h3>Fluxo Acumulado por Hora | Ontem</h3>
                 <canvas class="canva3" id="myChart3"></canvas>
             </div>
             <div class="grafico">
-                <h3>Mapa de fluxo de pessoas</h3>
+                <h3>Mapa de Calor do Fluxo de Pessoas | Hoje</h3>
                 <img src="assets/img/mapaCalor.png" alt="">
             </div>
         </div>
@@ -109,7 +109,7 @@
             order: 0
         },
         {
-            label: 'Média de fluxo - Março',
+            label: 'Média de Fluxo',
             borderRadius: 7,
             backgroundColor: 'rgb(165, 90, 232)',
             borderColor: 'rgb(165, 90, 232)',
@@ -132,7 +132,8 @@
             backgroundColor: 'rgb(94, 25, 255)',
             borderColor: 'rgb(94, 25, 255)',
             borderRadius: 7,
-            data: [12, 14, 27, 17, 30, 21, 12]
+            data: [12, 14, 27, 17, 30, 21, 12],
+            hidden: true
         },
         {
             label: 'Hortifruti',
@@ -146,21 +147,24 @@
             backgroundColor: 'rgb(46, 11, 127)',
             borderColor: 'rgb(46, 11, 127)',
             borderRadius: 7,
-            data: [17, 17, 20, 35, 8, 21, 17]
+            data: [17, 17, 20, 35, 8, 21, 17],
+            hidden: true
         },
         {
             label: 'Padaria',
             backgroundColor: 'rgb(165, 90, 232)',
             borderColor: 'rgb(165, 90, 232)',
             borderRadius: 7,
-            data: [21, 27, 10, 25, 13, 22, 20]
+            data: [21, 27, 10, 25, 13, 22, 20],
+            hidden: true
         },
         {
             label: 'Bebidas',
             backgroundColor: 'rgb(0, 151, 253)',
             borderColor: 'rgb(0, 151, 253)',
             borderRadius: 7,
-            data: [10, 18, 15, 30, 18, 40, 28]
+            data: [10, 18, 15, 30, 18, 40, 28],
+            hidden: true
         },
         {
             label: 'Laticínios',
