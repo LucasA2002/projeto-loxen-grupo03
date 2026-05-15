@@ -7,6 +7,10 @@
     <title>LOXEN | Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="css/dash.css">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/heatmap.js"></script>
 
 </head>
 
@@ -72,9 +76,11 @@
                 <h3>Fluxo Acumulado por Hora | Ontem</h3>
                 <canvas class="canva3" id="myChart3"></canvas>
             </div>
-            <div class="grafico">
+
+            <div class="grafico mapa arduinoAlocacao">
                 <h3>Mapa de Calor do Fluxo de Pessoas | Hoje</h3>
-                <img src="assets/img/mapaCalor.png" alt="">
+
+                <div class="heatmap"></div>
             </div>
         </div>
     </div>
@@ -86,7 +92,7 @@
 
     function logout() {
         window.location.href = `home.html`;
-    }
+    };
 
     let meta = 180;
     const labels = [ // Gráfico de barra - média fluxo do mercado inteiro por mês
@@ -123,7 +129,7 @@
         type: 'bar',
         data: data,
         options: {}
-    }
+    };
 
     const data2 = { // Gráfico de linha - fluxo por setor na semana
         labels: labels,
@@ -181,7 +187,7 @@
         type: 'line',
         data: data2,
         options: {}
-    }
+    };
 
 
 
@@ -218,20 +224,59 @@
         type: 'bar',
         data: data3,
         options: {}
-    }
+    };
     const myChart = new Chart(
         document.getElementById('myChart'),
         config
-    )
+    );
 
     const myChart2 = new Chart(
         document.getElementById('myChart2'),
         config2
-    )
+    );
 
     const myChart3 = new Chart(
         document.getElementById('myChart3'),
         config3
-    )
+    );
+
+    // ---------------------------------------------------- HEATMAP
+
+    var instanciaHeatmap = h337.create({
+        container: document.querySelector('.heatmap')
+    });
+
+    var dadosPorLocal = {
+        local1: [
+            { x: 95, y: 175, value: 30, radius: 130 }
+        ],
+        local2: [
+            { x: 310, y: 225, value: 20, radius: 90 }
+        ],
+        local3: [
+            { x: 545, y: 190, value: 60, radius: 100 }
+        ],
+        local4: [
+            { x: 190, y: 364, value: 50, radius: 130 }
+        ],
+        local5: [
+            { x: 400, y: 365, value: 80, radius: 130 }
+        ]
+    };
+
+    // Limpar o heatmap antes de adicionar novos dados
+    instanciaHeatmap.setData({ max: 0, data: [] });
+
+    for (var local in dadosPorLocal) {
+        var dadosDoLocal = dadosPorLocal[local];
+
+        for (var i = 0; i < dadosDoLocal.length; i++) {
+            var ponto = dadosDoLocal[i];
+            {
+                // Usando addData para adicionar os pontos ao heatmap
+                instanciaHeatmap.addData(ponto);
+            }
+        }
+    }
 
 </script>
