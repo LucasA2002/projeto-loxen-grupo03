@@ -48,6 +48,7 @@ body {
     border-radius: 6px;
     font-weight: bold;
 }
+
 .user {
     display: flex;
     flex-direction: column;
@@ -55,6 +56,7 @@ body {
     height: 100%;
     padding: 15px;
 }
+
 .userIcon {
     width: 150px;
     height: 150px;
@@ -125,7 +127,9 @@ body {
 .grafico {
     background: white;
     border-radius: 10px;
-    padding: 20px;
+    padding-inline: 10px;
+    padding-top: 10px;
+    padding-bottom: 0;
     display: flex;
     flex-direction: column;
     min-height: 0;
@@ -143,9 +147,9 @@ body {
     height: 100% !important;
 }
 
-.grafico img {
-    flex: 1;
-    min-height: 0;
-    width: 100%;
-    height: 100%;
+.heatmap {
+    background-image: url(../assets/img/mapaLocal.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
 }
