@@ -127,9 +127,7 @@ body {
 .grafico {
     background: white;
     border-radius: 10px;
-    padding-inline: 10px;
-    padding-top: 10px;
-    padding-bottom: 0;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     min-height: 0;
@@ -148,6 +146,15 @@ body {
 }
 
 .heatmap {
+    position: relative;
+    width: 515px;
+    height: 230px;
+
+    min-width: 515px;
+    min-height: 230px;
+    max-width: 515px;
+    max-height: 230px;
+
     background-image: url(../assets/img/mapaLocal.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
