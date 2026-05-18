@@ -57,8 +57,8 @@
                     <option value="Tocantins">TO</option>
                 </select>
                 <div oninput="cnpj()" class="validacao-campo">
-                <input type="text" id="ipt_cep" oninput="cep()" placeholder="CEP" maxlength="9">
-                <div id="validacao2" class="validacao"></div>
+                    <input type="text" id="ipt_cep" oninput="cep()" placeholder="CEP" maxlength="9">
+                    <div id="validacao2" class="validacao"></div>
                 </div>
                 <button onclick="registrar()">Registrar</button>
             </div>
@@ -137,6 +137,7 @@
         let cnpj = ipt_cnpj.value;
         let rua = ipt_rua.value;
         let uf = slt_uf.value;
+        let cidade = ipt_cidade.value
 
         // variáveis para a lógica
 
@@ -151,7 +152,31 @@
             alert(`Insira um CEP válido!`);
         } else {
             alert(`Cadastro realizado com sucesso!`);
-            window.location.href = `home.html`;
+
+            // Enviando o valor da nova input
+            fetch("/usuarios/cadastrar-filial", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nomeServer: nome,
+                    cnpjServer: cnpj,
+                    ruaServer: rua,
+                    cidadeServer: cidade,
+                    ufServer: uf,
+                    cepServer: cep,
+                }),
+            })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                });
+
+            return false;
+
         }
     }
 

@@ -25,9 +25,9 @@
 
                 <select id="slt_cargo">
                     <option value="0" disabled selected>Selecione o Cargo</option>
-                    <option value="1">Funcionário</option>
-                    <option value="2">Gerente</option>
-                    <option value="3">Administrador</option>
+                    <option value="Funcionário">Funcionário</option>
+                    <option value="Gerente">Gerente</option>
+                    <option value="Administrador">Administrador</option>
                 </select>
 
                 <div oninput="validar()" class="validacao-campo">
@@ -81,21 +81,42 @@
                 validacaoFeita = false
             } else {
                 validacaoFeita = true
-            }
 
-            if (validacaoFeita) {
-                alert('Cadastro realizado!')
+                alert('Cadastro realizado com sucesso!')
+
                 ipt_codigo.value = ''
                 ipt_nome_usuario.value = ''
                 ipt_email.value = ''
                 slt_cargo.value = '0'
                 ipt_senha.value = ''
                 ipt_senha_confirmada.value = ''
+
+                fetch("/usuarios/cadastrar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nomeServer: nome,
+                        cargoServer: cargo,
+                        emailServer: email,
+                        senhaServer: senha,
+                    }),
+                })
+                    .then(function (resposta) {
+                        console.log("resposta: ", resposta);
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+
+                return false;
+
             }
+
         }
-
-
     }
+
     function validar() {
         let senha = ipt_senha.value
         let senhaConfirmada = ipt_senha_confirmada.value
