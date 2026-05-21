@@ -58,10 +58,12 @@
             </div>
 
             <div class="grafico_total">
-                <h3>Fluxo Acumulado por Hora | Ontem</h3>
-                <div class="meta">
-                    <input type="text" id="inp_meta" placeholder="Insira a meta geral">
-                    <button onclick="inserirMeta()">Ver no gráfico</button>
+                <div class="texto">
+                    <h3>Fluxo Acumulado por Hora | Ontem</h3>
+                    <div class="meta">
+                        <input type="text" id="inp_meta" placeholder="Insira a meta">
+                        <button onclick="inserirMeta()">Ver no gráfico</button>
+                    </div>
                 </div>
                 <canvas class="canva3" id="myChart3"></canvas>
             </div>
@@ -186,10 +188,11 @@
     let nome = [];
 
     function inserirMeta() {
+        data3.datasets[0].data = [];
         valorMeta = inp_meta.value;
 
         for (i = 0; i < filial.length; i++) {
-            data3.datasets[1].data.push(valorMeta);
+            data3.datasets[0].data.push(valorMeta);
         }
         myChart3.update();
     }
@@ -205,20 +208,21 @@
     const data3 = {
         labels: labels3,
         datasets: [{
-            label: `Total de acessos por mês`,
-            borderColor: 'rgb(94, 25, 255)',
-            backgroundColor: 'rgb(94, 25, 255)',
-            borderRadius: 7,
-            data: total
-        },
-        {
             label: 'Meta',
             data: [],
             borderColor: 'rgb(46, 11, 127)',
             backgroundColor: 'rgb(46, 11, 127)',
             type: 'line',
             order: 0
-        }]
+        },
+        {
+            label: `Total de acessos por mês`,
+            borderColor: 'rgb(94, 25, 255)',
+            backgroundColor: 'rgb(94, 25, 255)',
+            borderRadius: 7,
+            data: total
+        }
+        ]
     };
 
 
