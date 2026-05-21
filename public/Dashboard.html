@@ -182,7 +182,6 @@
         ]
     };
 
-
     const config2 = {
         type: 'line',
         data: data2,
@@ -208,6 +207,7 @@
         '21h',
         '22h'
     ]
+    
     const data3 = {
         labels: labels3,
         datasets: [{
@@ -219,12 +219,13 @@
         }]
     };
 
-
     const config3 = {
         type: 'bar',
         data: data3,
         options: {}
     };
+
+
     const myChart = new Chart(
         document.getElementById('myChart'),
         config
