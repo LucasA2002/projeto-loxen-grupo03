@@ -20,10 +20,11 @@ function autenticar(req, res) {
                         console.log(resultadoAutenticar);
 
                         res.json({
-                            idUser: resultadoAutenticar[0].idUser,
+                            idUser: resultadoAutenticar[0].idFuncionario,
                             nome: resultadoAutenticar[0].nome,
-                            caro: resultadoAutenticar[0].cargo,
+                            cargo: resultadoAutenticar[0].cargo,
                             email: resultadoAutenticar[0].email,
+                            fkFilial: resultadoAutenticar[0].fkFilial,
 
                         });
                                 
@@ -50,6 +51,7 @@ function cadastrar(req, res) {
     var cargo = req.body.cargoServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
+    var codigo = req.body.codigoServer;
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -63,7 +65,7 @@ function cadastrar(req, res) {
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, cargo, email, senha)
+        usuarioModel.cadastrar(nome, cargo, email, senha, codigo)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -90,6 +92,7 @@ function cadastrarFilial(req, res) {
     var cidade = req.body.cidadeServer;
     var uf = req.body.ufServer;
     var cep = req.body.cepServer;
+    var fkFilial = req.body.fkFilial
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -107,7 +110,7 @@ function cadastrarFilial(req, res) {
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrarFilial(nome, cnpj, rua, cidade, uf, cep)
+        usuarioModel.cadastrarFilial(nome, cnpj, rua, cidade, uf, cep, fkFilial)
             .then(
                 function (resultado) {
                     res.json(resultado);

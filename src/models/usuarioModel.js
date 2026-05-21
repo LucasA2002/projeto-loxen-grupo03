@@ -10,27 +10,41 @@ function autenticar(email, senha) {
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nome, cargo, email, senha) {
+function cadastrar(nome, cargo, email, senha, codigo) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, cargo, email, senha);
     
     // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
     //  e na ordem de inserção dos dados.
     var instrucaoSql = `
-        INSERT INTO usuario (nome, cargo, email, senha, fkFilial) VALUES ('${nome}', '${cargo}', '${email}', '${senha}' , '${1}');
+        INSERT INTO usuario (nome, cargo, email, senha, fkFilial) 
+        VALUES ('Luis', 'Funcionário', 'luis@loxen.com', 'Luis321@', (SELECT idFilial FROM filial WHERE codigo = '${codigo}'));
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function cadastrarFilial(nome, cnpj, logradouro, cidade, estado, cep) {
+function cadastrarFilial(nome, cnpj, logradouro, cidade, estado, cep, fkFilial) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, cnpj, logradouro, cidade, estado, cep);
     
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
+    let codigo = Math.floor(10000 + Math.random() * 90000);
+
     var instrucaoSql = `
-        INSERT INTO filial (nome, cnpj, logradouro, cidade, estado, cep, fkEmpresa) VALUES ('${nome}', '${cnpj}', '${logradouro}', '${cidade}', '${estado}', '${cep}', '${1}');
+        INSERT INTO filial (codigo, nome, cnpj, logradouro, cidade, estado, cep, fkEmpresa, fkMatriz) 
+        VALUES (
+            '${codigo}', 
+            '${nome}', 
+            '${cnpj}', 
+            '${logradouro}', 
+            '${cidade}', 
+            '${estado}', 
+            '${cep}', 
+            (SELECT fkEmpresa FROM (SELECT fkEmpresa FROM filial WHERE idFilial = '${fkFilial}') AS temp), 
+            '${fkFilial}'
+        );
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql); 
+
     return database.executar(instrucaoSql);
 }
 
