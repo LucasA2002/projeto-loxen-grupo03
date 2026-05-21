@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOXEN | Dashboard Geral</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="css/dash.css">
+    <link rel="stylesheet" href="css/dash_geral.css">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +45,7 @@
                     <h3>Lacticínios - <span style="color: green;">486 Acessos</span></h3>
                 </div>
             </div>
-           
+
         </div>
         <div class="graficos">
             <div class="grafico">
@@ -57,8 +57,12 @@
                 <canvas class="canva2" id="myChart2"></canvas>
             </div>
 
-            <div class="grafico">
+            <div class="grafico_total">
                 <h3>Fluxo Acumulado por Hora | Ontem</h3>
+                <div class="meta">
+                    <input type="text" id="inp_meta" placeholder="Insira a meta geral">
+                    <button onclick="inserirMeta()">Ver no gráfico</button>
+                </div>
                 <canvas class="canva3" id="myChart3"></canvas>
             </div>
 
@@ -74,7 +78,6 @@
         window.location.href = `index.html`;
     };
 
-    let meta = 180;
     const labels = [ // Gráfico de barra - média fluxo do mercado inteiro por mês
         'Seg',
         'Ter',
@@ -87,23 +90,13 @@
     const data = {
         labels: labels,
         datasets: [{
-            label: 'Meta',
-            data: [meta, meta, meta, meta, meta, meta, meta],
-            borderColor: 'rgb(46, 11, 127)',
-            backgroundColor: 'rgb(46, 11, 127)',
-            type: 'line',
-            order: 0
-        },
-        {
             label: 'Média de Fluxo',
             borderRadius: 7,
             backgroundColor: 'rgb(165, 90, 232)',
             borderColor: 'rgb(165, 90, 232)',
             data: [40, 130, 79, 197, 122, 150, 100]
-        },
-        ]
+        }]
     };
-
 
     const config = {
         type: 'bar',
@@ -112,7 +105,7 @@
     };
 
 
-    const labels2 = [ // Gráfico de barra - média fluxo do mercado inteiro por mês
+    const labels2 = [ // Gráfico de pizza - média fluxo do mercado inteiro por mês
         'Laticínios',
         'Congelados',
         'Hortifruti',
@@ -129,7 +122,8 @@
         'Frios',
         'Padaria'
     ]
-    const data2 = { // Gráfico de linha - fluxo por setor na semana
+
+    const data2 = {
         labels: labels2,
         datasets: [{
             borderRadius: 7,
@@ -146,32 +140,84 @@
     };
 
 
+    let filial = [{
+        nome: 'Filial1',
+        total: 3049
+    },
+    {
+        nome: 'Filial2',
+        total: 8379
+    },
+    {
+        nome: 'Filial3',
+        total: 4304
+    },
+    {
+        nome: 'Filial4',
+        total: 5983
+    },
+    {
+        nome: 'Filial5',
+        total: 2309
+    },
+    {
+        nome: 'Filial6',
+        total: 8975
+    },
+    {
+        nome: 'Filial7',
+        total: 9824
+    },
+    {
+        nome: 'Filial8',
+        total: 9833
+    },
+    {
+        nome: 'Filial9',
+        total: 7598
+    },
+    {
+        nome: 'Filial10',
+        total: 8753
+    }]
 
-    const labels3 = [ // Gráfico de barra - Fluxo por horário de um dia específico
-        '8h',
-        '9h',
-        '10h',
-        '11h',
-        '12h',
-        '13h',
-        '14h',
-        '15h',
-        '16h',
-        '17h',
-        '18h',
-        '19h',
-        '20h',
-        '21h',
-        '22h'
-    ]
+    let valorMeta = 0;
+    let total = [];
+    let nome = [];
+
+    function inserirMeta() {
+        valorMeta = inp_meta.value;
+
+        for (i = 0; i < filial.length; i++) {
+            data3.datasets[1].data.push(valorMeta);
+        }
+        myChart3.update();
+    }
+
+
+    for (i = 0; i < filial.length; i++) {
+        total.push(filial[i].total);
+        nome.push(filial[i].nome);
+    }
+
+
+    const labels3 = nome;
     const data3 = {
         labels: labels3,
         datasets: [{
-            label: `Setor: Higiene`,
+            label: `Total de acessos por mês`,
             borderColor: 'rgb(94, 25, 255)',
             backgroundColor: 'rgb(94, 25, 255)',
             borderRadius: 7,
-            data: [10, 30, 29, 17, 12, 10, 10, 22, 11, 20, 27, 14, 39, 22, 32]
+            data: total
+        },
+        {
+            label: 'Meta',
+            data: [],
+            borderColor: 'rgb(46, 11, 127)',
+            backgroundColor: 'rgb(46, 11, 127)',
+            type: 'line',
+            order: 0
         }]
     };
 
@@ -181,6 +227,9 @@
         data: data3,
         options: {}
     };
+
+
+
     const myChart = new Chart(
         document.getElementById('myChart'),
         config
