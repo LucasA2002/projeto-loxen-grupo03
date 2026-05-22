@@ -89,16 +89,20 @@
 </html>
 
 <script>
-    window.onload = function() {
+    window.onload = function () {
         verificarPermissao()
     }
-    
+
     function verificarPermissao() {
         let permissao = sessionStorage.CARGO_USUARIO
 
         if (permissao == 'Gerente') {
-            document.getElementById("filial").style.display = "none";
+            document.getElementById("filial").style.display = "block";
+            document.getElementById("colaborador").style.display = "none";
 
+        } else if (permissao == 'Administrador') {
+            document.getElementById("filial").style.display = "block";
+            document.getElementById("colaborador").style.display = "block";
         } else {
             document.getElementById("filial").style.display = "none";
             document.getElementById("colaborador").style.display = "none";
