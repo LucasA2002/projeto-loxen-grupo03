@@ -19,8 +19,8 @@
         <img class="logo" src="assets/icon/logo.png" alt="Logo">
         <div class="menu">
             <div class="agora">Dashboard</div>
-            <button onclick="">Cadastrar Colaborador</button>
-            <button onclick="">Cadastrar Filial</button>
+            <button onclick="" id="colaborador">Cadastrar Colaborador</button>
+            <button onclick="" id="filial">Cadastrar Filial</button>
         </div>
         <div class="user">
             <img class="userIcon" src="assets/img/userIcon.png">
@@ -89,6 +89,21 @@
 </html>
 
 <script>
+    window.onload = function() {
+        verificarPermissao()
+    }
+    
+    function verificarPermissao() {
+        let permissao = sessionStorage.CARGO_USUARIO
+
+        if (permissao == 'Gerente') {
+            document.getElementById("filial").style.display = "none";
+
+        } else {
+            document.getElementById("filial").style.display = "none";
+            document.getElementById("colaborador").style.display = "none";
+        }
+    }
 
     function logout() {
         window.location.href = `index.html`;
@@ -182,6 +197,7 @@
         ]
     };
 
+
     const config2 = {
         type: 'line',
         data: data2,
@@ -207,7 +223,6 @@
         '21h',
         '22h'
     ]
-    
     const data3 = {
         labels: labels3,
         datasets: [{
@@ -219,13 +234,12 @@
         }]
     };
 
+
     const config3 = {
         type: 'bar',
         data: data3,
         options: {}
     };
-
-
     const myChart = new Chart(
         document.getElementById('myChart'),
         config
