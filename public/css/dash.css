@@ -18,6 +18,7 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .logo {
@@ -81,12 +82,34 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10px;
-    overflow: hidden;
+    overflow-y: auto;
     background-color: rgb(215, 215, 215);
+    height: 100vh;
 }
 
-.conteudo h2 {
+.conteudo h3 {
+    margin-right: 10px;
+}
+
+.titulo-filial {
+    display: flex;
     margin-bottom: 10px;
+}
+
+.botao-seta {
+    display: flex;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.botao-seta i {
+    padding-top: 3px;
+}
+
+.seta-baixo{
+    transform: rotate(-90deg);
 }
 
 .kpis {
@@ -117,9 +140,9 @@ body {
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px 80px;
+    gap: 20px 10px;
     min-height: 0;
-    width: 90%;
+    width: 100%;
     align-self: center;
 }
 
@@ -130,11 +153,13 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 0;
+    height: 400px;
 }
 
 .grafico h3 {
     font-size: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .grafico canvas {
@@ -146,16 +171,69 @@ body {
 
 .heatmap {
     position: relative;
-    width: 515px;
-    height: 230px;
+    width: 95%;
+    height: 90%;
 
-    min-width: 515px;
+    /* min-width: 515px;
     min-height: 230px;
     max-width: 515px;
-    max-height: 230px;
+    max-height: 230px; */
 
     background-image: url(../assets/img/mapaLocal.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
+    align-self: center;
+}
+
+.kpiToggle {
+    display: flex;
+    gap: 25px;
+}
+
+.toggle-item {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #888;
+    cursor: pointer;
+}
+
+.toggle-item.ativo {
+    color: navy;
+    font-weight: bold;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meta input {
+    width: 110px;
+    height: 30px;
+    border-style: none;
+    border-radius: 5px;
+    text-align: center;
+    margin-inline: 5px;
+    background: linear-gradient(20deg, #8d64ffc9, #b678e6cd);
+    font-size: large;
+    outline: none;
+}
+
+.meta ::-webkit-input-placeholder {
+    font-weight: lighter;
+    font-size: medium;
+    color: rgb(95, 93, 93);
+}
+
+.meta button {
+    width: 90px;
+    height: 30px;
+    border-style: none;
+    border-radius: 5px;
+    margin-inline: 5px;
+    background: linear-gradient(20deg, #6A36FF, #AC5FE6);
+    color: rgb(30, 28, 28);
+    cursor: pointer;
 }
