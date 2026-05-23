@@ -28,24 +28,30 @@
     </div>
     <div class="conteudo">
         <h2>Filial - SPTech<img class="seta" src="assets/img/setaDash.png" alt=""></h2>
+
         <div class="kpis">
             <div class="card">
                 <p>Comparação de Fluxo (Abril X Março)</p>
                 <div class="conteudoKpi">
-                    <img class="kpiImg" src="assets/img/kpi1.png">
-                    <h3><span style="color: red;">-12%</span> (495 Acessos)</h3>
-                </div>
-            </div>
-            <div class="card">
-
-                <p>Setor Mais Visitado - Mês de Abril</p>
-                <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi2.png">
-                    <h3>Lacticínios - <span style="color: green;">486 Acessos</span></h3>
+                    <span class="item ativo" onclick="trocar('setor_mais')">setor mais visitado</span>
+                    <span class="item" onclick="trocar('setor_menos')">setor menos visitado</span>
                 </div>
+                <div class="kpi_valor" id="kpi"></div>
+            </div>
+
+            <div class="card">
+                <p>Comparação de Fluxo (Abril X Março)</p>
+                <div class="conteudoKpi">
+                    <img class="kpiImg" src="assets/img/kpi1.png">
+                    <span class="item ativo" onclick="trocar('filial_mais')">filial com mais fluxo</span>
+                    <span class="item" onclick="trocar('filial_menos')">filial com menos fluxo</span>
+                </div>
+                <div class="kpi_valor" id="kpi2"></div>
             </div>
 
         </div>
+
         <div class="graficos">
             <div class="grafico">
                 <h3>Fluxo Médio Mensal | Março</h3>
@@ -80,6 +86,26 @@
     function logout() {
         window.location.href = `index.html`;
     };
+
+    function trocar(tipo) {
+        const items = document.querySelectorAll(".item");
+
+        for (let i = 0; i < items.length; i++) {
+            items[i].classList.remove("ativo");
+        }
+
+        event.target.classList.add("ativo");
+
+        if (tipo === `setor_mais`) {
+            document.getElementById(`kpi`).innerText = `129`;
+        } else if (tipo === `setor_menos`) {
+            document.getElementById(`kpi`).innerText = `10`;
+        } else if (tipo === `filial_mais`) {
+            document.getElementById(`kpi2`).innerText = `1000`;
+        } else {
+            document.getElementById(`kpi2`).innerText = `100`;
+        }
+    }
 
     const labels = [ // Gráfico de barra - média fluxo do mercado inteiro por mês
         'Seg',
@@ -222,8 +248,8 @@
     {
         nome: 'Filial20',
         total: 8753
-    },
-]
+    }
+    ]
 
     let valorMeta = 0;
     let total = [];
