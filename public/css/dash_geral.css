@@ -1,5 +1,4 @@
 * {
-    box-sizing: content-box;
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -115,7 +114,6 @@ body {
 .graficos {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     justify-content: space-around;
 }
 
@@ -123,7 +121,7 @@ body {
     background: white;
     border-radius: 10px;
     width: 47%;
-    height: 30%;
+    height: 350px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -144,12 +142,14 @@ body {
 .grafico_total {
     background: white;
     border-radius: 10px;
-    width: 80%;
-    height: 40%;
+    width: 97%;
+    height: 570px;
     padding: 10px;
     display: flex;
     flex-direction: column;
-
+    margin-top: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .grafico_total h3 {
@@ -160,8 +160,8 @@ body {
 .grafico_total canvas {
     flex: 1;
     min-height: 0;
-    width: 100% !important;
-    height: 100% !important;
+    width: 1500px !important;
+    height: 70% !important;
 }
 
 .texto {
