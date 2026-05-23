@@ -31,23 +31,27 @@
 
         <div class="kpis">
             <div class="card">
-                <p>Comparação de Fluxo (Abril X Março)</p>
                 <div class="conteudoKpi">
-                    <img class="kpiImg" src="assets/img/kpi2.png">
-                    <span class="item ativo" onclick="trocar('setor_mais')">setor mais visitado</span>
-                    <span class="item" onclick="trocar('setor_menos')">setor menos visitado</span>
+                    <p>Comparação de Fluxo (Abril X Março)</p>
+                    <span class="item ativo" onclick="trocar('setor_mais')">Setor mais visitado</span>
+                    <span class="item" onclick="trocar('setor_menos')">Setor menos visitado</span>
                 </div>
-                <div class="kpi_valor" id="kpi"></div>
+                <div class="texto_kpi">
+                    <img class="kpiImg" src="assets/img/kpi2.png">
+                    <div class="kpi_valor" id="kpi"></div>
+                </div>
             </div>
 
             <div class="card">
-                <p>Comparação de Fluxo (Abril X Março)</p>
                 <div class="conteudoKpi">
-                    <img class="kpiImg" src="assets/img/kpi1.png">
+                    <p>Comparação de Fluxo (Abril X Março)</p>
                     <span class="item ativo" onclick="trocar('filial_mais')">filial com mais fluxo</span>
                     <span class="item" onclick="trocar('filial_menos')">filial com menos fluxo</span>
                 </div>
-                <div class="kpi_valor" id="kpi2"></div>
+                <div class="texto_kpi">
+                    <img class="kpiImg" src="assets/img/kpi1.png">
+                    <div class="kpi_valor" id="kpi2"></div>
+                </div>
             </div>
 
         </div>
@@ -155,7 +159,7 @@
     const data2 = {
         labels: labels2,
         datasets: [{
-            data: [27, 30, 21, 18, 14, 51], 
+            data: [27, 30, 21, 18, 14, 51],
             backgroundColor: [
                 '#6DBF67',
                 '#FF8C42',
@@ -196,7 +200,7 @@
                 },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             const total = context.dataset.data.reduce((a, b) => a + b, 0);
                             const pct = ((context.parsed / total) * 100).toFixed(1);
                             return ` ${context.label}: ${context.parsed} (${pct}%)`;

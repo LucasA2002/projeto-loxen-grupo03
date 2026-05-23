@@ -111,12 +111,38 @@ body {
 .conteudoKpi {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     margin-top: 7px;
 }
 
 .kpiImg {
     width: 45px;
+    margin-right: 10px;
+}
+
+.kpi_valor {
+    display: flex;
+    justify-content: center;
+}
+
+.texto_kpi {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.item {
+    font-size: smaller;
+    cursor: pointer;
+    background-color: #b0b3c6;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.item.ativo {
+    background-color: #c48bf1;
 }
 
 .graficos {
