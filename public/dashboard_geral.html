@@ -54,11 +54,11 @@
 
         <div class="graficos">
             <div class="grafico">
-                <h3>Fluxo Médio Mensal | Março</h3>
+                <h3>Fluxo Médio Mensal - Todas as Filiais | Março</h3>
                 <canvas class="canva1" id="myChart"></canvas>
             </div>
             <div class="grafico">
-                <h3>Fluxo Médio Semanal por Setor | 20/04 - 26/04</h3>
+                <h3>Fluxo Médio Semanal por Setor - Todas as Filiais | 20/04 - 26/04</h3>
                 <canvas class="canva2" id="myChart2"></canvas>
             </div>
 
@@ -143,38 +143,68 @@
     };
 
 
-    const labels2 = [ // Gráfico de pizza - média fluxo do mercado inteiro por mês
-        'Laticínios',
-        'Congelados',
+    const labels2 = [
         'Hortifruti',
         'Bebidas',
-        'Entradas',
-        'Mercearia',
-        'Massas',
-        'Guloseimas',
-        'Higiene',
-        'Papelaria',
-        'Temperos',
         'Açougue',
-        'Peixaria',
-        'Frios',
-        'Padaria'
-    ]
+        'Padaria',
+        'Higiene',
+        'Outros'
+    ];
 
     const data2 = {
         labels: labels2,
         datasets: [{
-            borderRadius: 7,
-            data: [12, 14, 27, 17, 30, 21, 12]
-        }
-        ]
+            data: [27, 30, 21, 18, 14, 51], 
+            backgroundColor: [
+                '#6DBF67',
+                '#FF8C42',
+                '#CC4444',
+                '#9D00FF',
+                '#4A90D9',
+                '#AAAAAA',
+            ],
+            borderColor: 'rgb(215, 215, 215)',
+            borderWidth: 3,
+            hoverOffset: 8,
+            borderRadius: 3,
+        }]
     };
-
 
     const config2 = {
         type: 'pie',
         data: data2,
-        options: {}
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: 0 },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        boxWidth: 15,
+                        boxHeight: 15,
+                        borderRadius: 2,
+                        useBorderRadius: true,
+                        padding: 15,
+                        font: {
+                            size: 16,
+                            family: 'Arial, Helvetica, sans-serif',
+                        },
+                        color: '#111'
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const pct = ((context.parsed / total) * 100).toFixed(1);
+                            return ` ${context.label}: ${context.parsed} (${pct}%)`;
+                        }
+                    }
+                }
+            }
+        }
     };
 
 
