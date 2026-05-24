@@ -88,7 +88,7 @@ function buscarFluxoSemanal(idEmpresa){
 function buscarFluxoPorSetor(idEmpresa){
     var instrucaoSql = `SELECT
         s.setor AS nome_setor, 
-        ROUND(COUNT(m.idMonitoramento) / COUNT(DISTINCT f.idFilial), 0) AS media
+        ROUND(COUNT(m.idMonitoramento) / COUNT(f.idFilial), 0) AS media
         FROM monitoramento AS m
         JOIN sensor ON sensor.idSensor = m.fkSensor
         JOIN setor AS s ON s.idSetor = sensor.fkSetor
