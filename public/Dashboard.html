@@ -15,7 +15,7 @@
 
 </head>
 
-<body onload="obterDados()">
+<body>
     <div class="sidebar">
         <img class="logo" src="assets/icon/logo.png" alt="Logo">
         <div class="menu">
@@ -98,16 +98,16 @@
 <script src="js/sessao.js"></script>
 
 <script>
-<<<<<<< HEAD
+
 
     var myChart;
-=======
     nome_usuario.innerHTML += sessionStorage.NOME_USUARIO
 
     window.onload = function () {
-        verificarPermissao()
+        verificarPermissao(),
+        obterDados()
     }
->>>>>>> fb49e9cf95334e9f5aaa00c3fbfa2edee8a539d7
+
 
     function verificarPermissao() {
         let permissao = sessionStorage.CARGO_USUARIO
