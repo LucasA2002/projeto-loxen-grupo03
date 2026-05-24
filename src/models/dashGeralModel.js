@@ -70,7 +70,7 @@ function filialMenosFluxo(idEmpresa) {
 
 function buscarFluxoSemanal(idEmpresa){
     var instrucaoSql = `SELECT
-        DAYOFWEEK(m.data_hora) AS dia_semana,
+        DAYNAME(m.data_hora) AS dia_semana,
         ROUND(COUNT(m.idMonitoramento) / 4, 0) AS media
         FROM monitoramento as m
         JOIN sensor ON sensor.idSensor = m.fkSensor
@@ -79,8 +79,7 @@ function buscarFluxoSemanal(idEmpresa){
         WHERE f.fkEmpresa = ${idEmpresa}
             AND MONTH(m.data_hora) = MONTH(CURRENT_DATE())
             AND YEAR(m.data_hora) = YEAR(CURRENT_DATE())
-        GROUP BY DAYOFWEEK(m.data_hora)
-        ORDER BY DAYOFWEEK(m.data_hora);`
+        GROUP BY DAYNAME(m.data_hora)`
     console.log("Executando a instrução SQL: \n" + instrucaoSQL)
     return database.executar(instrucaoSql)
 }
@@ -94,7 +93,8 @@ function buscarFluxoPorSetor(idEmpresa){
         JOIN setor AS s ON s.idSetor = sensor.fkSetor
         JOIN filial AS f ON f.idFilial = s.fkFilial
         WHERE f.fkEmpresa = ${idEmpresa}
-            AND m.data_hora >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+            AND WEEK(m.data_hora) = WEEK(CURRENT_DATE())
+            AND YEAR(m.data_hora) = YEAR(CURRENT_DATE())
         GROUP BY s.setor
         ORDER BY media DESC;`
     console.log("Executando a instrução SQL: \n" + instrucaoSQL)
