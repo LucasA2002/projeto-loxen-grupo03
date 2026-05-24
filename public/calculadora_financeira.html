@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/icon/flavicon.png" type="image/png">
     <title>Calculadora Financeira</title>
     <link rel="stylesheet" href="css/calculadora.css">
 </head>
+
 <body>
     <header>
         <div class="logo">
@@ -24,21 +27,22 @@
             <li class="agora">
                 <a href="calculadora_financeira.html">Simulador Financeiro</a>
             </li>
-          
+
         </ul>
-            <div class="entrar">
-                <a href="login_usuario.html">
-                    <button class="botao2">Entrar</button>
-                </a>
-            </div>
+        <div class="entrar">
+            <a href="login_usuario.html">
+                <button class="botao2">Entrar</button>
+            </a>
+        </div>
     </header>
 
     <div class="calculadora">
         <div class="header">
             <h1>Simulador de Benefícios Financeiros</h1>
             <p>
-            Insira os dados de uma de suas filiais para calcular os impactos da solução!<br>
-            Nossa projeção utiliza algoritmos de otimização patrimonial para estimar o crescimento real do seu ecossistema.
+                Insira os dados de uma de suas filiais para calcular os impactos da solução!<br>
+                Nossa projeção utiliza algoritmos de otimização patrimonial para estimar o crescimento real do seu
+                ecossistema.
             </p>
             <br>
         </div>
@@ -55,7 +59,7 @@
                 <input type="text" name="" id="ipt_trade_marketing">
 
                 <div id="id_mensagem_erro" class="mensagem-erro"></div>
-                
+
                 <button onclick="calcular()">Calcular Benefícios</button>
             </div>
 
@@ -100,7 +104,7 @@
                         <p>PAYBACK</p>
                         <h2 id="id_output_payback">Descubra em quantos meses a solução se paga!</h2>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -109,14 +113,15 @@
     </div>
 
     <footer class="footer">
-        <div class="footer1"> 
+        <div class="footer1">
             <h2 class="titulo_footer">Vamos começar a expandir o <br>
                 seu negócio!</h2>
             <button class="botao_footer">Contate-nos</button>
         </div>
 
         <div class="footer2">
-            <p>Transformamos o fluxo de clientes em decisões inteligentes <br> que aumentam as vendas no seu supermercado.</p>
+            <p>Transformamos o fluxo de clientes em decisões inteligentes <br> que aumentam as vendas no seu
+                supermercado.</p>
             <div class="social">
                 <img src="assets/img/Icon_gmail.png" alt="">
                 <img src="assets/img/Icon_face.png" alt="">
@@ -126,12 +131,13 @@
             <hr>
             <p>© LOXEN </p>
         </div>
-        
+
     </footer>
 </body>
+
 </html>
 <script>
-    function calcular(){
+    function calcular() {
         // valores dos inputs
         let vendas = Number(ipt_qtd_vendas.value);
         let faturamento = Number(ipt_faturamento.value);
@@ -173,9 +179,9 @@
             let payback = custoSolucao / beneficioBrutoMensal
             let mensagemPayback = ``
 
-            if (payback.toFixed() == 1){
+            if (payback.toFixed() == 1) {
                 mensagemPayback = `aproximadamente ${payback.toFixed()} mês`
-            } else if (payback.toFixed() == 0){
+            } else if (payback.toFixed() == 0) {
                 mensagemPayback = `menos de 1 mês!`
             } else {
                 mensagemPayback = `aproximadamente ${payback.toFixed()} meses`
