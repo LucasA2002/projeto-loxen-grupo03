@@ -12,7 +12,7 @@
 
     <div class="cadastro">
         <a href="Dashboard.html" class="voltar">
-            <img src="../site/assets/img/arrow-left.png">
+            <img src="./assets/img/arrow-left.png">
         </a>
         <div class="info">
             <div class="formulario">
@@ -80,8 +80,10 @@
         let tamanhoCnpj = cnpj.length;
         let formatado = ``;
 
-        if (tamanhoCnpj !== 18) {
+        if (tamanhoCnpj !== 14) {
             validacao.innerHTML = `O CNPJ precisa ter 14 números.`;
+        } else {
+            validacao.innerHTML = ``;
         }
 
         if (tamanhoCnpj > 0) {
@@ -115,6 +117,8 @@
 
         if (tamanhoCep !== 8) {
             validacao2.innerHTML = `O CEP precisa ter 8 números.`;
+        } else {
+            validacao2.innerHTML = ``;
         }
 
         if (tamanhoCep > 0) {
