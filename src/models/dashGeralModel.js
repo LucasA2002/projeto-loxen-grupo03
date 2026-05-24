@@ -2,15 +2,12 @@ var database = require("../database/config")
 
 function setorMaisVisitado(idEmpresa) {
     var instrucaoSql = `
-        SELECT s.setor, SUM(m.presenca) AS total
-        FROM monitoramento m
-        JOIN sensor ON sensor.idSensor = m.fkSensor
-        JOIN setor s ON s.idSetor = sensor.fkSetor
-        JOIN filial f ON f.idFilial = s.fkFilial
-        WHERE f.fkEmpresa = ${idEmpresa}
-        AND MONTH(m.data_hora) = MONTH(CURDATE())
-        AND YEAR(m.data_hora) = YEAR(CURDATE())
-        GROUP BY s.setor
+        SELECT setor, SUM(presenca) AS total
+        FROM vw_fluxo_por_setor
+        WHERE fkEmpresa = ${idEmpresa}
+        AND MONTH(data_hora) = MONTH(CURDATE())
+        AND YEAR(data_hora) = YEAR(CURDATE())
+        GROUP BY setor
         ORDER BY total DESC
         LIMIT 1;
     `;
@@ -19,15 +16,12 @@ function setorMaisVisitado(idEmpresa) {
 
 function setorMenosVisitado(idEmpresa) {
     var instrucaoSql = `
-        SELECT s.setor, SUM(m.presenca) AS total
-        FROM monitoramento m
-        JOIN sensor ON sensor.idSensor = m.fkSensor
-        JOIN setor s ON s.idSetor = sensor.fkSetor
-        JOIN filial f ON f.idFilial = s.fkFilial
-        WHERE f.fkEmpresa = ${idEmpresa}
-        AND MONTH(m.data_hora) = MONTH(CURDATE())
-        AND YEAR(m.data_hora) = YEAR(CURDATE())
-        GROUP BY s.setor
+        SELECT setor, SUM(presenca) AS total
+        FROM vw_fluxo_por_setor
+        WHERE fkEmpresa = ${idEmpresa}
+        AND MONTH(data_hora) = MONTH(CURDATE())
+        AND YEAR(data_hora) = YEAR(CURDATE())
+        GROUP BY setor
         ORDER BY total ASC
         LIMIT 1;
     `;
@@ -36,15 +30,12 @@ function setorMenosVisitado(idEmpresa) {
 
 function filialMaisFluxo(idEmpresa) {
     var instrucaoSql = `
-        SELECT f.nome, SUM(m.presenca) AS total
-        FROM monitoramento m
-        JOIN sensor ON sensor.idSensor = m.fkSensor
-        JOIN setor s ON s.idSetor = sensor.fkSetor
-        JOIN filial f ON f.idFilial = s.fkFilial
-        WHERE f.fkEmpresa = ${idEmpresa}
-        AND MONTH(m.data_hora) = MONTH(CURDATE())
-        AND YEAR(m.data_hora) = YEAR(CURDATE())
-        GROUP BY f.nome
+        SELECT nome, SUM(presenca) AS total
+        FROM vw_fluxo_por_filial
+        WHERE fkEmpresa = ${idEmpresa}
+        AND MONTH(data_hora) = MONTH(CURDATE())
+        AND YEAR(data_hora) = YEAR(CURDATE())
+        GROUP BY nome
         ORDER BY total DESC
         LIMIT 1;
     `;
@@ -52,23 +43,20 @@ function filialMaisFluxo(idEmpresa) {
 }
 
 function filialMenosFluxo(idEmpresa) {
-    var instrucaoSql = `
-        SELECT f.nome, SUM(m.presenca) AS total
-        FROM monitoramento m
-        JOIN sensor ON sensor.idSensor = m.fkSensor
-        JOIN setor s ON s.idSetor = sensor.fkSetor
-        JOIN filial f ON f.idFilial = s.fkFilial
-        WHERE f.fkEmpresa = ${idEmpresa}
-        AND MONTH(m.data_hora) = MONTH(CURDATE())
-        AND YEAR(m.data_hora) = YEAR(CURDATE())
-        GROUP BY f.nome
+      var instrucaoSql = `
+        SELECT nome, SUM(presenca) AS total
+        FROM vw_fluxo_por_filial
+        WHERE fkEmpresa = ${idEmpresa}
+        AND MONTH(data_hora) = MONTH(CURDATE())
+        AND YEAR(data_hora) = YEAR(CURDATE())
+        GROUP BY nome
         ORDER BY total ASC
         LIMIT 1;
     `;
     return database.executar(instrucaoSql);
 }
 
-function buscarFluxoSemanal(idEmpresa){
+function buscarFluxoSemanal(idEmpresa) {
     var instrucaoSql = `SELECT
         DAYNAME(m.data_hora) AS dia_semana,
         ROUND(COUNT(m.idMonitoramento) / 4, 0) AS media
@@ -84,7 +72,7 @@ function buscarFluxoSemanal(idEmpresa){
     return database.executar(instrucaoSql)
 }
 
-function buscarFluxoPorSetor(idEmpresa){
+function buscarFluxoPorSetor(idEmpresa) {
     var instrucaoSql = `SELECT
         s.setor AS nome_setor, 
         ROUND(COUNT(m.idMonitoramento) / COUNT(f.idFilial), 0) AS media
@@ -100,7 +88,7 @@ function buscarFluxoPorSetor(idEmpresa){
     console.log("Executando a instrução SQL: \n" + instrucaoSQL)
     return database.executar(instrucaoSql)
 }
-function buscarTotalPorFilial(idEmpresa){
+function buscarTotalPorFilial(idEmpresa) {
     var instrucaoSql = `SELECT
     f.nome AS nome_filial,
     COUNT(m.idMonitoramento) AS total
