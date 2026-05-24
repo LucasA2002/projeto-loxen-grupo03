@@ -15,7 +15,7 @@
 
 </head>
 
-<body>
+<body onload="obterDados()">
     <div class="sidebar">
         <img class="logo" src="assets/icon/logo.png" alt="Logo">
         <div class="menu">
@@ -28,7 +28,7 @@
             <img class="userIcon" src="assets/img/userIcon.png">
             <b>Luis Henrique</b>
         </div>
-        <button onclick="logout()" class="btn-sair">Sair</button>
+        <button onclick="limparSessao()" class="btn-sair">Sair</button>
     </div>
     <div class="conteudo">
         <div class="titulo-filial">
@@ -94,10 +94,11 @@
 
 </html>
 
+<script src="js/sessao.js"></script>
+
 <script>
-    window.onload = function () {
-        verificarPermissao()
-    }
+
+    var myChart;
 
     function verificarPermissao() {
         let permissao = sessionStorage.CARGO_USUARIO
@@ -121,48 +122,80 @@
         seta.classList.toggle('seta-baixo')
     }
 
-    function logout() {
-        window.location.href = `index.html`;
-    };
+    function obterDados() {
 
-    const labels = [ // Gráfico de barra - média fluxo do mercado inteiro por mês
-        'Seg',
-        'Ter',
-        'Qua',
-        'Qui',
-        'Sex',
-        'Sab',
-        'Dom'
-    ]
-    const data = {
-        labels: labels,
-        datasets: [{
-            label: 'Meta',
-            data: [],
-            borderColor: 'rgb(46, 11, 127)',
-            backgroundColor: 'rgb(46, 11, 127)',
-            type: 'line',
-            order: 0
-        },
-        {
-            label: 'Média de Fluxo',
-            borderRadius: 7,
-            backgroundColor: 'rgb(165, 90, 232)',
-            borderColor: 'rgb(165, 90, 232)',
-            data: [40, 130, 79, 197, 122, 150, 100]
-        },
-        ]
-    };
+        let idFilial = sessionStorage.FKFILIAL_USUARIO;
+
+        fetch(`/ObterDadosEspecifica/buscarDadosFluxo/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        })
+            .then(function (resultadoBuscaFluxo) {
+                return resultadoBuscaFluxo.json();
+            })
+            .then(function (dadosFluxo) {
+                plotarGraficoFluxoMensal(dadosFluxo);
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+
+    }
 
 
-    const config = {
-        type: 'bar',
-        data: data,
-        options: {}
+    function plotarGraficoFluxoMensal(dadosFluxo) {
+
+        var fluxo = [0, 0, 0, 0, 0, 0, 0];
+        var dia = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+
+        // Preenchendo os arrays com os dados
+        for (var i = 0; i < dadosFluxo.length; i++) {
+            for (var j = 0; j < dia.length; j++) {
+                if (dia[j] == dadosFluxo[i].diaSemana) {
+                    fluxo[j] = dadosFluxo[i].mediaPorDiaSemana;
+                }
+            }
+        }
+
+        const ctx1 = document.getElementById('myChart');
+
+        myChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: dia,
+                datasets: [
+                    {
+                        label: 'Meta',
+                        data: [],
+                        borderColor: 'rgb(46, 11, 127)',
+                        backgroundColor: 'rgb(46, 11, 127)',
+                        type: 'line',
+                        order: 0
+                    },
+                    {
+                        label: 'Média de Fluxo',
+                        borderRadius: 7,
+                        backgroundColor: 'rgb(165, 90, 232)',
+                        borderColor: 'rgb(165, 90, 232)',
+                        data: fluxo
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
     };
+
+
 
     const data2 = { // Gráfico de linha - fluxo por setor na semana
-        labels: labels,
+        labels: [0],
         datasets: [{
             label: 'Higiene',
             backgroundColor: 'rgb(94, 25, 255)',
@@ -255,10 +288,7 @@
         data: data3,
         options: {}
     };
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
+
 
     const myChart2 = new Chart(
         document.getElementById('myChart2'),
@@ -372,11 +402,11 @@
     }
 
     function inserirMeta() {
-        data.datasets[0].data = [];
-        valorMeta = inp_meta.value;
+        myChart.data.datasets[0].data = [];
+        let valorMeta = document.getElementById("inp_meta").value;
 
-        for (i = 0; i < labels.length; i++) {
-            data.datasets[0].data.push(valorMeta);
+        for (let i = 0; i < myChart.data.labels.length; i++) {
+            myChart.data.datasets[0].data.push(valorMeta);
         }
         myChart.update();
     }
