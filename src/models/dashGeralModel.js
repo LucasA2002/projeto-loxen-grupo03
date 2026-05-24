@@ -68,14 +68,14 @@ function buscarFluxoSemanal(idEmpresa) {
             AND MONTH(m.data_hora) = MONTH(CURRENT_DATE())
             AND YEAR(m.data_hora) = YEAR(CURRENT_DATE())
         GROUP BY DAYNAME(m.data_hora)`
-    console.log("Executando a instrução SQL: \n" + instrucaoSQL)
+    console.log("Executando a instrução SQL: \n" + instrucaoSql)
     return database.executar(instrucaoSql)
 }
 
 function buscarFluxoPorSetor(idEmpresa) {
     var instrucaoSql = `SELECT
         s.setor AS nome_setor, 
-        ROUND(COUNT(m.idMonitoramento) / COUNT(f.idFilial), 0) AS media
+        ROUND(COUNT(m.idMonitoramento) / COUNT(DISTINCT f.idFilial), 0) AS media
         FROM monitoramento AS m
         JOIN sensor ON sensor.idSensor = m.fkSensor
         JOIN setor AS s ON s.idSetor = sensor.fkSetor
@@ -85,7 +85,7 @@ function buscarFluxoPorSetor(idEmpresa) {
             AND YEAR(m.data_hora) = YEAR(CURRENT_DATE())
         GROUP BY s.setor
         ORDER BY media DESC;`
-    console.log("Executando a instrução SQL: \n" + instrucaoSQL)
+    console.log("Executando a instrução SQL: \n" + instrucaoSql)
     return database.executar(instrucaoSql)
 }
 function buscarTotalPorFilial(idEmpresa) {
@@ -101,7 +101,7 @@ function buscarTotalPorFilial(idEmpresa) {
         AND YEAR(m.data_hora) = YEAR(CURRENT_DATE())
         GROUP BY f.idFilial, f.nome
         ORDER BY total DESC;`
-    console.log("Executando a instrução SQL: \n" + instrucaoSQL)
+    console.log("Executando a instrução SQL: \n" + instrucaoSql)
     return database.executar(instrucaoSql)
 }
 

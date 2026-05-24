@@ -47,11 +47,10 @@ function filialMenosFluxo(req, res) {
             res.status(500).json(erro.sqlMessage);
         });
 }
-
 function buscarFluxoSemanal(req, res) {
     var idEmpresa = req.params.idEmpresa;
  
-    dashgeralModel.buscarFluxoSemanal(idEmpresa)
+    dashGeralModel.buscarFluxoSemanal(idEmpresa)
         .then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
@@ -67,7 +66,7 @@ function buscarFluxoSemanal(req, res) {
 function buscarFluxoPorSetor(req, res) {
     var idEmpresa = req.params.idEmpresa;
  
-    dashgeralModel.buscarFluxoPorSetor(idEmpresa)
+    dashGeralModel.buscarFluxoPorSetor(idEmpresa)
         .then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
@@ -83,7 +82,7 @@ function buscarFluxoPorSetor(req, res) {
 function buscarTotalPorFilial(req, res) {
     var idEmpresa = req.params.idEmpresa;
  
-    dashgeralModel.buscarTotalPorFilial(idEmpresa)
+    dashGeralModel.buscarTotalPorFilial(idEmpresa)
         .then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);

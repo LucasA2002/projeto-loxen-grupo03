@@ -188,6 +188,19 @@
         }
     }
 
+    // Gráficos
+
+    const dias = {
+        "Monday": "Seg",
+        "Tuesday": "Ter",
+        "Wednesday": "Qua",
+        "Thursday": "Qui",
+        "Friday": "Sex",
+        "Saturday": "Sab",
+        "Sunday": "Dom"
+
+    }
+
     const labels = [ // Gráfico de barra - média fluxo do mercado inteiro por mês
         'Seg',
         'Ter',
@@ -204,7 +217,7 @@
             borderRadius: 7,
             backgroundColor: 'rgb(165, 90, 232)',
             borderColor: 'rgb(165, 90, 232)',
-            data: [40, 130, 79, 197, 122, 150, 100]
+            data: []
         }]
     };
 
@@ -213,21 +226,34 @@
         data: data,
         options: {}
     };
+    
+    fetch(`/dashgeral/fluxoSemanal/${idEmpresa}`)
+        .then(function(resposta){
+            if(resposta.ok){
+                resposta.json().then(function(resultado){
+                    let listaMedias = {}
+                    for(let i = 0; i < resultado.length; i++){
+                        let nomeDia = dias[resultado[i].dia_semana]
+                        listaMedias[nomeDia] = resultado[i].media
+                    }
+                    for(let i = 0; i < labels.length; i++){
+                        data.datasets[0].data[i] = listaMedias[labels[i]] || 0
+                    }
+                    myChart.update()
+                })
+            } else {
+                console.log('Sem dados')
+            }
+        }).catch(function(erro){
+            console.log(erro)
+        })
 
-
-    const labels2 = [
-        'Hortifruti',
-        'Bebidas',
-        'Açougue',
-        'Padaria',
-        'Higiene',
-        'Outros'
-    ];
+    const labels2 = [];
 
     const data2 = {
         labels: labels2,
         datasets: [{
-            data: [27, 30, 21, 18, 14, 51],
+            data: [],
             backgroundColor: [
                 '#6DBF67',
                 '#FF8C42',
@@ -278,93 +304,38 @@
             }
         }
     };
+    fetch(`/dashgeral/fluxoSetor/${idEmpresa}`)
+        .then(function (resposta){
+            if(resposta.ok){
+                resposta.json().then(function(resultado){
+                    let totalOutros = 0
+
+                    for(let i = 0; i < resultado.length; i++){
+                        if(i < 5){
+                            labels2.push(resultado[i].nome_setor)
+                            data2.datasets[0].data.push(resultado[i].media);
+                        }else {
+                            totalOutros += resultado[i].media
+                        }
+                    }
+                    if(totalOutros > 0){
+                        labels2.push('Outros')
+                        data2.datasets[0].data.push(totalOutros)
+                    }
+
+                    myChart2.update()
+                })
+            }else{
+                console.log('Sem dados')
+            }
+        }).catch(function(erro){
+            console.log(erro)
+        })
 
 
-    let filial = [{
-        nome: 'Filial1',
-        total: 3049
-    },
-    {
-        nome: 'Filial2',
-        total: 8379
-    },
-    {
-        nome: 'Filial3',
-        total: 4304
-    },
-    {
-        nome: 'Filial4',
-        total: 5983
-    },
-    {
-        nome: 'Filial5',
-        total: 2309
-    },
-    {
-        nome: 'Filial6',
-        total: 8975
-    },
-    {
-        nome: 'Filial7',
-        total: 9824
-    },
-    {
-        nome: 'Filial8',
-        total: 9833
-    },
-    {
-        nome: 'Filial9',
-        total: 7598
-    },
-    {
-        nome: 'Filial10',
-        total: 8753
-    },
-    {
-        nome: 'Filial11',
-        total: 3049
-    },
-    {
-        nome: 'Filial12',
-        total: 8379
-    },
-    {
-        nome: 'Filial13',
-        total: 4304
-    },
-    {
-        nome: 'Filial14',
-        total: 5983
-    },
-    {
-        nome: 'Filial15',
-        total: 2309
-    },
-    {
-        nome: 'Filial16',
-        total: 8975
-    },
-    {
-        nome: 'Filial17',
-        total: 9824
-    },
-    {
-        nome: 'Filial18',
-        total: 9833
-    },
-    {
-        nome: 'Filial19',
-        total: 7598
-    },
-    {
-        nome: 'Filial20',
-        total: 8753
-    }
-    ]
 
     let valorMeta = 0;
     let total = [];
-    let nome = [];
 
     function inserirMeta() {
         data3.datasets[0].data = [];
@@ -376,14 +347,7 @@
         myChart3.update();
     }
 
-
-    for (i = 0; i < filial.length; i++) {
-        total.push(filial[i].total);
-        nome.push(filial[i].nome);
-    }
-
-
-    const labels3 = nome;
+    const labels3 = [];
     const data3 = {
         labels: labels3,
         datasets: [{
@@ -399,7 +363,7 @@
             borderColor: 'rgb(94, 25, 255)',
             backgroundColor: 'rgb(94, 25, 255)',
             borderRadius: 7,
-            data: total
+            data: []
         }
         ]
     };
@@ -410,6 +374,23 @@
         data: data3,
         options: {}
     };
+    fetch(`/dashgeral/fluxoFilial/${idEmpresa}`)
+        .then(function(resposta){
+            if(resposta.ok){
+                resposta.json().then(function(resultado){
+                    for (let i = 0; i < resultado.length; i++){
+                        labels3.push(resultado[i].nome_filial)
+                        data3.datasets[1].data.push(resultado[i].total)
+                        data3.datasets[0].data.push(0)
+                    }
+                    myChart3.update()
+                })
+            }else{
+                console.log('Sem dados')
+            }
+        }).catch(function(erro){
+            console.log(erro)
+        })
 
 
 

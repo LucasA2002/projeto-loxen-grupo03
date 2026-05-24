@@ -19,16 +19,15 @@ router.get("/filialMenosFluxo/:idEmpresa", function (req, res) {
     dashGeralController.filialMenosFluxo(req, res);
 });
 router.get("/fluxoSemanal/:idEmpresa", function (req, res) {
-    dashgeralController.buscarFluxoSemanal(req, res);
+    dashGeralController.buscarFluxoSemanal(req, res);
 });
  
 router.get("/fluxoSetor/:idEmpresa", function (req, res) {
-    dashgeralController.buscarFluxoPorSetor(req, res);
+    dashGeralController.buscarFluxoPorSetor(req, res);
 });
  
 router.get("/fluxoFilial/:idEmpresa", function (req, res) {
-    dashgeralController.buscarTotalPorFilial(req, res);
+    dashGeralController.buscarTotalPorFilial(req, res);
 });
-
 
 module.exports = router;
