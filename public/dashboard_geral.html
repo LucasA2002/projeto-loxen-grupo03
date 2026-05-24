@@ -33,8 +33,8 @@
             <div class="card">
                 <div class="conteudoKpi">
                     <p>Comparação de Fluxo (Abril X Março)</p>
-                    <span class="item ativo" onclick="trocar('setor_mais')">Setor mais visitado</span>
-                    <span class="item" onclick="trocar('setor_menos')">Setor menos visitado</span>
+                    <span class="item setor ativo" onclick="trocar('setor_mais')">Setor mais visitado</span>
+                    <span class="item setor" onclick="trocar('setor_menos')">Setor menos visitado</span>
                 </div>
                 <div class="texto_kpi">
                     <img class="kpiImg" src="assets/img/kpi2.png">
@@ -45,8 +45,8 @@
             <div class="card">
                 <div class="conteudoKpi">
                     <p>Comparação de Fluxo (Abril X Março)</p>
-                    <span class="item ativo" onclick="trocar('filial_mais')">filial com mais fluxo</span>
-                    <span class="item" onclick="trocar('filial_menos')">filial com menos fluxo</span>
+                    <span class="item filial ativo" onclick="trocar('filial_mais')">filial com mais fluxo</span>
+                    <span class="item filial" onclick="trocar('filial_menos')">filial com menos fluxo</span>
                 </div>
                 <div class="texto_kpi">
                     <img class="kpiImg" src="assets/img/kpi1.png">
@@ -86,7 +86,6 @@
 </html>
 
 <script>
-
     function logout() {
         window.location.href = `index.html`;
     };
@@ -101,10 +100,20 @@
         let totalFilialMais = 3294820;
         let totalFilialMenos = 1274681;
 
-        const items = document.querySelectorAll(".item");
+        if (tipo === 'setor_mais' || tipo === 'setor_menos') {
 
-        for (let i = 0; i < items.length; i++) {
-            items[i].classList.remove("ativo");
+            const items = document.querySelectorAll(".setor");
+
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove("ativo");
+            }
+
+        } else {
+            const items = document.querySelectorAll(".filial");
+
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove("ativo");
+            }
         }
 
         event.target.classList.add("ativo");
