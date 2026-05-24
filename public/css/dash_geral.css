@@ -51,6 +51,19 @@ body {
     font-weight: bold;
 }
 
+.menu button {
+    padding: 12px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #6A36FF, #AC5FE6);
+    border-radius: 6px;
+    color: white;
+    border: none;
+    width: 100%;
+    font-size: 15px;
+    text-align: start;
+}
+
 .user {
     display: flex;
     flex-direction: column;

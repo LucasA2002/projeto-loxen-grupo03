@@ -17,7 +17,11 @@ var app = express();
 
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
+<<<<<<< HEAD
 var ObterDadosEspecificaRouter = require("./src/routes/ObterDadosEspecifica");
+=======
+var dashGeralRouter = require("./src/routes/dashGeral");
+>>>>>>> fb49e9cf95334e9f5aaa00c3fbfa2edee8a539d7
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,7 +31,11 @@ app.use(cors());
 
 app.use("/", indexRouter)
 app.use("/usuarios", usuarioRouter)
+<<<<<<< HEAD
 app.use("/ObterDadosEspecifica", ObterDadosEspecificaRouter)
+=======
+app.use("/dashGeral", dashGeralRouter)
+>>>>>>> fb49e9cf95334e9f5aaa00c3fbfa2edee8a539d7
 
 app.listen(PORTA_APP, function () {
     console.log(`

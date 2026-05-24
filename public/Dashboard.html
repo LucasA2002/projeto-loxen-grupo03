@@ -20,13 +20,14 @@
         <img class="logo" src="assets/icon/logo.png" alt="Logo">
         <div class="menu">
             <div class="agora">Dashboard</div>
+            <button onclick="window.location.href='dashboard_geral.html'" id="colaborador">Dashboard Geral</button>
             <button onclick="window.location.href='cadastro_usuario.html'" id="colaborador">Cadastrar
                 Colaborador</button>
             <button onclick="window.location.href='cadastro_filial.html'" id="filial">Cadastrar Filial</button>
         </div>
         <div class="user">
             <img class="userIcon" src="assets/img/userIcon.png">
-            <b>Luis Henrique</b>
+            <b id="nome_usuario"></b>
         </div>
         <button onclick="limparSessao()" class="btn-sair">Sair</button>
     </div>
@@ -97,8 +98,16 @@
 <script src="js/sessao.js"></script>
 
 <script>
+<<<<<<< HEAD
 
     var myChart;
+=======
+    nome_usuario.innerHTML += sessionStorage.NOME_USUARIO
+
+    window.onload = function () {
+        verificarPermissao()
+    }
+>>>>>>> fb49e9cf95334e9f5aaa00c3fbfa2edee8a539d7
 
     function verificarPermissao() {
         let permissao = sessionStorage.CARGO_USUARIO
