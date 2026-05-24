@@ -33,25 +33,25 @@
         <div class="kpis">
             <div class="card">
                 <div class="conteudoKpi">
-                    <p>Comparação de Fluxo (Abril X Março)</p>
+                    <p>Comparação de Fluxo por Setor (Mais X Menos)</p>
                     <span class="item setor ativo" onclick="trocar('setor_mais')">Setor mais visitado</span>
                     <span class="item setor" onclick="trocar('setor_menos')">Setor menos visitado</span>
                 </div>
                 <div class="texto_kpi">
                     <img class="kpiImg" src="assets/img/kpi2.png">
-                    <div class="kpi_valor" id="kpi"></div>
+                    <div class="kpi_valor" id="kpi">-</div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="conteudoKpi">
-                    <p>Comparação de Fluxo (Abril X Março)</p>
-                    <span class="item filial ativo" onclick="trocar('filial_mais')">filial com mais fluxo</span>
-                    <span class="item filial" onclick="trocar('filial_menos')">filial com menos fluxo</span>
+                    <p>Comparação de Fluxo por Filial (Mais X Menos)</p>
+                    <span class="item filial ativo" onclick="trocar('filial_mais')">Filial com mais fluxo</span>
+                    <span class="item filial" onclick="trocar('filial_menos')">Filial com menos fluxo</span>
                 </div>
                 <div class="texto_kpi">
                     <img class="kpiImg" src="assets/img/kpi1.png">
-                    <div class="kpi_valor" id="kpi2"></div>
+                    <div class="kpi_valor" id="kpi2">-</div>
                 </div>
             </div>
 
@@ -91,16 +91,68 @@
         window.location.href = `index.html`;
     };
 
-    function trocar(tipo) {
-        let setorMais = 'Hortifruti';
-        let setorMenos = 'Padaria';
-        let totalMais = 59330;
-        let totalMenos = 45430;
-        let filialMais = 'Filial5';
-        let filialMenos = 'Filial12';
-        let totalFilialMais = 3294820;
-        let totalFilialMenos = 1274681;
+    let setorMais = '';
+    let totalSetorMais = 0;
+    let setorMenos = '';
+    let totalSetorMenos = 0;
+    let filialMais = '';
+    let totalFilialMais = 0;
+    let filialMenos = '';
+    let totalFilialMenos = 0;
+    var idEmpresa = sessionStorage.FKEMPRESA_USUARIO;
 
+    fetch(`/dashGeral/setorMaisVisitado/${idEmpresa}`)
+        .then(function (resposta) {
+            return resposta.json();
+        })
+        .then(function (resultado) {
+            setorMais = resultado[0].setor;
+            totalSetorMais = resultado[0].total;
+            document.getElementById("kpi").innerText = `${setorMais} - (${totalSetorMais} acessos)`;
+        })
+        .catch(function (erro) {
+            console.log(erro);
+        });
+
+    fetch(`/dashGeral/setorMenosVisitado/${idEmpresa}`)
+        .then(function (resposta) {
+            return resposta.json();
+        })
+        .then(function (resultado) {
+            setorMenos = resultado[0].setor;
+            totalSetorMenos = resultado[0].total;
+        })
+        .catch(function (erro) {
+            console.log(erro);
+        });
+
+    fetch(`/dashGeral/filialMaisFluxo/${idEmpresa}`)
+        .then(function (resposta) {
+            return resposta.json();
+        })
+        .then(function (resultado) {
+            filialMais = resultado[0].nome;
+            totalFilialMais = resultado[0].total;
+            document.getElementById("kpi2").innerText = `${filialMais} - (${totalFilialMais} acessos)`;
+        })
+        .catch(function (erro) {
+            console.log(erro);
+        });
+
+    fetch(`/dashGeral/filialMenosFluxo/${idEmpresa}`)
+        .then(function (resposta) {
+            return resposta.json();
+        })
+        .then(function (resultado) {
+            filialMenos = resultado[0].nome;
+            totalFilialMenos = resultado[0].total;
+        })
+        .catch(function (erro) {
+            console.log(erro);
+        });
+
+
+    function trocar(tipo) {
         if (tipo === 'setor_mais' || tipo === 'setor_menos') {
 
             const items = document.querySelectorAll(".setor");
@@ -120,9 +172,11 @@
         event.target.classList.add("ativo");
 
         if (tipo === `setor_mais`) {
-            document.getElementById(`kpi`).innerText = `${setorMais} - (${totalMais} acessos)`;
+             console.log(`${setorMais}`)
+            document.getElementById(`kpi`).innerText = `${setorMais} - (${totalSetorMais} acessos)`;
         } else if (tipo === `setor_menos`) {
-            document.getElementById(`kpi`).innerText = `${setorMenos} - (${totalMenos} acessos)`;
+            console.log(`${setorMenos}`)
+            document.getElementById(`kpi`).innerText = `${setorMenos} - (${totalSetorMenos} acessos)`;;
         } else if (tipo === `filial_mais`) {
             document.getElementById(`kpi2`).innerText = `${filialMais} - (${totalFilialMais} acessos)`;
         } else {
