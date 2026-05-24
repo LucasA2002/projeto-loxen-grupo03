@@ -1,12 +1,14 @@
 var database = require("../database/config")
 
-function setorMaisVisitado() {
+function setorMaisVisitado(idEmpresa) {
     var instrucaoSql = `
         SELECT s.setor, SUM(m.presenca) AS total
         FROM monitoramento m
         JOIN sensor ON sensor.idSensor = m.fkSensor
         JOIN setor s ON s.idSetor = sensor.fkSetor
-        WHERE MONTH(m.data_hora) = MONTH(CURDATE())
+        JOIN filial f ON f.idFilial = s.fkFilial
+        WHERE f.fkEmpresa = ${idEmpresa}
+        AND MONTH(m.data_hora) = MONTH(CURDATE())
         AND YEAR(m.data_hora) = YEAR(CURDATE())
         GROUP BY s.setor
         ORDER BY total DESC
@@ -15,13 +17,15 @@ function setorMaisVisitado() {
     return database.executar(instrucaoSql);
 }
 
-function setorMenosVisitado() {
+function setorMenosVisitado(idEmpresa) {
     var instrucaoSql = `
         SELECT s.setor, SUM(m.presenca) AS total
         FROM monitoramento m
         JOIN sensor ON sensor.idSensor = m.fkSensor
         JOIN setor s ON s.idSetor = sensor.fkSetor
-        WHERE MONTH(m.data_hora) = MONTH(CURDATE())
+        JOIN filial f ON f.idFilial = s.fkFilial
+        WHERE f.fkEmpresa = ${idEmpresa}
+        AND MONTH(m.data_hora) = MONTH(CURDATE())
         AND YEAR(m.data_hora) = YEAR(CURDATE())
         GROUP BY s.setor
         ORDER BY total ASC
@@ -30,14 +34,15 @@ function setorMenosVisitado() {
     return database.executar(instrucaoSql);
 }
 
-function filialMaisFluxo() {
+function filialMaisFluxo(idEmpresa) {
     var instrucaoSql = `
         SELECT f.nome, SUM(m.presenca) AS total
         FROM monitoramento m
         JOIN sensor ON sensor.idSensor = m.fkSensor
         JOIN setor s ON s.idSetor = sensor.fkSetor
         JOIN filial f ON f.idFilial = s.fkFilial
-        WHERE MONTH(m.data_hora) = MONTH(CURDATE())
+        WHERE f.fkEmpresa = ${idEmpresa}
+        AND MONTH(m.data_hora) = MONTH(CURDATE())
         AND YEAR(m.data_hora) = YEAR(CURDATE())
         GROUP BY f.nome
         ORDER BY total DESC
@@ -46,14 +51,15 @@ function filialMaisFluxo() {
     return database.executar(instrucaoSql);
 }
 
-function filialMenosFluxo() {
+function filialMenosFluxo(idEmpresa) {
     var instrucaoSql = `
         SELECT f.nome, SUM(m.presenca) AS total
         FROM monitoramento m
         JOIN sensor ON sensor.idSensor = m.fkSensor
         JOIN setor s ON s.idSetor = sensor.fkSetor
         JOIN filial f ON f.idFilial = s.fkFilial
-        WHERE MONTH(m.data_hora) = MONTH(CURDATE())
+        WHERE f.fkEmpresa = ${idEmpresa}
+        AND MONTH(m.data_hora) = MONTH(CURDATE())
         AND YEAR(m.data_hora) = YEAR(CURDATE())
         GROUP BY f.nome
         ORDER BY total ASC

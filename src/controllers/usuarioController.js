@@ -25,7 +25,7 @@ function autenticar(req, res) {
                             cargo: resultadoAutenticar[0].cargo,
                             email: resultadoAutenticar[0].email,
                             fkFilial: resultadoAutenticar[0].fkFilial,
-
+                            fkEmpresa: resultadoAutenticar[0].fkEmpresa
                         });
                                 
                     } else if (resultadoAutenticar.length == 0) {
