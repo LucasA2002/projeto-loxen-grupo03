@@ -23,7 +23,7 @@
         </ul>
         <div class="user">
             <img class="userIcon" src="assets/img/userIcon.png">
-            <b>Luis Henrique</b>
+            <b id="nome_usuario"></b>
         </div>
         <button onclick="logout()" class="btn-sair">Sair</button>
     </div>
@@ -87,6 +87,8 @@
 </html>
 
 <script>
+    nome_usuario.innerHTML += sessionStorage.NOME_USUARIO
+
     function logout() {
         window.location.href = `index.html`;
     };
