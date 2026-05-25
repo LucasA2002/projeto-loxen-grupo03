@@ -1,10 +1,6 @@
 var database = require("../database/config")
 
 function buscarDadosFluxo(idFilial) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarDadosFluxo():", idFilial);
-
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
     var instrucaoSql = `
         SELECT 
             CASE mes
@@ -56,6 +52,36 @@ function buscarDadosFluxo(idFilial) {
     return database.executar(instrucaoSql);
 }
 
+function buscarDadosFluxoAcumulado(idFilial) {
+    var instrucaoSql = `
+        SELECT 
+            HOUR(data_hora) AS hora,
+            COUNT(idMonitoramento) AS totalPessoas
+        FROM monitoramento
+            JOIN sensor ON sensor.idSensor = monitoramento.fkSensor
+            JOIN setor ON setor.idSetor = sensor.fkSetor
+            JOIN filial ON filial.idFilial = setor.fkFilial
+            WHERE DATEDIFF(CURRENT_DATE(), DATE(data_hora)) = 1
+            AND filial.idFilial = ${idFilial}
+        GROUP BY HOUR(data_hora)
+        ORDER BY hora;
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function atualizarMeta(idFilial, metaFilial) {
+    var instrucaoSql = `
+        UPDATE filial
+        SET metaFilial = ${metaFilial}
+        WHERE idFilial = ${idFilial};
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    buscarDadosFluxo
+    buscarDadosFluxo,
+    buscarDadosFluxoAcumulado,
+    atualizarMeta
 };

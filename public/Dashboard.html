@@ -67,12 +67,12 @@
         </div>
         <div class="graficos">
             <div class="grafico">
-                <h3>Fluxo Médio Mensal | Março</h3>
+                <h3>Fluxo Médio Mensal | <span id="mesFluxo"></span></h3>
                 <div class="meta">
                     <input type="text" id="inp_meta" placeholder="Insira a meta">
                     <button onclick="inserirMeta()">Ver no gráfico</button>
                 </div>
-                <canvas class="canva1" id="myChart"></canvas>
+                <canvas class="canva1" id="graficoFluxoMedioMensal"></canvas>
             </div>
             <div class="grafico">
                 <h3>Fluxo Médio Semanal por Setor | 20/04 - 26/04</h3>
@@ -81,7 +81,7 @@
 
             <div class="grafico">
                 <h3>Fluxo Acumulado por Hora | Ontem</h3>
-                <canvas class="canva3" id="myChart3"></canvas>
+                <canvas class="canva3" id="graficoFluxoAcumuladoHora"></canvas>
             </div>
 
             <div class="grafico">
@@ -99,15 +99,15 @@
 
 <script>
 
+    var graficoFluxoMedioMensal;
+    var graficoFluxoAcumuladoHora;
 
-    var myChart;
     nome_usuario.innerHTML += sessionStorage.NOME_USUARIO
 
     window.onload = function () {
         verificarPermissao(),
-        obterDados()
+            obterDados()
     }
-
 
     function verificarPermissao() {
         let permissao = sessionStorage.CARGO_USUARIO
@@ -149,6 +149,20 @@
                 console.log(err);
             })
 
+        fetch(`/ObterDadosEspecifica/buscarDadosFluxoAcumulado/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        })
+            .then(function (resultadoBuscaFluxoAcumulado) {
+                return resultadoBuscaFluxoAcumulado.json();
+            })
+            .then(function (dadosFluxoAcumulado) {
+                plotarGraficoFluxoAcumulado(dadosFluxoAcumulado);
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+
     }
 
 
@@ -156,8 +170,13 @@
 
         var fluxo = [0, 0, 0, 0, 0, 0, 0];
         var dia = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+        var meta = dadosFluxo[0].metaFilial;
+        var listaMeta = []
 
-        // Preenchendo os arrays com os dados
+        for (var i = 0; i < dia.length; i++) {
+            listaMeta.push(meta);
+        }
+
         for (var i = 0; i < dadosFluxo.length; i++) {
             for (var j = 0; j < dia.length; j++) {
                 if (dia[j] == dadosFluxo[i].diaSemana) {
@@ -166,16 +185,16 @@
             }
         }
 
-        const ctx1 = document.getElementById('myChart');
+        const ctx1 = document.getElementById('graficoFluxoMedioMensal');
 
-        myChart = new Chart(ctx1, {
+        graficoFluxoMedioMensal = new Chart(ctx1, {
             type: 'bar',
             data: {
                 labels: dia,
                 datasets: [
                     {
                         label: 'Meta',
-                        data: [],
+                        data: listaMeta,
                         borderColor: 'rgb(46, 11, 127)',
                         backgroundColor: 'rgb(46, 11, 127)',
                         type: 'line',
@@ -200,8 +219,6 @@
         });
 
     };
-
-
 
     const data2 = { // Gráfico de linha - fluxo por setor na semana
         labels: [0],
@@ -261,52 +278,43 @@
         options: {}
     };
 
+    function plotarGraficoFluxoAcumulado(dadosFluxoAcumulado) {
 
+        var totalPessoas = [];
+        var horas = [];
 
-    const labels3 = [ // Gráfico de barra - Fluxo por horário de um dia específico
-        '8h',
-        '9h',
-        '10h',
-        '11h',
-        '12h',
-        '13h',
-        '14h',
-        '15h',
-        '16h',
-        '17h',
-        '18h',
-        '19h',
-        '20h',
-        '21h',
-        '22h'
-    ]
-    const data3 = {
-        labels: labels3,
-        datasets: [{
-            label: `Setor: Higiene`,
-            borderColor: 'rgb(94, 25, 255)',
-            backgroundColor: 'rgb(94, 25, 255)',
-            borderRadius: 7,
-            data: [10, 30, 29, 17, 12, 10, 10, 22, 11, 20, 27, 14, 39, 22, 32]
-        }]
-    };
+        for (var i = 0; i < dadosFluxoAcumulado.length; i++) {
+            horas.push(dadosFluxoAcumulado[i].hora + 'h');
+            totalPessoas.push(dadosFluxoAcumulado[i].totalPessoas);
+        }
 
+        const ctx3 = document.getElementById('graficoFluxoAcumuladoHora');
 
-    const config3 = {
-        type: 'bar',
-        data: data3,
-        options: {}
-    };
-
+        graficoFluxoAcumuladoHora = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: horas,
+                datasets: [{
+                    label: 'Fluxo Acumulado por Hora',
+                    borderColor: 'rgb(94, 25, 255)',
+                    backgroundColor: 'rgb(94, 25, 255)',
+                    borderRadius: 7,
+                    data: totalPessoas
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
 
     const myChart2 = new Chart(
         document.getElementById('myChart2'),
         config2
-    );
-
-    const myChart3 = new Chart(
-        document.getElementById('myChart3'),
-        config3
     );
 
     // ---------------------------------------------------- HEATMAP
@@ -411,12 +419,48 @@
     }
 
     function inserirMeta() {
-        myChart.data.datasets[0].data = [];
         let valorMeta = document.getElementById("inp_meta").value;
+        let idFilial = sessionStorage.FKFILIAL_USUARIO;
+        let numerosValidos = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
+        let valido = true;
 
-        for (let i = 0; i < myChart.data.labels.length; i++) {
-            myChart.data.datasets[0].data.push(valorMeta);
+        if (valorMeta == "") {
+            alert("Insira um valor!");
+            return;
         }
-        myChart.update();
+
+        for (var i = 0; i < valorMeta.length; i++) {
+            if (numerosValidos.indexOf(valorMeta[i]) == -1) {
+                valido = false;
+            }
+        }
+
+        if (!valido) {
+            alert("Insira apenas números!");
+            return;
+        }
+
+        fetch(`/ObterDadosEspecifica/atualizarMeta/${idFilial}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ metaFilial: valorMeta })
+        })
+            .then(function (resposta) {
+                return resposta.json();
+            })
+            .then(function (resultado) {
+                console.log("Meta atualizada com sucesso!", resultado);
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+
+        graficoFluxoMedioMensal.data.datasets[0].data = [];
+        for (let i = 0; i < graficoFluxoMedioMensal.data.labels.length; i++) {
+            graficoFluxoMedioMensal.data.datasets[0].data.push(valorMeta);
+        }
+        graficoFluxoMedioMensal.update();
     }
 </script>
