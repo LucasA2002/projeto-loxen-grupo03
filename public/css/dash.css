@@ -108,7 +108,7 @@ body {
     padding-top: 3px;
 }
 
-.seta-baixo{
+.seta-baixo {
     transform: rotate(-90deg);
 }
 
@@ -170,15 +170,14 @@ body {
 }
 
 .heatmap {
-    position: relative;
+    /*     position: relative;
     width: 95%;
-    height: 90%;
+    height: 90%; */
 
-    /* min-width: 515px;
-    min-height: 230px;
-    max-width: 515px;
-    max-height: 230px; */
-
+    position: relative;
+    width: 500px;
+    height: 300px;
+    margin-top: 30px;
     background-image: url(../assets/img/mapaLocal.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;

@@ -15,4 +15,12 @@ router.get("/buscarDadosFluxoAcumulado/:idFilial", function (req, res) {
     ObterDadosEspecifica.buscarDadosFluxoAcumulado(req, res);
 });
 
+router.get("/buscarDadosFluxoSemana/:idFilial", function (req, res) {
+    ObterDadosEspecifica.buscarDadosFluxoSemana(req, res);
+});
+
+router.get("/buscarDadosHeatmap/:idFilial", function (req, res) {
+    ObterDadosEspecifica.buscarDadosHeatmap(req, res);
+});
+
 module.exports = router;

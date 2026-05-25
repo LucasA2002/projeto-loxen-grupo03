@@ -26,6 +26,31 @@ function buscarDadosFluxoAcumulado(req, res) {
         });
 }
 
+function buscarDadosFluxoSemana(req, res) {
+    let idFilial = req.params.idFilial;
+
+    ObterDadosEspecificaModel.buscarDadosFluxoSemana(idFilial)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function buscarDadosHeatmap(req, res) {
+    let idFilial = req.params.idFilial;
+
+    ObterDadosEspecificaModel.buscarDadosHeatmap(idFilial)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 
 function atualizarMeta(req, res) {
     let idFilial = req.params.idFilial;
@@ -60,6 +85,8 @@ function atualizarMeta(req, res) {
 
 module.exports = {
     buscarDadosFluxo,
-    atualizarMeta,
+    buscarDadosFluxoSemana,
     buscarDadosFluxoAcumulado,
+    buscarDadosHeatmap,
+    atualizarMeta
 }

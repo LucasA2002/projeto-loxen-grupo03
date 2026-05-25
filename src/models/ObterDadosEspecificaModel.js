@@ -34,7 +34,7 @@ function buscarDadosFluxo(idFilial) {
                 MONTH(m.data_hora) AS mes,
                 DAYOFWEEK(m.data_hora) AS dia_semana,
                 DATE(m.data_hora) AS data,
-                SUM(m.presenca) AS total_dia,
+                COUNT(m.idMonitoramento) AS total_dia,
                 filial.metaFilial AS metaFilial
             FROM monitoramento AS m
             JOIN sensor ON sensor.idSensor = m.fkSensor
@@ -55,6 +55,7 @@ function buscarDadosFluxo(idFilial) {
 function buscarDadosFluxoAcumulado(idFilial) {
     var instrucaoSql = `
         SELECT 
+            DATE_FORMAT(data_hora, '%d/%m/%Y') AS dia,
             HOUR(data_hora) AS hora,
             COUNT(idMonitoramento) AS totalPessoas
         FROM monitoramento
@@ -63,8 +64,46 @@ function buscarDadosFluxoAcumulado(idFilial) {
             JOIN filial ON filial.idFilial = setor.fkFilial
             WHERE DATEDIFF(CURRENT_DATE(), DATE(data_hora)) = 1
             AND filial.idFilial = ${idFilial}
-        GROUP BY HOUR(data_hora)
+        GROUP BY hora, dia
         ORDER BY hora;
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarDadosHeatmap(idFilial) {
+    var instrucaoSql = `
+        SELECT 
+            sensor.idSensor,
+            COUNT(m.idMonitoramento) AS totalPessoas
+        FROM monitoramento AS m
+        JOIN sensor ON sensor.idSensor = m.fkSensor
+        JOIN setor ON setor.idSetor = sensor.fkSetor
+        JOIN filial ON filial.idFilial = setor.fkFilial
+        WHERE DATE(m.data_hora) = CURRENT_DATE()
+        AND filial.idFilial = ${idFilial}
+        GROUP BY sensor.idSensor
+        ORDER BY sensor.idSensor;
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarDadosFluxoSemana(idFilial) {
+    var instrucaoSql = `
+        SELECT 
+            DATE_FORMAT(m.data_hora, '%d/%m') AS dataFormatada,
+            s.setor AS setor,
+            COUNT(m.idMonitoramento) AS totalPessoas,
+            DATE(m.data_hora) as dia
+        FROM monitoramento AS m
+            JOIN sensor ON sensor.idSensor = m.fkSensor
+            JOIN setor AS s ON s.idSetor = sensor.fkSetor
+            JOIN filial ON filial.idFilial = s.fkFilial
+            WHERE DATEDIFF(CURRENT_DATE(), DATE(m.data_hora)) BETWEEN 0 AND 6
+            AND filial.idFilial = ${idFilial}
+        GROUP BY DATE(m.data_hora), dataFormatada, s.setor, dia
+        ORDER BY DATE(m.data_hora), s.setor;                           
     `;
     console.log("Executando instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -83,5 +122,7 @@ function atualizarMeta(idFilial, metaFilial) {
 module.exports = {
     buscarDadosFluxo,
     buscarDadosFluxoAcumulado,
+    buscarDadosFluxoSemana,
+    buscarDadosHeatmap,
     atualizarMeta
 };

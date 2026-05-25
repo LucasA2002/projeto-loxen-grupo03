@@ -67,7 +67,7 @@
         </div>
         <div class="graficos">
             <div class="grafico">
-                <h3>Fluxo Médio Mensal | <span id="mesFluxo"></span></h3>
+                <h3>Média de fluxo semanal no mês | <span id="mesFluxo"></span></h3>
                 <div class="meta">
                     <input type="text" id="inp_meta" placeholder="Insira a meta">
                     <button onclick="inserirMeta()">Ver no gráfico</button>
@@ -75,12 +75,12 @@
                 <canvas class="canva1" id="graficoFluxoMedioMensal"></canvas>
             </div>
             <div class="grafico">
-                <h3>Fluxo Médio Semanal por Setor | 20/04 - 26/04</h3>
-                <canvas class="canva2" id="myChart2"></canvas>
+                <h3>Fluxo Médio Semanal por Setor | <span id="periodo"></span></h3>
+                <canvas class="canva2" id="graficoFluxoSemanal"></canvas>
             </div>
 
             <div class="grafico">
-                <h3>Fluxo Acumulado por Hora | Ontem</h3>
+                <h3>Fluxo Acumulado por Hora | Ontem (<span id="dataOntem"></span>)</h3>
                 <canvas class="canva3" id="graficoFluxoAcumuladoHora"></canvas>
             </div>
 
@@ -101,6 +101,8 @@
 
     var graficoFluxoMedioMensal;
     var graficoFluxoAcumuladoHora;
+    var graficoFluxoSemanal;
+    var instanciaHeatmap
 
     nome_usuario.innerHTML += sessionStorage.NOME_USUARIO
 
@@ -163,6 +165,52 @@
                 console.log(err);
             })
 
+        fetch(`/ObterDadosEspecifica/buscarDadosFluxoSemana/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        })
+            .then(function (resultadoBuscaFluxoSemana) {
+                return resultadoBuscaFluxoSemana.json();
+            })
+            .then(function (dadosFluxoSemana) {
+                plotarGraficoFluxoSemana(dadosFluxoSemana);
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+
+        fetch(`/ObterDadosEspecifica/buscarDadosHeatmap/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (dadosHeatmap) {
+
+                var max = 0;
+
+                for (var i = 0; i < dadosHeatmap.length; i++) {
+                    var sensor = dadosHeatmap[i];
+                    if (pontosHeatmap[sensor.idSensor] != undefined) {
+                        pontosHeatmap[sensor.idSensor].value = sensor.totalPessoas;
+                    }
+                    if (dadosHeatmap[i].totalPessoas > max) {
+                        max = dadosHeatmap[i].totalPessoas;
+                    }
+                }
+
+                var pontos = [];
+                for (var i = 1; i <= 12; i++) {
+                    pontos.push(pontosHeatmap[i]);
+                }
+
+                instanciaHeatmap.setData({
+                    data: pontos,
+                    max: max
+                });
+
+            })
+            .catch(function (err) { console.log(err); });
+
     }
 
 
@@ -184,6 +232,8 @@
                 }
             }
         }
+
+        mesFluxo.innerHTML = dadosFluxo[0].mes;
 
         const ctx1 = document.getElementById('graficoFluxoMedioMensal');
 
@@ -220,63 +270,78 @@
 
     };
 
-    const data2 = { // Gráfico de linha - fluxo por setor na semana
-        labels: [0],
-        datasets: [{
-            label: 'Higiene',
-            backgroundColor: 'rgb(94, 25, 255)',
-            borderColor: 'rgb(94, 25, 255)',
-            borderRadius: 7,
-            data: [12, 14, 27, 17, 30, 21, 12],
-            hidden: true
-        },
-        {
-            label: 'Hortifruti',
-            backgroundColor: 'rgb(64, 233, 134)',
-            borderColor: 'rgb(64, 233, 134)',
-            borderRadius: 7,
-            data: [20, 19, 10, 25, 13, 22, 12]
-        },
-        {
-            label: 'Açougue',
-            backgroundColor: 'rgb(46, 11, 127)',
-            borderColor: 'rgb(46, 11, 127)',
-            borderRadius: 7,
-            data: [17, 17, 20, 35, 8, 21, 17],
-            hidden: true
-        },
-        {
-            label: 'Padaria',
-            backgroundColor: 'rgb(165, 90, 232)',
-            borderColor: 'rgb(165, 90, 232)',
-            borderRadius: 7,
-            data: [21, 27, 10, 25, 13, 22, 20],
-            hidden: true
-        },
-        {
-            label: 'Bebidas',
-            backgroundColor: 'rgb(0, 151, 253)',
-            borderColor: 'rgb(0, 151, 253)',
-            borderRadius: 7,
-            data: [10, 18, 15, 30, 18, 40, 28],
-            hidden: true
-        },
-        {
-            label: 'Laticínios',
-            backgroundColor: 'rgb(255, 174, 0)',
-            borderColor: 'rgb(255, 174, 0)',
-            borderRadius: 7,
-            data: [19, 20, 17, 22, 14, 33, 37]
+    function plotarGraficoFluxoSemana(dadosFluxoSemana) {
+
+        var dia = [];
+        for (var i = 0; i < dadosFluxoSemana.length; i++) {
+            var dataFormatada = dadosFluxoSemana[i].dataFormatada;
+            if (dia.indexOf(dataFormatada) == -1) {
+                dia.push(dataFormatada);
+            }
         }
-        ]
-    };
 
+        var setores = [];
+        for (var i = 0; i < dadosFluxoSemana.length; i++) {
+            if (setores.indexOf(dadosFluxoSemana[i].setor) == -1) {
+                setores.push(dadosFluxoSemana[i].setor);
+            }
+        }
 
-    const config2 = {
-        type: 'line',
-        data: data2,
-        options: {}
-    };
+        periodo.innerHTML = `${dia[0]} - ${dia[dia.length - 1]}`
+
+        var cores = [
+            'rgb(94, 25, 255)',
+            'rgb(64, 233, 134)',
+            'rgb(46, 11, 127)',
+            'rgb(165, 90, 232)',
+            'rgb(0, 151, 253)',
+            'rgb(255, 174, 0)',
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)'
+        ];
+
+        var datasets = [];
+
+        for (var i = 0; i < setores.length; i++) {
+            var fluxoSetor = [];
+
+            for (var j = 0; j < dia.length; j++) {
+                fluxoSetor.push(0);
+            }
+
+            for (var k = 0; k < dadosFluxoSemana.length; k++) {
+                if (dadosFluxoSemana[k].setor == setores[i]) {
+                    var idx = dia.indexOf(dadosFluxoSemana[k].dataFormatada);
+                    if (idx != -1) {
+                        fluxoSetor[idx] += dadosFluxoSemana[k].totalPessoas;
+                    }
+                }
+            }
+
+            datasets.push({
+                label: setores[i],
+                backgroundColor: cores[i],
+                borderColor: cores[i],
+                borderRadius: 7,
+                data: fluxoSetor,
+                hidden: i > 1
+            });
+        }
+
+        const ctx2 = document.getElementById('graficoFluxoSemanal');
+        graficoFluxoSemanal = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: dia,
+                datasets: datasets
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
 
     function plotarGraficoFluxoAcumulado(dadosFluxoAcumulado) {
 
@@ -287,6 +352,8 @@
             horas.push(dadosFluxoAcumulado[i].hora + 'h');
             totalPessoas.push(dadosFluxoAcumulado[i].totalPessoas);
         }
+
+        dataOntem.innerHTML = dadosFluxoAcumulado[0].dia;
 
         const ctx3 = document.getElementById('graficoFluxoAcumuladoHora');
 
@@ -312,97 +379,30 @@
         });
     }
 
-    const myChart2 = new Chart(
-        document.getElementById('myChart2'),
-        config2
-    );
-
     // ---------------------------------------------------- HEATMAP
 
-    var instanciaHeatmap = h337.create({
-        container: document.querySelector('.heatmap')
+    instanciaHeatmap = h337.create({
+        container: document.querySelector('.heatmap'),
+        maxOpacity: 0.8,
+        minOpacity: 0.3,
+        blur: 0.75,
+        max: 30
     });
 
-    var dadosPorLocal = {
-        local1: [
-            { x: 160, y: 137, value: 34, radius: 50 }
-        ],
-        local2: [
-            { x: 125, y: 137, value: 30, radius: 50 }
-        ],
-        local3: [
-            { x: 127, y: 92, value: 20, radius: 50 }
-        ],
-        local4: [
-            { x: 197, y: 72, value: 25, radius: 50 }
-        ],
-        local5: [
-            { x: 197, y: 152, value: 25, radius: 50 }
-        ],
-        local6: [
-            { x: 235, y: 72, value: 20, radius: 50 }
-        ],
-        local7: [
-            { x: 235, y: 152, value: 20, radius: 50 }
-        ],
-        local8: [
-            { x: 267, y: 72, value: 17, radius: 50 }
-        ],
-        local9: [
-            { x: 267, y: 152, value: 17, radius: 50 }
-        ],
-        local10: [
-            { x: 300, y: 72, value: 29, radius: 50 }
-        ],
-        local11: [
-            { x: 300, y: 152, value: 29, radius: 50 }
-        ],
-        local12: [
-            { x: 333, y: 72, value: 30, radius: 50 }
-        ],
-        local13: [
-            { x: 333, y: 152, value: 30, radius: 50 }
-        ],
-        local14: [
-            { x: 366, y: 72, value: 19, radius: 50 }
-        ],
-        local15: [
-            { x: 366, y: 152, value: 19, radius: 50 }
-        ],
-        local16: [
-            { x: 398, y: 72, value: 22, radius: 50 }
-        ],
-        local17: [
-            { x: 398, y: 152, value: 22, radius: 50 }
-        ],
-        local18: [
-            { x: 433, y: 72, value: 23, radius: 50 }
-        ],
-        local19: [
-            { x: 433, y: 115, value: 23, radius: 50 }
-        ],
-        local20: [
-            { x: 433, y: 152, value: 29, radius: 50 }
-        ],
-        local21: [
-            { x: 433, y: 182, value: 29, radius: 50 }
-        ]
-
+    var pontosHeatmap = {
+        1: { x: 175, y: 100, value: 0, radius: 30 },
+        2: { x: 100, y: 100, value: 0, radius: 30 },
+        3: { x: 155, y: 150, value: 0, radius: 30 },
+        4: { x: 155, y: 210, value: 0, radius: 30 },
+        5: { x: 205, y: 85, value: 0, radius: 30 },
+        6: { x: 205, y: 210, value: 0, radius: 30 },
+        7: { x: 355, y: 85, value: 0, radius: 30 },
+        8: { x: 355, y: 210, value: 0, radius: 30 },
+        9: { x: 440, y: 110, value: 0, radius: 30 },
+        10: { x: 470, y: 110, value: 0, radius: 30 },
+        11: { x: 440, y: 260, value: 0, radius: 30 },
+        12: { x: 470, y: 260, value: 0, radius: 30 }
     };
-
-    for (var local in dadosPorLocal) {
-        var dadosDoLocal = dadosPorLocal[local];
-
-        for (var i = 0; i < dadosDoLocal.length; i++) {
-            var ponto = dadosDoLocal[i];
-            {
-                // Usando addData para adicionar os pontos ao heatmap
-                instanciaHeatmap.addData(ponto);
-            }
-        }
-    }
-
-    console.log(h337);
 
     function trocarVisitado(tipo) {
         const itens = document.querySelectorAll('.toggle-item')
