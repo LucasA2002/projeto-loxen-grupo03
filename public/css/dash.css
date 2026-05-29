@@ -49,6 +49,23 @@ body {
     margin-bottom: 5px;
 }
 
+.menu {
+    list-style: none;
+}
+
+.menu li {
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #6A36FF, #AC5FE6);
+    border-radius: 6px;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: white;
+}
+
 .user {
     display: flex;
     flex-direction: column;

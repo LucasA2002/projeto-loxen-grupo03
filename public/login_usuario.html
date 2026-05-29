@@ -83,8 +83,12 @@
 
 
                     console.log('vou redirecionar')
-                    window.location = "./Dashboard.html";
 
+                    if (json.cargo == 'Suporte') {
+                        window.location = "./bob_ia.html";
+                    } else {
+                        window.location = "./Dashboard.html";
+                    }
                 });
 
             } else {
