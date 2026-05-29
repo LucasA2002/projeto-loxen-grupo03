@@ -119,10 +119,145 @@ function atualizarMeta(idFilial, metaFilial) {
     return database.executar(instrucaoSql);
 }
 
+function BuscarFluxoMax(idFilial) {
+    var instrucaoSql = `
+        SELECT 
+            s.setor AS setor,
+            COUNT(m.idMonitoramento) AS maxPessoas,
+            CASE MONTH(m.data_hora)
+                WHEN 1 THEN 'Janeiro'
+                WHEN 2 THEN 'Fevereiro'
+                WHEN 3 THEN 'Março'
+                WHEN 4 THEN 'Abril'
+                WHEN 5 THEN 'Maio'
+                WHEN 6 THEN 'Junho'
+                WHEN 7 THEN 'Julho'
+                WHEN 8 THEN 'Agosto'
+                WHEN 9 THEN 'Setembro'
+                WHEN 10 THEN 'Outubro'
+                WHEN 11 THEN 'Novembro'
+                WHEN 12 THEN 'Dezembro'
+            END AS mes
+        FROM monitoramento AS m
+        JOIN sensor ON sensor.idSensor = m.fkSensor
+        JOIN setor AS s ON s.idSetor = sensor.fkSetor
+        JOIN filial ON filial.idFilial = s.fkFilial
+        WHERE DATEDIFF(CURRENT_DATE(), DATE(m.data_hora)) BETWEEN 0 AND 31
+        AND filial.idFilial = ${idFilial}
+        GROUP BY mes, DATE_FORMAT(m.data_hora, '%d/%m'), s.setor  
+        ORDER BY maxPessoas DESC
+        LIMIT 1;
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function BuscarFluxoMin(idFilial) {
+    var instrucaoSql = `
+        SELECT 
+            s.setor AS setor,
+            COUNT(m.idMonitoramento) AS minPessoas,
+            CASE MONTH(m.data_hora)
+                WHEN 1 THEN 'Janeiro'
+                WHEN 2 THEN 'Fevereiro'
+                WHEN 3 THEN 'Março'
+                WHEN 4 THEN 'Abril'
+                WHEN 5 THEN 'Maio'
+                WHEN 6 THEN 'Junho'
+                WHEN 7 THEN 'Julho'
+                WHEN 8 THEN 'Agosto'
+                WHEN 9 THEN 'Setembro'
+                WHEN 10 THEN 'Outubro'
+                WHEN 11 THEN 'Novembro'
+                WHEN 12 THEN 'Dezembro'
+            END AS mes
+        FROM monitoramento AS m
+        JOIN sensor ON sensor.idSensor = m.fkSensor
+        JOIN setor AS s ON s.idSetor = sensor.fkSetor
+        JOIN filial ON filial.idFilial = s.fkFilial
+        WHERE DATEDIFF(CURRENT_DATE(), DATE(m.data_hora)) BETWEEN 0 AND 31
+        AND filial.idFilial = ${idFilial}
+        GROUP BY mes, DATE_FORMAT(m.data_hora, '%d/%m'), s.setor  
+        LIMIT 1;
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarPicoHora(idFilial) {
+    var instrucaoSql = `
+        SELECT 
+		    HOUR(data_hora) AS hora,
+		    DATE_FORMAT(data_hora, '%d/%m/%Y') AS ontem,
+		    COUNT(idMonitoramento) AS totalPessoas
+	    FROM monitoramento
+	    	JOIN sensor ON sensor.idSensor = monitoramento.fkSensor
+	    	JOIN setor ON setor.idSetor = sensor.fkSetor
+	    	JOIN filial ON filial.idFilial = setor.fkFilial
+	    	WHERE DATEDIFF(CURRENT_DATE(), DATE(data_hora)) = 1
+	    	AND filial.idFilial = ${idFilial}
+	    GROUP BY hora, ontem
+	    ORDER BY totalPessoas DESC
+        LIMIT 1;
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarPicoHora(idFilial) {
+    var instrucaoSql = `
+        SELECT 
+		    HOUR(data_hora) AS hora,
+		    DATE_FORMAT(data_hora, '%d/%m/%Y') AS ontem,
+		    COUNT(idMonitoramento) AS totalPessoas
+	    FROM monitoramento
+	    	JOIN sensor ON sensor.idSensor = monitoramento.fkSensor
+	    	JOIN setor ON setor.idSetor = sensor.fkSetor
+	    	JOIN filial ON filial.idFilial = setor.fkFilial
+	    	WHERE DATEDIFF(CURRENT_DATE(), DATE(data_hora)) = 1
+	    	AND filial.idFilial = ${idFilial}
+	    GROUP BY hora, ontem
+	    ORDER BY totalPessoas DESC
+        LIMIT 1;
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function ComparacaoFluxo(idFilial) {
+    var instrucaoSql = `
+        SELECT  COUNT(m.idMonitoramento) AS totalPessoas, 
+	        CASE MONTH(m.data_hora)
+	        		WHEN 1 THEN 'Janeiro'
+	        		WHEN 2 THEN 'Fevereiro'
+	        		WHEN 3 THEN 'Março'
+	        		WHEN 4 THEN 'Abril'
+	        		WHEN 5 THEN 'Maio'
+	        		WHEN 6 THEN 'Junho'
+	        		WHEN 7 THEN 'Julho'
+	        		WHEN 8 THEN 'Agosto'
+	        		WHEN 9 THEN 'Setembro'
+	        		WHEN 10 THEN 'Outubro'
+	        		WHEN 11 THEN 'Novembro'
+	        		WHEN 12 THEN 'Dezembro'
+	        END AS mes
+	        FROM monitoramento AS m
+	        GROUP BY mes, MONTH(m.data_hora)
+	        ORDER BY MONTH(m.data_hora) DESC
+	        LIMIT 2;
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarDadosFluxo,
     buscarDadosFluxoAcumulado,
     buscarDadosFluxoSemana,
     buscarDadosHeatmap,
-    atualizarMeta
+    atualizarMeta,
+    BuscarFluxoMax,
+    BuscarFluxoMin,
+    buscarPicoHora,
+    ComparacaoFluxo
 };

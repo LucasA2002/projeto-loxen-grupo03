@@ -41,10 +41,11 @@
         </div>
         <div class="kpis">
             <div class="card">
-                <p>Comparação de Fluxo (Abril X Março)</p>
+                <p>Comparação de Fluxo (<span id="mesVigente">Abril</span> X <span id="mesPassado">Março</span>)</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi1.png">
-                    <h3><span style="color: red;">-12%</span> (495 Acessos)</h3>
+                    <h3><span id="porcentagemKpi">-12</span><span id="simboloPorcentagem">%</span> (<span
+                            id="qtdMesAtual">495</span> Acessos)</h3>
                 </div>
             </div>
             <div class="card">
@@ -54,14 +55,21 @@
                 </div>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi2.png">
-                    <div class="kpiValor" id="kpiVisitado">-</div>
+                    <div class="kpiValor" id="kpiMaisVisitado">
+                        <h3><span id="idSetorMaisVisitado">Lacticínios</span> - <span style="color: green;"
+                                id="qtdMaisVisitado">486 Acessos</span> - <span id="mesMaisVisitado">Abril</span></h3>
+                    </div>
+                    <div class="kpiValor" id="kpiMenosVisitado" style="display: none;">
+                        <h3><span id="idSetorMenosVisitado">Lacticínios</span> - <span style="color: rgb(128, 0, 0);"
+                                id="qtdMenosVisitado">486 Acessos</span> - <span id="mesMenosVisitado">Abril</span></h3>
+                    </div>
                 </div>
             </div>
             <div class="card">
-                <p>Pico de Fluxo (Ontem - 26/04/2026)</p>
+                <p>Pico de Fluxo (Ontem - <span id="dataPico">26/04/2026</span>)</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi3.png">
-                    <h3>11h - 120 Acessos</h3>
+                    <h3><span id="horaPico">11</span>h - <span id="qtdPessoasPico">120</span> Acessos</h3>
                 </div>
             </div>
         </div>
@@ -211,8 +219,100 @@
             })
             .catch(function (err) { console.log(err); });
 
+        fetch(`/ObterDadosEspecifica/buscarMaisVisitado/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        })
+            .then(function (resultadoMais) {
+                return resultadoMais.json();
+            })
+            .then(function (dadosMais) {
+                plotarKpiMais(dadosMais);
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+
+        fetch(`/ObterDadosEspecifica/buscarMenosVisitado/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        })
+            .then(function (resultadoMenos) {
+                return resultadoMenos.json();
+            })
+            .then(function (dadosMenos) {
+                plotarKpiMenos(dadosMenos);
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+
+        fetch(`/ObterDadosEspecifica/buscarPicoHora/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        })
+            .then(function (resultadoPicoHora) {
+                return resultadoPicoHora.json();
+            })
+            .then(function (dadosPicoHora) {
+                plotarKpiPico(dadosPicoHora);
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+
+        fetch(`/ObterDadosEspecifica/ComparacaoFluxo/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        })
+            .then(function (resultadoComparacaoFluxo) {
+                return resultadoComparacaoFluxo.json();
+            })
+            .then(function (dadosComparacaoFluxo) {
+                plotarKpiComparacao(dadosComparacaoFluxo);
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+
     }
 
+    function plotarKpiMais(dadosMais) {
+        idSetorMaisVisitado.innerHTML = dadosMais[0].setor;
+        qtdMaisVisitado.innerHTML = dadosMais[0].maxPessoas;
+        mesMaisVisitado.innerHTML = dadosMais[0].mes;
+    }
+
+    function plotarKpiMenos(dadosMenos) {
+        idSetorMenosVisitado.innerHTML = dadosMenos[0].setor;
+        qtdMenosVisitado.innerHTML = dadosMenos[0].minPessoas;
+        mesMenosVisitado.innerHTML = dadosMenos[0].mes;
+    }
+
+    function plotarKpiPico(dadosPico) {
+        horaPico.innerHTML = dadosPico[0].hora;
+        dataPico.innerHTML = dadosPico[0].ontem;
+        qtdPessoasPico.innerHTML = dadosPico[0].totalPessoas;
+    }
+
+    function plotarKpiComparacao(dadosComparacaoFluxo) {
+        let mesAtual = dadosComparacaoFluxo[0].totalPessoas;
+        let mesAnterior = dadosComparacaoFluxo[1].totalPessoas;
+
+        let porcent = ((mesAtual - mesAnterior) / mesAnterior) * 100;
+
+        if (porcent > 0) {
+            porcentagemKpi.style.color = "green";
+            simboloPorcentagem.style.color = "green";
+        } else {
+            porcentagemKpi.style.color = "red";
+            simboloPorcentagem.style.color = "red";
+        }
+        porcentagemKpi.innerHTML = porcent;
+        qtdMesAtual.innerHTML = dadosComparacaoFluxo[0].totalPessoas;
+        mesPassado.innerHTML = dadosComparacaoFluxo[1].mes;
+        mesVigente.innerHTML = dadosComparacaoFluxo[0].mes;
+    }
 
     function plotarGraficoFluxoMensal(dadosFluxo) {
 
@@ -379,8 +479,6 @@
         });
     }
 
-    // ---------------------------------------------------- HEATMAP
-
     instanciaHeatmap = h337.create({
         container: document.querySelector('.heatmap'),
         maxOpacity: 0.8,
@@ -412,9 +510,11 @@
         event.target.classList.add("ativo")
 
         if (tipo == "mais") {
-            document.getElementById("kpiVisitado").innerHTML = `<h3>Lacticínios - <span style="color: green;">486 Acessos</span> - Abril</h3>`
+            kpiMaisVisitado.style.display = "flex";
+            kpiMenosVisitado.style.display = "none";
         } else {
-            document.getElementById("kpiVisitado").innerHTML = `<h3>Hortifruti - <span style="color: red;">363 Acessos</span> - Abril </h3>`
+            kpiMaisVisitado.style.display = "none";
+            kpiMenosVisitado.style.display = "flex";
         }
     }
 

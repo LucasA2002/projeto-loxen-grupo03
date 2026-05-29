@@ -23,4 +23,20 @@ router.get("/buscarDadosHeatmap/:idFilial", function (req, res) {
     ObterDadosEspecifica.buscarDadosHeatmap(req, res);
 });
 
+router.get("/buscarMaisVisitado/:idFilial", function (req, res) {
+    ObterDadosEspecifica.BuscarFluxoMax(req, res);
+});
+
+router.get("/buscarMenosVisitado/:idFilial", function (req, res) {
+    ObterDadosEspecifica.BuscarFluxoMin(req, res);
+});
+
+router.get("/buscarPicoHora/:idFilial", function (req, res) {
+    ObterDadosEspecifica.buscarPicoHora(req, res);
+});
+
+router.get("/ComparacaoFluxo/:idFilial", function (req, res) {
+    ObterDadosEspecifica.ComparacaoFluxo(req, res);
+});
+
 module.exports = router;
