@@ -1,5 +1,5 @@
-// var ambiente_processo = 'producao';
-var ambiente_processo = 'desenvolvimento';
+var ambiente_processo = 'producao';
+// var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 // Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
@@ -37,6 +37,21 @@ app.use("/usuarios", usuarioRouter)
 app.use("/ObterDadosEspecifica", ObterDadosEspecificaRouter)
 app.use("/dashGeral", dashGeralRouter)
 
+// inicializando o servidor
+app.listen(PORTA_SERVIDOR, () => {
+    console.info(
+        `
+        ######                ###    #    
+        #     #  ####  #####   #    # #   
+        #     # #    # #    #  #   #   #  
+        ######  #    # #####   #  #     # 
+        #     # #    # #    #  #  ####### 
+        #     # #    # #    #  #  #     # 
+        ######   ####  #####  ### #     # 
+        `
+    );
+    console.info(`A API BobIA iniciada, acesse http://localhost:${PORTA_SERVIDOR}`);
+});
 
 app.listen(PORTA_APP, function () {
     console.log(`
@@ -55,21 +70,7 @@ app.listen(PORTA_APP, function () {
     \t\tPara alterar o ambiente, comente ou descomente as linhas 1 ou 2 no arquivo 'app.js'\n\n`);
 });
 
-// inicializando o servidor
-app.listen(PORTA_SERVIDOR, () => {
-    console.info(
-        `
-        ######                ###    #    
-        #     #  ####  #####   #    # #   
-        #     # #    # #    #  #   #   #  
-        ######  #    # #####   #  #     # 
-        #     # #    # #    #  #  ####### 
-        #     # #    # #    #  #  #     # 
-        ######   ####  #####  ### #     # 
-        `
-    );
-    console.info(`A API BobIA iniciada, acesse http://localhost:${PORTA_SERVIDOR}`);
-});
+
 
 // rota para receber perguntas e gerar respostas
 app.post("/perguntar", async (req, res) => {
