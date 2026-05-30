@@ -110,7 +110,30 @@ body {
 
 .titulo-filial {
     display: flex;
+    position: relative;
+    flex-direction: column;
     margin-bottom: 10px;
+    width: auto;
+}
+
+.titulo-filial button {
+    width: 190px;
+}
+
+.modal-filial {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    top: 37px;
+    width: 220px;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    border: solid 1px rgba(106, 54, 255, 0.6);
+    border-radius: 10px;
+}
+
+.modal-sumir{
+    display: flex;
 }
 
 .botao-seta {
@@ -233,6 +256,7 @@ body {
     text-align: center;
     margin-inline: 5px;
     background: linear-gradient(20deg, #8d64ffc9, #b678e6cd);
+    color: rgb(255, 255, 255);
     font-size: large;
     outline: none;
 }
@@ -240,7 +264,7 @@ body {
 .meta ::-webkit-input-placeholder {
     font-weight: lighter;
     font-size: medium;
-    color: rgb(95, 93, 93);
+    color: rgb(255, 255, 255);
 }
 
 .meta button {
@@ -250,6 +274,6 @@ body {
     border-radius: 5px;
     margin-inline: 5px;
     background: linear-gradient(20deg, #6A36FF, #AC5FE6);
-    color: rgb(30, 28, 28);
+    color: rgb(255, 255, 255);
     cursor: pointer;
 }

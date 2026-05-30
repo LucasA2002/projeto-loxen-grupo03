@@ -39,4 +39,8 @@ router.get("/ComparacaoFluxo/:idFilial", function (req, res) {
     ObterDadosEspecifica.ComparacaoFluxo(req, res);
 });
 
+router.get("/buscarFiliais/:idFilial", function (req, res) {
+    ObterDadosEspecifica.buscarFiliais(req, res);
+});
+
 module.exports = router;

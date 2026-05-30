@@ -24,7 +24,8 @@
             <button onclick="window.location.href='cadastro_usuario.html'" id="colaborador">Cadastrar
                 Colaborador</button>
             <button onclick="window.location.href='cadastro_filial.html'" id="filial">Cadastrar Filial</button>
-            <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')" id="filial">Suporte</button>
+            <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')"
+                id="filial">Suporte</button>
         </div>
         <div class="user">
             <img class="userIcon" src="assets/img/userIcon.png">
@@ -35,9 +36,11 @@
     <div class="conteudo">
         <div class="titulo-filial">
             <button class="botao-seta" id="btn_seta" onclick="exibirFiliais()">
-                <h3>Filial - SPTech</h3>
+                <h3 id="filialAtual">Filial - SPTech</h3>
                 <i class="fa-solid fa-chevron-left seta" id="img_seta"></i>
             </button>
+
+            <div class="modal-filial" id="modalFilial"></div>
 
         </div>
         <div class="kpis">
@@ -138,21 +141,23 @@
 
     function exibirFiliais() {
         let seta = document.getElementById("img_seta")
+        let modal = document.getElementById("modalFilial")
 
         seta.classList.toggle('seta-baixo')
+        modal.classList.toggle('modal-sumir')
     }
 
     function obterDados() {
 
         let idFilial = sessionStorage.FKFILIAL_USUARIO;
 
+
         fetch(`/ObterDadosEspecifica/buscarDadosFluxo/${idFilial}`, {
             method: "GET",
             cache: "no-store"
+        }).then(function (resultadoBuscaFluxo) {
+            return resultadoBuscaFluxo.json();
         })
-            .then(function (resultadoBuscaFluxo) {
-                return resultadoBuscaFluxo.json();
-            })
             .then(function (dadosFluxo) {
                 plotarGraficoFluxoMensal(dadosFluxo);
             })
@@ -163,10 +168,9 @@
         fetch(`/ObterDadosEspecifica/buscarDadosFluxoAcumulado/${idFilial}`, {
             method: "GET",
             cache: "no-store"
+        }).then(function (resultadoBuscaFluxoAcumulado) {
+            return resultadoBuscaFluxoAcumulado.json();
         })
-            .then(function (resultadoBuscaFluxoAcumulado) {
-                return resultadoBuscaFluxoAcumulado.json();
-            })
             .then(function (dadosFluxoAcumulado) {
                 plotarGraficoFluxoAcumulado(dadosFluxoAcumulado);
             })
@@ -177,10 +181,9 @@
         fetch(`/ObterDadosEspecifica/buscarDadosFluxoSemana/${idFilial}`, {
             method: "GET",
             cache: "no-store"
+        }).then(function (resultadoBuscaFluxoSemana) {
+            return resultadoBuscaFluxoSemana.json();
         })
-            .then(function (resultadoBuscaFluxoSemana) {
-                return resultadoBuscaFluxoSemana.json();
-            })
             .then(function (dadosFluxoSemana) {
                 plotarGraficoFluxoSemana(dadosFluxoSemana);
             })
@@ -191,42 +194,41 @@
         fetch(`/ObterDadosEspecifica/buscarDadosHeatmap/${idFilial}`, {
             method: "GET",
             cache: "no-store"
+        }).then(function (res) {
+            return res.json();
+        }).then(function (dadosHeatmap) {
+
+            var max = 0;
+
+            for (var i = 0; i < dadosHeatmap.length; i++) {
+                var sensor = dadosHeatmap[i];
+                if (pontosHeatmap[sensor.idSensor] != undefined) {
+                    pontosHeatmap[sensor.idSensor].value = sensor.totalPessoas;
+                }
+                if (dadosHeatmap[i].totalPessoas > max) {
+                    max = dadosHeatmap[i].totalPessoas;
+                }
+            }
+
+            var pontos = [];
+            for (var i = 1; i <= 12; i++) {
+                pontos.push(pontosHeatmap[i]);
+            }
+
+            instanciaHeatmap.setData({
+                data: pontos,
+                max: max
+            });
+
         })
-            .then(function (res) { return res.json(); })
-            .then(function (dadosHeatmap) {
-
-                var max = 0;
-
-                for (var i = 0; i < dadosHeatmap.length; i++) {
-                    var sensor = dadosHeatmap[i];
-                    if (pontosHeatmap[sensor.idSensor] != undefined) {
-                        pontosHeatmap[sensor.idSensor].value = sensor.totalPessoas;
-                    }
-                    if (dadosHeatmap[i].totalPessoas > max) {
-                        max = dadosHeatmap[i].totalPessoas;
-                    }
-                }
-
-                var pontos = [];
-                for (var i = 1; i <= 12; i++) {
-                    pontos.push(pontosHeatmap[i]);
-                }
-
-                instanciaHeatmap.setData({
-                    data: pontos,
-                    max: max
-                });
-
-            })
             .catch(function (err) { console.log(err); });
 
         fetch(`/ObterDadosEspecifica/buscarMaisVisitado/${idFilial}`, {
             method: "GET",
             cache: "no-store"
+        }).then(function (resultadoMais) {
+            return resultadoMais.json();
         })
-            .then(function (resultadoMais) {
-                return resultadoMais.json();
-            })
             .then(function (dadosMais) {
                 plotarKpiMais(dadosMais);
             })
@@ -237,10 +239,9 @@
         fetch(`/ObterDadosEspecifica/buscarMenosVisitado/${idFilial}`, {
             method: "GET",
             cache: "no-store"
+        }).then(function (resultadoMenos) {
+            return resultadoMenos.json();
         })
-            .then(function (resultadoMenos) {
-                return resultadoMenos.json();
-            })
             .then(function (dadosMenos) {
                 plotarKpiMenos(dadosMenos);
             })
@@ -251,10 +252,9 @@
         fetch(`/ObterDadosEspecifica/buscarPicoHora/${idFilial}`, {
             method: "GET",
             cache: "no-store"
+        }).then(function (resultadoPicoHora) {
+            return resultadoPicoHora.json();
         })
-            .then(function (resultadoPicoHora) {
-                return resultadoPicoHora.json();
-            })
             .then(function (dadosPicoHora) {
                 plotarKpiPico(dadosPicoHora);
             })
@@ -265,12 +265,24 @@
         fetch(`/ObterDadosEspecifica/ComparacaoFluxo/${idFilial}`, {
             method: "GET",
             cache: "no-store"
+        }).then(function (resultadoComparacaoFluxo) {
+            return resultadoComparacaoFluxo.json();
         })
-            .then(function (resultadoComparacaoFluxo) {
-                return resultadoComparacaoFluxo.json();
-            })
             .then(function (dadosComparacaoFluxo) {
                 plotarKpiComparacao(dadosComparacaoFluxo);
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+
+        fetch(`/ObterDadosEspecifica/BuscarFiliais/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        }).then(function (resultadoFiliais) {
+            return resultadoFiliais.json();
+        })
+            .then(function (dadosFiliais) {
+                plotarFiliais(dadosFiliais);
             })
             .catch(function (err) {
                 console.log(err);
@@ -294,6 +306,17 @@
         horaPico.innerHTML = dadosPico[0].hora;
         dataPico.innerHTML = dadosPico[0].ontem;
         qtdPessoasPico.innerHTML = dadosPico[0].totalPessoas;
+    }
+
+    function plotarFiliais(dadosFiliais) {
+        for (let i = 0; i < dadosFiliais.length; i++) {
+            modalFilial.innerHTML += `<button onclick="mudarFilial(${dadosFiliais[i].novoIdFilial})">${dadosFiliais[i].nome}</button><br>`
+        }
+    }
+
+    function mudarFilial(novoIdFilial) {
+        sessionStorage.FKFILIAL_USUARIO = novoIdFilial;
+        window.location.reload();
     }
 
     function plotarKpiComparacao(dadosComparacaoFluxo) {

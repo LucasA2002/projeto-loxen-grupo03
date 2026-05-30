@@ -250,6 +250,31 @@ function ComparacaoFluxo(idFilial) {
     return database.executar(instrucaoSql);
 }
 
+function buscarFiliais(idFilial) {
+    var instrucaoSql = `
+        SELECT f.nome, f.idFilial AS novoIdFilial FROM filial f
+	        JOIN filial m ON m.idfilial = f.fkMatriz
+            LEFT JOIN usuario u ON f.idFilial = u.fkFilial
+            WHERE f.fkMatriz = (
+		        SELECT fSub.fkMatriz FROM filial fSub
+			        WHERE fSub.idFilial = ${idFilial}
+        )
+        AND f.idFilial != ${idFilial};
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarFiliais2(idFilial) {
+    var instrucaoSql = `
+        SELECT f.nome, f.idFilial AS novoIdFilial FROM filial f
+	        JOIN filial m ON m.idfilial = f.fkMatriz
+            WHERE f.fkMatriz = ${idFilial};
+    `;
+    console.log("Executando instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarDadosFluxo,
     buscarDadosFluxoAcumulado,
@@ -259,5 +284,7 @@ module.exports = {
     BuscarFluxoMax,
     BuscarFluxoMin,
     buscarPicoHora,
-    ComparacaoFluxo
+    ComparacaoFluxo,
+    buscarFiliais,
+    buscarFiliais2
 };
