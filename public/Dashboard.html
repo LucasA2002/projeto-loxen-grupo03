@@ -20,12 +20,13 @@
         <img class="logo" src="assets/icon/logo.png" alt="Logo">
         <div class="menu">
             <div class="agora">Dashboard</div>
-            <button onclick="IrDashGeral()" id="colaborador">Dashboard Geral</button>
-            <button onclick="window.location.href='cadastro_usuario.html'" id="colaborador">Cadastrar
+            <button onclick="IrDashGeral()" id="btnDashGeral">Dashboard Geral</button>
+            <button onclick="window.location.href='cadastro_usuario.html'" id="btnCadastrarColaborador">Cadastrar
                 Colaborador</button>
-            <button onclick="window.location.href='cadastro_filial.html'" id="filial">Cadastrar Filial</button>
+            <button onclick="window.location.href='cadastro_filial.html'" id="btnCadastrarFilial">Cadastrar
+                Filial</button>
             <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')"
-                id="filial">Suporte</button>
+                id="btnSuporte">Suporte</button>
         </div>
         <div class="user">
             <img class="userIcon" src="assets/img/userIcon.png">
@@ -152,15 +153,21 @@
         let permissao = sessionStorage.CARGO_USUARIO
 
         if (permissao == 'Gerente') {
-            document.getElementById("filial").style.display = "block";
-            document.getElementById("colaborador").style.display = "none";
+            btnCadastrarFilial.style.display = "flex";
+            btnDashGeral.style.display = "none";
+            btnCadastrarColaborador.style.display = "flex";
+            btn_seta.style.display = "none";
 
         } else if (permissao == 'Administrador') {
-            document.getElementById("filial").style.display = "block";
-            document.getElementById("colaborador").style.display = "block";
+            btnCadastrarFilial.style.display = "flex";
+            btnDashGeral.style.display = "flex";
+            btnCadastrarColaborador.style.display = "flex";
+
         } else {
-            document.getElementById("filial").style.display = "none";
-            document.getElementById("colaborador").style.display = "none";
+            btnCadastrarFilial.style.display = "none";
+            btnDashGeral.style.display = "none";
+            btnCadastrarColaborador.style.display = "none";
+            btn_seta.style.display = "none";
         }
     }
 
@@ -215,12 +222,12 @@
 
             proximaAtualizacaoSemana = setTimeout(function () {
                 atualizarFluxoSemana(idFilial);
-            }, 10000);
+            }, 5000);
         }).catch(function (err) {
             console.log(err);
             proximaAtualizacaoSemana = setTimeout(function () {
                 atualizarFluxoSemana(idFilial);
-            }, 10000);
+            }, 5000);
         })
 
         fetch(`/ObterDadosEspecifica/buscarDadosHeatmap/${idFilial}`, {
@@ -724,13 +731,13 @@
 
             proximaAtualizacaoSemana = setTimeout(function () {
                 atualizarFluxoSemana(idFilial);
-            }, 10000);
+            }, 5000);
 
         }).catch(function (err) {
             console.log(err);
             proximaAtualizacaoSemana = setTimeout(function () {
                 atualizarFluxoSemana(idFilial);
-            }, 10000);
+            }, 5000);
         });
     }
 
