@@ -75,15 +75,34 @@ function buscarDadosHeatmap(idFilial) {
     var instrucaoSql = `
         SELECT 
             sensor.idSensor,
-            setor.setor AS nomeSetor,
+            CASE 
+                WHEN (
+                    SELECT COUNT(*) FROM sensor s2
+                    JOIN setor st2 ON st2.idSetor = s2.fkSetor
+                    WHERE st2.setor = setor.setor
+                    AND st2.fkFilial = setor.fkFilial
+                    AND s2.idSensor < sensor.idSensor
+                ) = 0
+                THEN setor.setor
+                ELSE CONCAT(setor.setor, (
+                    SELECT COUNT(*) + 1 FROM sensor s2
+                    JOIN setor st2 ON st2.idSetor = s2.fkSetor
+                    WHERE st2.setor = setor.setor
+                    AND st2.fkFilial = setor.fkFilial
+                    AND s2.idSensor < sensor.idSensor
+                ))
+            END AS nomeSetor,
             COUNT(m.idMonitoramento) AS totalPessoas
         FROM sensor
             JOIN setor ON setor.idSetor = sensor.fkSetor
             JOIN filial ON filial.idFilial = setor.fkFilial
-            LEFT JOIN monitoramento AS m ON m.fkSensor = sensor.idSensor 
-            AND DATE(m.data_hora) = CURRENT_DATE()
+            LEFT JOIN (
+                SELECT idMonitoramento, fkSensor
+                FROM monitoramento
+                WHERE DATE(data_hora) = CURRENT_DATE()
+            ) AS m ON m.fkSensor = sensor.idSensor
         WHERE filial.idFilial = ${idFilial}
-        GROUP BY sensor.idSensor, setor.setor
+        GROUP BY sensor.idSensor, setor.setor, setor.fkFilial
         ORDER BY sensor.idSensor;
     `;
     console.log("Executando instrução SQL: \n" + instrucaoSql);

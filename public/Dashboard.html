@@ -129,17 +129,17 @@
     var instanciaHeatmap;
     var posicoesHeatmap = [
         { setor: 'Hortifruti', x: 175, y: 100, radius: 30 },
-        { setor: 'Hortifruti', x: 100, y: 100, radius: 30 },
+        { setor: 'Hortifruti2', x: 100, y: 100, radius: 30 },
         { setor: 'Laticínios', x: 155, y: 150, radius: 30 },
-        { setor: 'Laticínios', x: 155, y: 210, radius: 30 },
+        { setor: 'Laticínios2', x: 155, y: 210, radius: 30 },
         { setor: 'Bebidas', x: 205, y: 85, radius: 30 },
-        { setor: 'Bebidas', x: 205, y: 210, radius: 30 },
+        { setor: 'Bebidas2', x: 205, y: 210, radius: 30 },
         { setor: 'Higiene', x: 355, y: 85, radius: 30 },
-        { setor: 'Higiene', x: 355, y: 210, radius: 30 },
+        { setor: 'Higiene2', x: 355, y: 210, radius: 30 },
         { setor: 'Açougue', x: 440, y: 110, radius: 30 },
-        { setor: 'Açougue', x: 470, y: 110, radius: 30 },
+        { setor: 'Açougue2', x: 470, y: 110, radius: 30 },
         { setor: 'Padaria', x: 440, y: 260, radius: 30 },
-        { setor: 'Padaria', x: 470, y: 260, radius: 30 }
+        { setor: 'Padaria2', x: 470, y: 260, radius: 30 }
     ];
 
     nome_usuario.innerHTML += sessionStorage.NOME_USUARIO
@@ -245,14 +245,13 @@
                 var posicao = posicoesHeatmap[i];
                 var totalPosicao = 0;
 
-                // soma todos os sensores desse setor e divide por 2 (para cada posição ter metade)
                 for (var k = 0; k < dadosHeatmap.length; k++) {
                     if (dadosHeatmap[k].nomeSetor == posicao.setor) {
                         totalPosicao += dadosHeatmap[k].totalPessoas;
                     }
                 }
 
-                totalPosicao = totalPosicao / 2; // divide igualmente entre as duas posições
+                totalPosicao = totalPosicao / 2; 
 
                 if (totalPosicao > max) {
                     max = totalPosicao;
@@ -758,14 +757,13 @@
                 var posicao = posicoesHeatmap[i];
                 var totalPosicao = 0;
 
-                // soma todos os sensores desse setor e divide por 2 (para cada posição ter metade)
                 for (var k = 0; k < dadosHeatmap.length; k++) {
                     if (dadosHeatmap[k].nomeSetor == posicao.setor) {
                         totalPosicao += dadosHeatmap[k].totalPessoas;
                     }
                 }
 
-                totalPosicao = totalPosicao / 2; // divide igualmente entre as duas posições
+                totalPosicao = totalPosicao / 2; 
 
                 if (totalPosicao > max) {
                     max = totalPosicao;
