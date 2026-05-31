@@ -130,10 +130,27 @@ body {
     background-color: rgb(255, 255, 255);
     border: solid 1px rgba(106, 54, 255, 0.6);
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .modal-sumir{
     display: flex;
+}
+
+.modal-filial .btn-filial {
+    width: 100%;
+    height: 30px;
+    border: none;
+    border-bottom: solid 1px rgba(106, 54, 255, 0.6);
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.btn-filial:hover {
+    background-color: rgba(106, 54, 255, 0.2);
 }
 
 .botao-seta {
@@ -276,4 +293,40 @@ body {
     background: linear-gradient(20deg, #6A36FF, #AC5FE6);
     color: rgb(255, 255, 255);
     cursor: pointer;
+}
+
+.aviso-matriz {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 80px 40px;
+    text-align: center;
+    margin: 40px auto;
+    max-width: 500px;
+
+    border: 1px solid rgba(165, 90, 232, 0.3);
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(106, 54, 255, 0.05), rgba(172, 95, 230, 0.08));
+}
+
+.aviso-matriz i {
+    font-size: 52px;
+    background: linear-gradient(90deg, #6A36FF, #AC5FE6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.aviso-matriz h2 {
+    font-size: 1.6rem;
+    color: #14358A;
+    font-weight: bold;
+}
+
+.aviso-matriz p {
+    font-size: 1rem;
+    color: #333333;
+    line-height: 1.6;
 }

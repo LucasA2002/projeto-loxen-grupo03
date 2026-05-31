@@ -81,11 +81,12 @@
                     sessionStorage.FKFILIAL_USUARIO = json.fkFilial;
                     sessionStorage.FKEMPRESA_USUARIO = json.fkEmpresa;
 
-
                     console.log('vou redirecionar')
 
                     if (json.cargo == 'Suporte') {
                         window.location = "./bob_ia.html";
+                    } else if (json.cargo == 'Administrador') {
+                        window.location = "./dashboard_geral.html";
                     } else {
                         window.location = "./Dashboard.html";
                     }

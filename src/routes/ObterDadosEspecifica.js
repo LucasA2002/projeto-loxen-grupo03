@@ -43,4 +43,12 @@ router.get("/buscarFiliais/:idFilial", function (req, res) {
     ObterDadosEspecifica.buscarFiliais(req, res);
 });
 
+router.get("/BuscarNomeIdMatriz/:idFilial", function (req, res) {
+    ObterDadosEspecifica.BuscarNomeIdMatriz(req, res);
+});
+
+router.get("/buscarNomeSetorPorSensor/:idSensor", function (req, res) {
+    ObterDadosEspecifica.buscarNomeSetorPorSensor(req, res);
+});
+
 module.exports = router;

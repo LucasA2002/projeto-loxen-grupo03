@@ -20,7 +20,7 @@
         <img class="logo" src="assets/icon/logo.png" alt="Logo">
         <div class="menu">
             <div class="agora">Dashboard</div>
-            <button onclick="window.location.href='dashboard_geral.html'" id="colaborador">Dashboard Geral</button>
+            <button onclick="IrDashGeral()" id="colaborador">Dashboard Geral</button>
             <button onclick="window.location.href='cadastro_usuario.html'" id="colaborador">Cadastrar
                 Colaborador</button>
             <button onclick="window.location.href='cadastro_filial.html'" id="filial">Cadastrar Filial</button>
@@ -36,20 +36,20 @@
     <div class="conteudo">
         <div class="titulo-filial">
             <button class="botao-seta" id="btn_seta" onclick="exibirFiliais()">
-                <h3 id="filialAtual">Filial - SPTech</h3>
+                <h3 id="filialAtual"></h3>
                 <i class="fa-solid fa-chevron-left seta" id="img_seta"></i>
             </button>
 
             <div class="modal-filial" id="modalFilial"></div>
 
         </div>
-        <div class="kpis">
+        <div class="kpis" id="containerKpi">
             <div class="card">
-                <p>Comparação de Fluxo (<span id="mesVigente">Abril</span> X <span id="mesPassado">Março</span>)</p>
+                <p>Comparação de Fluxo (<span id="mesVigente">Mês</span> X <span id="mesPassado">Mês</span>)</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi1.png">
-                    <h3><span id="porcentagemKpi">-12</span><span id="simboloPorcentagem">%</span> (<span
-                            id="qtdMesAtual">495</span> Acessos)</h3>
+                    <h3><span id="porcentagemKpi">XX</span><span id="simboloPorcentagem">%</span> (<span
+                            id="qtdMesAtual">XX</span> Acessos)</h3>
                 </div>
             </div>
             <div class="card">
@@ -60,24 +60,32 @@
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi2.png">
                     <div class="kpiValor" id="kpiMaisVisitado">
-                        <h3><span id="idSetorMaisVisitado">Lacticínios</span> - <span style="color: green;"
-                                id="qtdMaisVisitado">486 Acessos</span> - <span id="mesMaisVisitado">Abril</span></h3>
+                        <h3><span id="idSetorMaisVisitado">Setor</span> - <span style="color: green;"
+                                id="qtdMaisVisitado">XX</span> <span style="color: green;">Acessos</span> - <span
+                                id="mesMaisVisitado">Mês</span></h3>
                     </div>
                     <div class="kpiValor" id="kpiMenosVisitado" style="display: none;">
-                        <h3><span id="idSetorMenosVisitado">Lacticínios</span> - <span style="color: rgb(128, 0, 0);"
-                                id="qtdMenosVisitado">486 Acessos</span> - <span id="mesMenosVisitado">Abril</span></h3>
+                        <h3><span id="idSetorMenosVisitado">Setor</span> - <span style="color: rgb(128, 0, 0);"
+                                id="qtdMenosVisitado">XX</span> <span style="color: rgb(128, 0, 0);">Acessos</span> -
+                            <span id="mesMenosVisitado">Mês</span>
+                        </h3>
                     </div>
                 </div>
             </div>
             <div class="card">
-                <p>Pico de Fluxo (Ontem - <span id="dataPico">26/04/2026</span>)</p>
+                <p>Pico de Fluxo (Ontem - <span id="dataPico">dd/mm/YYYY</span>)</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi3.png">
-                    <h3><span id="horaPico">11</span>h - <span id="qtdPessoasPico">120</span> Acessos</h3>
+                    <h3><span id="horaPico">XX</span>h - <span id="qtdPessoasPico">XX</span> Acessos</h3>
                 </div>
             </div>
         </div>
-        <div class="graficos">
+        <div class="aviso-matriz" id="avisoMatriz" style="display: none;">
+            <i class="fa-solid fa-code-branch"></i>
+            <h2>Você está na filial matriz</h2>
+            <p>Selecione uma filial acima para visualizar os dados.</p>
+        </div>
+        <div class="graficos" id="containerGraficos">
             <div class="grafico">
                 <h3>Média de fluxo semanal no mês | <span id="mesFluxo"></span></h3>
                 <div class="meta">
@@ -110,11 +118,28 @@
 <script src="js/sessao.js"></script>
 
 <script>
-
+    var nomeFilial = sessionStorage.NOME_FILIAL;
+    var idMatriz;
+    var proximaAtualizacaoHeatmap;
+    var proximaAtualizacaoSemana;
     var graficoFluxoMedioMensal;
     var graficoFluxoAcumuladoHora;
     var graficoFluxoSemanal;
-    var instanciaHeatmap
+    var instanciaHeatmap;
+    var posicoesHeatmap = [
+        { setor: 'Hortifruti', x: 175, y: 100, radius: 30 },
+        { setor: 'Hortifruti', x: 100, y: 100, radius: 30 },
+        { setor: 'Laticínios', x: 155, y: 150, radius: 30 },
+        { setor: 'Laticínios', x: 155, y: 210, radius: 30 },
+        { setor: 'Bebidas', x: 205, y: 85, radius: 30 },
+        { setor: 'Bebidas', x: 205, y: 210, radius: 30 },
+        { setor: 'Higiene', x: 355, y: 85, radius: 30 },
+        { setor: 'Higiene', x: 355, y: 210, radius: 30 },
+        { setor: 'Açougue', x: 440, y: 110, radius: 30 },
+        { setor: 'Açougue', x: 470, y: 110, radius: 30 },
+        { setor: 'Padaria', x: 440, y: 260, radius: 30 },
+        { setor: 'Padaria', x: 470, y: 260, radius: 30 }
+    ];
 
     nome_usuario.innerHTML += sessionStorage.NOME_USUARIO
 
@@ -151,7 +176,6 @@
 
         let idFilial = sessionStorage.FKFILIAL_USUARIO;
 
-
         fetch(`/ObterDadosEspecifica/buscarDadosFluxo/${idFilial}`, {
             method: "GET",
             cache: "no-store"
@@ -181,15 +205,23 @@
         fetch(`/ObterDadosEspecifica/buscarDadosFluxoSemana/${idFilial}`, {
             method: "GET",
             cache: "no-store"
-        }).then(function (resultadoBuscaFluxoSemana) {
-            return resultadoBuscaFluxoSemana.json();
+        }).then(function (res) {
+            if (!res.ok) {
+                return [];
+            }
+            return res.json();
+        }).then(function (dadosFluxoSemana) {
+            plotarGraficoFluxoSemana(dadosFluxoSemana);
+
+            proximaAtualizacaoSemana = setTimeout(function () {
+                atualizarFluxoSemana(idFilial);
+            }, 10000);
+        }).catch(function (err) {
+            console.log(err);
+            proximaAtualizacaoSemana = setTimeout(function () {
+                atualizarFluxoSemana(idFilial);
+            }, 10000);
         })
-            .then(function (dadosFluxoSemana) {
-                plotarGraficoFluxoSemana(dadosFluxoSemana);
-            })
-            .catch(function (err) {
-                console.log(err);
-            })
 
         fetch(`/ObterDadosEspecifica/buscarDadosHeatmap/${idFilial}`, {
             method: "GET",
@@ -197,31 +229,44 @@
         }).then(function (res) {
             return res.json();
         }).then(function (dadosHeatmap) {
+            posicoesHeatmap
 
             var max = 0;
-
-            for (var i = 0; i < dadosHeatmap.length; i++) {
-                var sensor = dadosHeatmap[i];
-                if (pontosHeatmap[sensor.idSensor] != undefined) {
-                    pontosHeatmap[sensor.idSensor].value = sensor.totalPessoas;
-                }
-                if (dadosHeatmap[i].totalPessoas > max) {
-                    max = dadosHeatmap[i].totalPessoas;
-                }
-            }
-
             var pontos = [];
-            for (var i = 1; i <= 12; i++) {
-                pontos.push(pontosHeatmap[i]);
+
+            for (var i = 0; i < posicoesHeatmap.length; i++) {
+                var posicao = posicoesHeatmap[i];
+                var totalPosicao = 0;
+
+                // soma todos os sensores desse setor e divide por 2 (para cada posição ter metade)
+                for (var k = 0; k < dadosHeatmap.length; k++) {
+                    if (dadosHeatmap[k].nomeSetor == posicao.setor) {
+                        totalPosicao += dadosHeatmap[k].totalPessoas;
+                    }
+                }
+
+                totalPosicao = totalPosicao / 2; // divide igualmente entre as duas posições
+
+                if (totalPosicao > max) {
+                    max = totalPosicao;
+                }
+
+                if (totalPosicao > 0) {
+                    pontos.push({
+                        x: posicao.x,
+                        y: posicao.y,
+                        radius: posicao.radius,
+                        value: totalPosicao
+                    });
+                }
             }
+            instanciaHeatmap.setData({ data: pontos, max: max });
 
-            instanciaHeatmap.setData({
-                data: pontos,
-                max: max
-            });
+            proximaAtualizacaoHeatmap = setTimeout(function () {
+                atualizarHeatmap(idFilial);
+            }, 2000);
 
-        })
-            .catch(function (err) { console.log(err); });
+        }).catch(function (err) { console.log(err); });
 
         fetch(`/ObterDadosEspecifica/buscarMaisVisitado/${idFilial}`, {
             method: "GET",
@@ -288,6 +333,19 @@
                 console.log(err);
             })
 
+        fetch(`/ObterDadosEspecifica/BuscarNomeIdMatriz/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        }).then(function (resultadoNomeIdMatriz) {
+            return resultadoNomeIdMatriz.json();
+        })
+            .then(function (dadosNomeIdMatriz) {
+                plotarNomeFilial(dadosNomeIdMatriz);
+                idMatriz = dadosNomeIdMatriz[0].idMatriz;
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
     }
 
     function plotarKpiMais(dadosMais) {
@@ -306,17 +364,6 @@
         horaPico.innerHTML = dadosPico[0].hora;
         dataPico.innerHTML = dadosPico[0].ontem;
         qtdPessoasPico.innerHTML = dadosPico[0].totalPessoas;
-    }
-
-    function plotarFiliais(dadosFiliais) {
-        for (let i = 0; i < dadosFiliais.length; i++) {
-            modalFilial.innerHTML += `<button onclick="mudarFilial(${dadosFiliais[i].novoIdFilial})">${dadosFiliais[i].nome}</button><br>`
-        }
-    }
-
-    function mudarFilial(novoIdFilial) {
-        sessionStorage.FKFILIAL_USUARIO = novoIdFilial;
-        window.location.reload();
     }
 
     function plotarKpiComparacao(dadosComparacaoFluxo) {
@@ -338,7 +385,40 @@
         mesVigente.innerHTML = dadosComparacaoFluxo[0].mes;
     }
 
+    function plotarNomeFilial(dadosNome) {
+        filialAtual.innerHTML = dadosNome[0].nome;
+        idMatriz = dadosNome[0].idMatriz;
+
+        let idFilialAtual = parseInt(sessionStorage.FKFILIAL_USUARIO);
+
+        if (idFilialAtual === idMatriz) {
+            containerKpi.style.display = 'none';
+            containerGraficos.style.display = 'none';
+            avisoMatriz.style.display = 'flex';
+        } else {
+            containerKpi.style.display = '';
+            containerGraficos.style.display = '';
+            avisoMatriz.style.display = 'none';
+        }
+    }
+
+    function plotarFiliais(dadosFiliais) {
+        for (let i = 0; i < dadosFiliais.length; i++) {
+            modalFilial.innerHTML += `<button class="btn-filial" onclick="mudarFilial(${dadosFiliais[i].novoIdFilial})">${dadosFiliais[i].nome}</button>`
+        }
+    }
+
+    function mudarFilial(novoIdFilial) {
+        clearTimeout(proximaAtualizacaoHeatmap);
+        clearTimeout(proximaAtualizacaoSemana);
+        sessionStorage.FKFILIAL_USUARIO = novoIdFilial;
+        window.location.reload();
+    }
+
     function plotarGraficoFluxoMensal(dadosFluxo) {
+        if (!dadosFluxo || dadosFluxo.length === 0) {
+            dadosFluxo = [{ metaFilial: 0, diaSemana: '', mediaPorDiaSemana: 0, mes: '-' }];
+        }
 
         var fluxo = [0, 0, 0, 0, 0, 0, 0];
         var dia = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
@@ -395,6 +475,9 @@
     };
 
     function plotarGraficoFluxoSemana(dadosFluxoSemana) {
+        if (!dadosFluxoSemana || dadosFluxoSemana.length === 0) {
+            dadosFluxoSemana = [{ dataFormatada: '-', setor: '-', totalPessoas: 0 }];
+        }
 
         var dia = [];
         for (var i = 0; i < dadosFluxoSemana.length; i++) {
@@ -437,7 +520,7 @@
                 if (dadosFluxoSemana[k].setor == setores[i]) {
                     var idx = dia.indexOf(dadosFluxoSemana[k].dataFormatada);
                     if (idx != -1) {
-                        fluxoSetor[idx] += dadosFluxoSemana[k].totalPessoas;
+                        fluxoSetor[idx] = dadosFluxoSemana[k].totalPessoas;
                     }
                 }
             }
@@ -460,6 +543,10 @@
                 datasets: datasets
             },
             options: {
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
                 scales: {
                     y: { beginAtZero: true }
                 }
@@ -468,6 +555,9 @@
     }
 
     function plotarGraficoFluxoAcumulado(dadosFluxoAcumulado) {
+        if (!dadosFluxoAcumulado || dadosFluxoAcumulado.length === 0) {
+            dadosFluxoAcumulado = [{ hora: 0, totalPessoas: 0, dia: '-' }];
+        }
 
         var totalPessoas = [];
         var horas = [];
@@ -511,20 +601,6 @@
         max: 30
     });
 
-    var pontosHeatmap = {
-        1: { x: 175, y: 100, value: 0, radius: 30 },
-        2: { x: 100, y: 100, value: 0, radius: 30 },
-        3: { x: 155, y: 150, value: 0, radius: 30 },
-        4: { x: 155, y: 210, value: 0, radius: 30 },
-        5: { x: 205, y: 85, value: 0, radius: 30 },
-        6: { x: 205, y: 210, value: 0, radius: 30 },
-        7: { x: 355, y: 85, value: 0, radius: 30 },
-        8: { x: 355, y: 210, value: 0, radius: 30 },
-        9: { x: 440, y: 110, value: 0, radius: 30 },
-        10: { x: 470, y: 110, value: 0, radius: 30 },
-        11: { x: 440, y: 260, value: 0, radius: 30 },
-        12: { x: 470, y: 260, value: 0, radius: 30 }
-    };
 
     function trocarVisitado(tipo) {
         const itens = document.querySelectorAll('.toggle-item')
@@ -586,5 +662,129 @@
             graficoFluxoMedioMensal.data.datasets[0].data.push(valorMeta);
         }
         graficoFluxoMedioMensal.update();
+    }
+
+    function atualizarFluxoSemana(idFilial) {
+        fetch(`/ObterDadosEspecifica/buscarDadosFluxoSemana/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        }).then(function (res) {
+            if (!res.ok) {
+                return [];
+            }
+            return res.json();
+        }).then(function (dadosFluxoSemana) {
+            if (!dadosFluxoSemana || dadosFluxoSemana.length === 0) {
+                graficoFluxoSemanal.data.labels = [];
+                for (var i = 0; i < graficoFluxoSemanal.data.datasets.length; i++) {
+                    graficoFluxoSemanal.data.datasets[i].data = [];
+                }
+                graficoFluxoSemanal.update();
+
+            } else {
+                if (graficoFluxoSemanal.data.datasets.length === 1 &&
+                    graficoFluxoSemanal.data.datasets[0].label === '-') {
+
+                    graficoFluxoSemanal.destroy();
+                    plotarGraficoFluxoSemana(dadosFluxoSemana);
+
+                } else {
+                    var dia = [];
+                    for (var i = 0; i < dadosFluxoSemana.length; i++) {
+                        if (dia.indexOf(dadosFluxoSemana[i].dataFormatada) == -1) {
+                            dia.push(dadosFluxoSemana[i].dataFormatada);
+                        }
+                    }
+
+                    graficoFluxoSemanal.data.labels = dia;
+                    periodo.innerHTML = `${dia[0]} - ${dia[dia.length - 1]}`;
+
+                    for (var i = 0; i < graficoFluxoSemanal.data.datasets.length; i++) {
+                        var fluxoSetor = [];
+                        for (var j = 0; j < dia.length; j++) {
+                            fluxoSetor.push(0);
+                        }
+
+                        var nomeSetor = graficoFluxoSemanal.data.datasets[i].label;
+
+                        for (var k = 0; k < dadosFluxoSemana.length; k++) {
+                            if (dadosFluxoSemana[k].setor == nomeSetor) {
+                                var idx = dia.indexOf(dadosFluxoSemana[k].dataFormatada);
+                                if (idx != -1) {
+                                    fluxoSetor[idx] = dadosFluxoSemana[k].totalPessoas;
+                                }
+                            }
+                        }
+                        graficoFluxoSemanal.data.datasets[i].data = fluxoSetor;
+                    }
+
+                    graficoFluxoSemanal.update();
+                }
+            }
+
+            proximaAtualizacaoSemana = setTimeout(function () {
+                atualizarFluxoSemana(idFilial);
+            }, 10000);
+
+        }).catch(function (err) {
+            console.log(err);
+            proximaAtualizacaoSemana = setTimeout(function () {
+                atualizarFluxoSemana(idFilial);
+            }, 10000);
+        });
+    }
+
+    function atualizarHeatmap(idFilial) {
+        fetch(`/ObterDadosEspecifica/buscarDadosHeatmap/${idFilial}`, {
+            method: "GET",
+            cache: "no-store"
+        }).then(function (res) {
+            return res.json();
+        }).then(function (dadosHeatmap) {
+
+            posicoesHeatmap
+
+            var max = 0;
+            var pontos = [];
+
+            for (var i = 0; i < posicoesHeatmap.length; i++) {
+                var posicao = posicoesHeatmap[i];
+                var totalPosicao = 0;
+
+                // soma todos os sensores desse setor e divide por 2 (para cada posição ter metade)
+                for (var k = 0; k < dadosHeatmap.length; k++) {
+                    if (dadosHeatmap[k].nomeSetor == posicao.setor) {
+                        totalPosicao += dadosHeatmap[k].totalPessoas;
+                    }
+                }
+
+                totalPosicao = totalPosicao / 2; // divide igualmente entre as duas posições
+
+                if (totalPosicao > max) {
+                    max = totalPosicao;
+                }
+
+                if (totalPosicao > 0) {
+                    pontos.push({
+                        x: posicao.x,
+                        y: posicao.y,
+                        radius: posicao.radius,
+                        value: totalPosicao
+                    });
+                }
+            }
+
+            instanciaHeatmap.setData({ data: pontos, max: max });
+
+            proximaAtualizacaoHeatmap = setTimeout(function () {
+                atualizarHeatmap(idFilial);
+            }, 2000);
+
+        }).catch(function (err) { console.log(err); });
+    }
+
+    function IrDashGeral() {
+        sessionStorage.FKFILIAL_USUARIO = idMatriz;
+        window.location.href = 'dashboard_geral.html'
     }
 </script>

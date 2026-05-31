@@ -52,6 +52,19 @@ function buscarDadosHeatmap(req, res) {
         });
 }
 
+function buscarNomeSetorPorSensor(req, res) {
+    let idSensor = req.params.idSensor;
+
+    ObterDadosEspecificaModel.buscarNomeSetorPorSensor(idSensor)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 function atualizarMeta(req, res) {
     let idFilial = req.params.idFilial;
     let metaFilial = String(req.body.metaFilial);
@@ -155,15 +168,30 @@ function buscarFiliais(req, res) {
         });
 }
 
+function BuscarNomeIdMatriz(req, res) {
+    let idFilial = req.params.idFilial;
+
+    ObterDadosEspecificaModel.BuscarNomeIdMatriz(idFilial)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
     buscarDadosFluxo,
     buscarDadosFluxoSemana,
     buscarDadosFluxoAcumulado,
     buscarDadosHeatmap,
+    buscarNomeSetorPorSensor,
     atualizarMeta,
     BuscarFluxoMax,
     BuscarFluxoMin,
     buscarPicoHora,
     ComparacaoFluxo,
-    buscarFiliais
+    buscarFiliais,
+    BuscarNomeIdMatriz
 }
