@@ -244,19 +244,23 @@ body {
 
 .kpiToggle {
     display: flex;
-    gap: 25px;
+    gap: 15px;
 }
 
 .toggle-item {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     color: #888;
     cursor: pointer;
+    background-color: rgb(224, 224, 224);
+    padding: 5px;
+    border-radius: 10px;
 }
 
 .toggle-item.ativo {
     color: navy;
     font-weight: bold;
+    background-color: rgb(191, 175, 255);
 }
 
 .meta {
@@ -273,7 +277,6 @@ body {
     text-align: center;
     margin-inline: 5px;
     background: linear-gradient(20deg, #8d64ffc9, #b678e6cd);
-    color: rgb(255, 255, 255);
     font-size: large;
     outline: none;
 }
@@ -281,7 +284,7 @@ body {
 .meta ::-webkit-input-placeholder {
     font-weight: lighter;
     font-size: medium;
-    color: rgb(255, 255, 255);
+    color: rgb(95, 93, 93);
 }
 
 .meta button {
@@ -291,7 +294,7 @@ body {
     border-radius: 5px;
     margin-inline: 5px;
     background: linear-gradient(20deg, #6A36FF, #AC5FE6);
-    color: rgb(255, 255, 255);
+    color: black;
     cursor: pointer;
 }
 
