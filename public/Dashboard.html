@@ -385,7 +385,7 @@
             porcentagemKpi.style.color = "red";
             simboloPorcentagem.style.color = "red";
         }
-        porcentagemKpi.innerHTML = porcent;
+        porcentagemKpi.innerHTML = porcent.toFixed(2);
         qtdMesAtual.innerHTML = dadosComparacaoFluxo[0].totalPessoas;
         mesPassado.innerHTML = dadosComparacaoFluxo[1].mes;
         mesVigente.innerHTML = dadosComparacaoFluxo[0].mes;
