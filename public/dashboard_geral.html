@@ -20,9 +20,11 @@
         <ul class="menu">
             <li class="agora">Dashboard</li>
             <li><a href="Dashboard.html">Dashboard Filial</a></li>
-            <button onclick="window.location.href='cadastro_usuario.html'" id="colaborador">Cadastrar Colaborador</button>
+            <button onclick="window.location.href='cadastro_usuario.html'" id="colaborador">Cadastrar
+                Colaborador</button>
             <button onclick="window.location.href='cadastro_filial.html'" id="filial">Cadastrar Filial</button>
-            <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')" id="filial">Suporte</button>
+            <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')"
+                id="filial">Suporte</button>
         </ul>
         <div class="user">
             <img class="userIcon" src="assets/img/userIcon.png">
@@ -32,29 +34,51 @@
     </div>
     <div class="conteudo">
         <div class="kpis">
+
             <div class="card">
-                <div class="conteudoKpi">
-                    <p>Comparação de Fluxo por Setor (Mais X Menos)</p>
-                    <span class="item setor ativo" onclick="trocar('setor_mais')">Setor mais visitado</span>
-                    <span class="item setor" onclick="trocar('setor_menos')">Setor menos visitado</span>
+                <div class="kpiToggle">
+                    <span class="toggle-item1 ativo" onclick="trocarSetor('mais')">Setor Mais Visitado</span>
+                    <span class="toggle-item1" onclick="trocarSetor('menos')">Setor Menos Visitado</span>
                 </div>
-                <div class="texto_kpi">
+                <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi2.png">
-                    <div class="kpi_valor" id="kpi">-</div>
+                    <div class="kpiValor" id="kpiSetorMaisVisitado">
+                        <h3><span id="idSetorMaisVisitado">Setor</span> - <span style="color: green;"
+                                id="qtdSetorMaisVisitado">XX</span> <span style="color: green;">Acessos</span> - <span
+                                id="idMesSetorMais">Mês</span></h3>
+                    </div>
+                    <div class="kpiValor" id="kpiSetorMenosVisitado" style="display: none;">
+                        <h3><span id="idSetorMenosVisitado">Setor</span> - <span style="color: rgb(246, 20, 20);"
+                                id="qtdSetorMenosVisitado">XX</span> <span style="color: rgb(246, 20, 20);">Acessos</span>
+                            -
+                            <span id="idMesSetorMenos">Mês</span>
+                        </h3>
+                    </div>
                 </div>
             </div>
 
             <div class="card">
-                <div class="conteudoKpi">
-                    <p>Comparação de Fluxo por Filial (Mais X Menos)</p>
-                    <span class="item filial ativo" onclick="trocar('filial_mais')">Filial com mais fluxo</span>
-                    <span class="item filial" onclick="trocar('filial_menos')">Filial com menos fluxo</span>
+                <div class="kpiToggle">
+                    <span class="toggle-item2 ativo" onclick="trocarFilial('mais')">Filial Com Mais fluxo</span>
+                    <span class="toggle-item2" onclick="trocarFilial('menos')">Filial Com Menos fluxo</span>
                 </div>
-                <div class="texto_kpi">
+                <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi1.png">
-                    <div class="kpi_valor" id="kpi2">-</div>
+                    <div class="kpiValor" id="kpiFilialMaisVisitada">
+                        <h3><span id="idFilialMaisVisitada">Filial</span> - <span style="color: green;"
+                                id="qtdFilialMaisVisitada">XX</span> <span style="color: green;">Acessos</span> - <span
+                                id="idMesFilialMais">Mês</span></h3>
+                    </div>
+                    <div class="kpiValor" id="kpiFilialMenosVisitada" style="display: none;">
+                        <h3><span id="idFilialMenosVisitada">Filial</span> - <span style="color: rgb(246, 20, 20);"
+                                id="qtdFilialMenosVisitada">XX</span> <span
+                                style="color: rgb(246, 20, 20);">Acessos</span> -
+                            <span id="idMesFilialMenos">Mês</span>
+                        </h3>
+                    </div>
                 </div>
             </div>
+
 
         </div>
 
@@ -113,7 +137,9 @@
         .then(function (resultado) {
             setorMais = resultado[0].setor;
             totalSetorMais = resultado[0].total;
-            document.getElementById("kpi").innerText = `${setorMais} - (${totalSetorMais} acessos)`;
+            idSetorMaisVisitado.innerHTML = setorMais;
+            qtdSetorMaisVisitado.innerHTML = totalSetorMais;
+            //idMesSetorMais.innerHTML = mesAtual;
         })
         .catch(function (erro) {
             console.log(erro);
@@ -138,7 +164,9 @@
         .then(function (resultado) {
             filialMais = resultado[0].nome;
             totalFilialMais = resultado[0].total;
-            document.getElementById("kpi2").innerText = `${filialMais} - (${totalFilialMais} acessos)`;
+            idFilialMaisVisitada.innerHTML = filialMais;
+            qtdFilialMaisVisitada.innerHTML = totalFilialMais;
+            //idMesFilialMais.innerHTML = mesAtual;
         })
         .catch(function (erro) {
             console.log(erro);
@@ -157,35 +185,38 @@
         });
 
 
-    function trocar(tipo) {
-        if (tipo === 'setor_mais' || tipo === 'setor_menos') {
-
-            const items = document.querySelectorAll(".setor");
-
-            for (let i = 0; i < items.length; i++) {
-                items[i].classList.remove("ativo");
-            }
-
-        } else {
-            const items = document.querySelectorAll(".filial");
-
-            for (let i = 0; i < items.length; i++) {
-                items[i].classList.remove("ativo");
-            }
+    function trocarSetor(setor) {
+        const itens = document.querySelectorAll('.toggle-item1')
+        for (let i = 0; i < itens.length; i++) {
+            itens[i].classList.remove("ativo");
         }
+        event.target.classList.add("ativo")
 
-        event.target.classList.add("ativo");
-
-        if (tipo === `setor_mais`) {
-             console.log(`${setorMais}`)
-            document.getElementById(`kpi`).innerText = `${setorMais} - (${totalSetorMais} acessos)`;
-        } else if (tipo === `setor_menos`) {
+        if (setor === `mais`) {
+            console.log(`${setorMais}`)
+            kpiSetorMaisVisitado.style.display = "flex";
+            kpiSetorMenosVisitado.style.display = "none";
+        } else if (setor === `menos`) {
             console.log(`${setorMenos}`)
-            document.getElementById(`kpi`).innerText = `${setorMenos} - (${totalSetorMenos} acessos)`;;
-        } else if (tipo === `filial_mais`) {
-            document.getElementById(`kpi2`).innerText = `${filialMais} - (${totalFilialMais} acessos)`;
-        } else {
-            document.getElementById(`kpi2`).innerText = `${filialMenos} - (${totalFilialMenos} acessos)`;
+            kpiSetorMaisVisitado.style.display = "none";
+            kpiSetorMenosVisitado.style.display = "flex";
+        }
+    }
+
+    function trocarFilial(filial) {
+        const itens = document.querySelectorAll('.toggle-item2')
+        for (let i = 0; i < itens.length; i++) {
+            itens[i].classList.remove("ativo");
+        }
+        event.target.classList.add("ativo")
+
+        if (filial === `mais`) {
+            kpiFilialMaisVisitada.style.display = "flex";
+            kpiFilialMenosVisitada.style.display = "none";
+
+        } else if (filial === `menos`) {
+            kpiFilialMaisVisitada.style.display = "none";
+            kpiFilialMenosVisitada.style.display = "flex";
         }
     }
 
@@ -227,17 +258,17 @@
         data: data,
         options: {}
     };
-    
+
     fetch(`/dashgeral/fluxoSemanal/${idEmpresa}`)
-        .then(function(resposta){
-            if(resposta.ok){
-                resposta.json().then(function(resultado){
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
                     let listaMedias = {}
-                    for(let i = 0; i < resultado.length; i++){
+                    for (let i = 0; i < resultado.length; i++) {
                         let nomeDia = dias[resultado[i].dia_semana]
                         listaMedias[nomeDia] = resultado[i].media
                     }
-                    for(let i = 0; i < labels.length; i++){
+                    for (let i = 0; i < labels.length; i++) {
                         data.datasets[0].data[i] = listaMedias[labels[i]] || 0
                     }
                     myChart.update()
@@ -245,7 +276,7 @@
             } else {
                 console.log('Sem dados')
             }
-        }).catch(function(erro){
+        }).catch(function (erro) {
             console.log(erro)
         })
 
@@ -306,30 +337,30 @@
         }
     };
     fetch(`/dashgeral/fluxoSetor/${idEmpresa}`)
-        .then(function (resposta){
-            if(resposta.ok){
-                resposta.json().then(function(resultado){
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
                     let totalOutros = 0
 
-                    for(let i = 0; i < resultado.length; i++){
-                        if(i < 5){
+                    for (let i = 0; i < resultado.length; i++) {
+                        if (i < 5) {
                             labels2.push(resultado[i].nome_setor)
                             data2.datasets[0].data.push(resultado[i].media);
-                        }else {
+                        } else {
                             totalOutros += resultado[i].media
                         }
                     }
-                    if(totalOutros > 0){
+                    if (totalOutros > 0) {
                         labels2.push('Outros')
                         data2.datasets[0].data.push(totalOutros)
                     }
 
                     myChart2.update()
                 })
-            }else{
+            } else {
                 console.log('Sem dados')
             }
-        }).catch(function(erro){
+        }).catch(function (erro) {
             console.log(erro)
         })
 
@@ -376,20 +407,20 @@
         options: {}
     };
     fetch(`/dashgeral/fluxoFilial/${idEmpresa}`)
-        .then(function(resposta){
-            if(resposta.ok){
-                resposta.json().then(function(resultado){
-                    for (let i = 0; i < resultado.length; i++){
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
+                    for (let i = 0; i < resultado.length; i++) {
                         labels3.push(resultado[i].nome_filial)
                         data3.datasets[1].data.push(resultado[i].total)
                         data3.datasets[0].data.push(0)
                     }
                     myChart3.update()
                 })
-            }else{
+            } else {
                 console.log('Sem dados')
             }
-        }).catch(function(erro){
+        }).catch(function (erro) {
             console.log(erro)
         })
 
