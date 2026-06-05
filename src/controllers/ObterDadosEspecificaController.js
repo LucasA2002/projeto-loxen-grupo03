@@ -159,7 +159,10 @@ function buscarFiliais(req, res) {
                 ObterDadosEspecificaModel.buscarFiliais2(idFilial)
                     .then(function (resultado) {
                         res.json(resultado);
-                    })
+                    }).catch(function (erro) {
+                        console.log(erro);
+                        res.status(500).json(erro.sqlMessage);
+                    });
             }
         })
         .catch(function (erro) {

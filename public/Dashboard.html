@@ -356,13 +356,13 @@
 
     function plotarKpiMais(dadosMais) {
         idSetorMaisVisitado.innerHTML = dadosMais[0].setor;
-        qtdMaisVisitado.innerHTML = dadosMais[0].maxPessoas;
+        qtdMaisVisitado.innerHTML = dadosMais[0].qtdPessoas;
         mesMaisVisitado.innerHTML = dadosMais[0].mes;
     }
 
     function plotarKpiMenos(dadosMenos) {
         idSetorMenosVisitado.innerHTML = dadosMenos[0].setor;
-        qtdMenosVisitado.innerHTML = dadosMenos[0].minPessoas;
+        qtdMenosVisitado.innerHTML = dadosMenos[0].qtdPessoas;
         mesMenosVisitado.innerHTML = dadosMenos[0].mes;
     }
 
@@ -402,8 +402,8 @@
             containerGraficos.style.display = 'none';
             avisoMatriz.style.display = 'flex';
         } else {
-            containerKpi.style.display = '';
-            containerGraficos.style.display = '';
+            containerKpi.style.display = 'flex';
+            containerGraficos.style.display = 'grid';
             avisoMatriz.style.display = 'none';
         }
     }
