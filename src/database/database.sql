@@ -66,6 +66,238 @@ CONSTRAINT chFkSensor
 FOREIGN KEY (fkSensor) REFERENCES sensor (idSensor)
 );
 
+-- Views DashBoard específica 
+
+-- Média semanal do fluxo no mês atual, usada no gráfico de média por dia da semana.
+CREATE VIEW vw_media_semanal AS
+SELECT
+    sub.idFilial,
+    CASE mes
+        WHEN 1 THEN 'Janeiro'
+        WHEN 2 THEN 'Fevereiro'
+        WHEN 3 THEN 'Março'
+        WHEN 4 THEN 'Abril'
+        WHEN 5 THEN 'Maio'
+        WHEN 6 THEN 'Junho'
+        WHEN 7 THEN 'Julho'
+        WHEN 8 THEN 'Agosto'
+        WHEN 9 THEN 'Setembro'
+        WHEN 10 THEN 'Outubro'
+        WHEN 11 THEN 'Novembro'
+        WHEN 12 THEN 'Dezembro'
+    END AS mes,
+    CASE dia_semana
+        WHEN 1 THEN 'Domingo'
+        WHEN 2 THEN 'Segunda-feira'
+        WHEN 3 THEN 'Terça-feira'
+        WHEN 4 THEN 'Quarta-feira'
+        WHEN 5 THEN 'Quinta-feira'
+        WHEN 6 THEN 'Sexta-feira'
+        WHEN 7 THEN 'Sábado'
+    END AS diaSemana,
+    SUM(total_dia) AS totalPessoas,
+    SUM(total_dia)/4 AS mediaPorDiaSemana,
+    metaFilial
+FROM (
+    SELECT
+        filial.idFilial,
+        MONTH(m.data_hora) AS mes,
+        DAYOFWEEK(m.data_hora) AS dia_semana,
+        DATE(m.data_hora) AS data,
+        COUNT(m.idMonitoramento) AS total_dia,
+        filial.metaFilial
+    FROM monitoramento m
+        JOIN sensor ON sensor.idSensor = m.fkSensor
+        JOIN setor ON setor.idSetor = sensor.fkSetor
+        JOIN filial ON filial.idFilial = setor.fkFilial
+    WHERE MONTH(m.data_hora) = MONTH(CURRENT_DATE())
+    AND YEAR(m.data_hora) = YEAR(CURRENT_DATE())
+    GROUP BY
+        filial.idFilial,
+        MONTH(m.data_hora),
+        DAYOFWEEK(m.data_hora),
+        DATE(m.data_hora),
+        filial.metaFilial
+) sub
+GROUP BY idFilial, mes, dia_semana, metaFilial;
+
+-- Fluxo acumulado por hora do dia anterior.
+CREATE VIEW vw_fluxo_acumulado AS
+SELECT 
+    filial.idFilial,
+    DATE_FORMAT(data_hora, '%d/%m/%Y') AS dia,
+    HOUR(data_hora) AS hora,
+    COUNT(idMonitoramento) AS totalPessoas
+FROM monitoramento
+JOIN sensor ON sensor.idSensor = monitoramento.fkSensor
+JOIN setor ON setor.idSetor = sensor.fkSetor
+JOIN filial ON filial.idFilial = setor.fkFilial
+WHERE DATEDIFF(CURRENT_DATE(), DATE(data_hora)) = 1
+GROUP BY hora, dia, filial.idFilial
+ORDER BY hora;
+
+-- Dados de movimentação por sensor/setor para alimentar o mapa de calor.
+CREATE VIEW vw_heatmap AS
+	SELECT 
+		filial.idFilial,
+		sensor.idSensor,
+		CASE 
+			WHEN (
+				SELECT COUNT(*)
+				FROM sensor s2
+				JOIN setor st2 ON st2.idSetor = s2.fkSetor
+				WHERE st2.setor = setor.setor
+				AND st2.fkFilial = setor.fkFilial
+				AND s2.idSensor < sensor.idSensor
+			) = 0
+			THEN setor.setor
+			ELSE CONCAT(
+				setor.setor,
+				(
+					SELECT COUNT(*) + 1
+					FROM sensor s2
+					JOIN setor st2 ON st2.idSetor = s2.fkSetor
+					WHERE st2.setor = setor.setor
+					AND st2.fkFilial = setor.fkFilial
+					AND s2.idSensor < sensor.idSensor
+				)
+			)
+		END AS nomeSetor,
+		COUNT(m.idMonitoramento) AS totalPessoas
+	FROM sensor
+		JOIN setor ON setor.idSetor = sensor.fkSetor
+		JOIN filial ON filial.idFilial = setor.fkFilial
+		LEFT JOIN (
+			SELECT idMonitoramento, fkSensor
+			FROM monitoramento
+			WHERE DATE(data_hora) = CURRENT_DATE()
+		) AS m ON m.fkSensor = sensor.idSensor
+	GROUP BY
+		sensor.idSensor,
+		setor.setor,
+		setor.fkFilial,
+		filial.idFilial
+	ORDER BY sensor.idSensor;
+    
+-- Retorna o nome do setor vinculado a um sensor específico.
+CREATE VIEW vw_sensor_setor AS
+	SELECT
+		sensor.idSensor,
+		setor.setor AS nomeSetor
+	FROM sensor
+	JOIN setor ON setor.idSetor = sensor.fkSetor;
+    
+-- Fluxo dos últimos 7 dias por setor, usado no gráfico semanal.
+CREATE VIEW vw_fluxo_semana AS
+	SELECT 
+		filial.idFilial,
+		DATE_FORMAT(m.data_hora, '%d/%m') AS dataFormatada,
+		s.setor AS setor,
+		COUNT(m.idMonitoramento) AS totalPessoas,
+		DATE(m.data_hora) AS dia
+	FROM monitoramento AS m
+		JOIN sensor ON sensor.idSensor = m.fkSensor
+		JOIN setor AS s ON s.idSetor = sensor.fkSetor
+		JOIN filial ON filial.idFilial = s.fkFilial
+		WHERE DATEDIFF(CURRENT_DATE(), DATE(m.data_hora)) BETWEEN 0 AND 6
+		GROUP BY DATE(m.data_hora), dataFormatada, s.setor, dia, filial.idFilial
+		ORDER BY DATE(m.data_hora), s.setor;
+     
+-- Base para identificar setor com maior ou menor fluxo no período.
+CREATE VIEW vw_fluxo_max_min AS
+	SELECT 
+		filial.idFilial,
+		s.setor AS setor,
+		COUNT(m.idMonitoramento) AS qtdPessoas,
+		CASE MONTH(m.data_hora)
+			WHEN 1 THEN 'Janeiro'
+			WHEN 2 THEN 'Fevereiro'
+			WHEN 3 THEN 'Março'
+			WHEN 4 THEN 'Abril'
+			WHEN 5 THEN 'Maio'
+			WHEN 6 THEN 'Junho'
+			WHEN 7 THEN 'Julho'
+			WHEN 8 THEN 'Agosto'
+			WHEN 9 THEN 'Setembro'
+			WHEN 10 THEN 'Outubro'
+			WHEN 11 THEN 'Novembro'
+			WHEN 12 THEN 'Dezembro'
+		END AS mes
+	FROM monitoramento AS m
+		JOIN sensor ON sensor.idSensor = m.fkSensor
+		JOIN setor AS s ON s.idSetor = sensor.fkSetor
+		JOIN filial ON filial.idFilial = s.fkFilial
+		WHERE DATEDIFF(CURRENT_DATE(), DATE(m.data_hora)) BETWEEN 0 AND 31
+		GROUP BY mes, DATE_FORMAT(m.data_hora, '%d/%m'), s.setor, filial.idFilial;
+        
+-- Pico de fluxo por hora referente ao dia anterior.
+CREATE VIEW vw_pico_hora AS
+	SELECT 
+		filial.idFilial,
+		HOUR(data_hora) AS hora,
+		DATE_FORMAT(data_hora, '%d/%m/%Y') AS ontem,
+		COUNT(idMonitoramento) AS totalPessoas
+	FROM monitoramento
+		JOIN sensor ON sensor.idSensor = monitoramento.fkSensor
+		JOIN setor ON setor.idSetor = sensor.fkSetor
+		JOIN filial ON filial.idFilial = setor.fkFilial
+		WHERE DATEDIFF(CURRENT_DATE(), DATE(data_hora)) = 1
+		GROUP BY hora, ontem, filial.idFilial;
+        
+-- Compara o fluxo total entre os meses registrados.
+CREATE VIEW vw_comparacao_fluxo AS
+	SELECT 
+		filial.idFilial,
+		COUNT(m.idMonitoramento) AS totalPessoas,
+		CASE MONTH(m.data_hora)
+			WHEN 1 THEN 'Janeiro'
+			WHEN 2 THEN 'Fevereiro'
+			WHEN 3 THEN 'Março'
+			WHEN 4 THEN 'Abril'
+			WHEN 5 THEN 'Maio'
+			WHEN 6 THEN 'Junho'
+			WHEN 7 THEN 'Julho'
+			WHEN 8 THEN 'Agosto'
+			WHEN 9 THEN 'Setembro'
+			WHEN 10 THEN 'Outubro'
+			WHEN 11 THEN 'Novembro'
+			WHEN 12 THEN 'Dezembro'
+		END AS mes,
+		MONTH(m.data_hora) AS numeroMes
+	FROM monitoramento AS m
+		JOIN sensor ON sensor.idSensor = m.fkSensor
+		JOIN setor ON setor.idSetor = sensor.fkSetor
+		JOIN filial ON filial.idFilial = setor.fkFilial
+		GROUP BY mes, numeroMes, filial.idFilial;
+        
+-- Lista filiais relacionadas à mesma matriz da filial atual.
+CREATE VIEW vw_filiais AS
+	SELECT 
+		f.nome,
+		f.idFilial AS novoIdFilial,
+		f.fkMatriz
+	FROM filial f
+		JOIN filial m ON m.idFilial = f.fkMatriz
+		LEFT JOIN usuario u ON f.idFilial = u.fkFilial;
+        
+-- Lista filiais diretamente vinculadas a uma matriz.
+CREATE VIEW vw_filiais2 AS
+	SELECT
+		f.nome,
+		f.idFilial AS novoIdFilial,
+		f.fkMatriz
+	FROM filial f
+		JOIN filial m ON m.idFilial = f.fkMatriz;
+        
+-- Retorna o nome da filial e identifica sua matriz.
+CREATE VIEW vw_nome_matriz AS
+	SELECT
+		f.idFilial,
+		f.nome,
+		f.fkMatriz
+	FROM filial f
+	LEFT JOIN filial m ON m.idFilial = f.fkMatriz;
+
 -- INSERÇÃO DE DADOS
 INSERT INTO empresa(nome, status_empresa) VALUES 
 ('Loxen', 'Ativa');
