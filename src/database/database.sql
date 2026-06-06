@@ -325,16 +325,16 @@ CREATE VIEW vw_fluxo_por_setor AS
 -- inserção de dados
 
 INSERT INTO empresa(nome, status_empresa) VALUES 
-('SuperMercados Loxen', 'Ativa');
+('SuperMercados SPtech', 'Ativa');
 
 INSERT INTO filial(codigo, nome, cnpj, logradouro, cidade, estado, cep, fkEmpresa, fkMatriz) VALUES
 (12345, 'SuperMercado Central - central administrativa', '12345678000191', 'Av. Paulista, 1000', 'São Paulo', 'SP', '01310-100', 1, NULL),
-(13465, 'Unidade Santana', '12345678000192', 'Rua Voluntários da Pátria, 2500', 'São Paulo', 'SP', '02010-200', 1, 1),
+(13465, 'Unidade Paulista', '12345678000192', 'Avenida Paulista, 2500', 'São Paulo', 'SP', '02010-200', 1, 1),
 (53456, 'Unidade Mooca', '12345678000193', 'Rua da Mooca, 1500', 'São Paulo', 'SP', '03104-000', 1, 1),
 (84567, 'Unidade Santo Amaro', '12345678000194', 'Av. Santo Amaro, 3200', 'São Paulo', 'SP', '04702-000', 1, 1);
 
 INSERT INTO usuario(nome, cargo, email, senha, fkFilial) VALUES 
-('Loxen', 'Administrador', 'loxen.adm@gmail.com', 'Urubu100@', 1);
+('SPtech', 'Administrador', 'sptech.consulting@gmail.com', 'Urubu100@', 1);
 
 INSERT INTO setor (setor, fkFilial) VALUES
 -- Unidade Santana
