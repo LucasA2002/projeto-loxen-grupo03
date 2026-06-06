@@ -209,6 +209,8 @@ body {
     padding: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     min-height: 0;
     height: 400px;
 }
@@ -227,19 +229,21 @@ body {
 }
 
 .heatmap {
-    /*     position: relative;
-    width: 95%;
-    height: 90%; */
-
     position: relative;
     width: 500px;
     height: 300px;
-    margin-top: 30px;
+    margin-top: 5px;
     background-image: url(../assets/img/mapaLocal.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
     align-self: center;
+}
+
+.regua-heatmap {
+    width: 500px;
+    height: 60px;
+    margin-top: 10px;
 }
 
 .kpiToggle {
