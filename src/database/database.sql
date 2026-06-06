@@ -296,48 +296,106 @@ CREATE VIEW vw_nome_matriz AS
 		f.nome,
 		f.fkMatriz
 	FROM filial f
-	LEFT JOIN filial m ON m.idFilial = f.fkMatriz;
+		LEFT JOIN filial m ON m.idFilial = f.fkMatriz;
 
 -- Criação da view para KPI de fluxo por filial
 CREATE VIEW vw_fluxo_por_filial AS
-SELECT f.nome, f.fkEmpresa, m.idMonitoramento, m.data_hora
-FROM monitoramento m
-JOIN sensor ON sensor.idSensor = m.fkSensor
-JOIN setor s ON s.idSetor = sensor.fkSetor
-JOIN filial f ON f.idFilial = s.fkFilial;
+	SELECT 
+		f.nome, 
+		f.fkEmpresa, 
+		m.idMonitoramento, 
+		m.data_hora
+	FROM monitoramento m
+		JOIN sensor ON sensor.idSensor = m.fkSensor
+		JOIN setor s ON s.idSetor = sensor.fkSetor
+		JOIN filial f ON f.idFilial = s.fkFilial;
 
 -- Criação da view para KPI de fluxo por setor
 CREATE VIEW vw_fluxo_por_setor AS
-SELECT s.setor, f.fkEmpresa, m.idMonitoramento, m.data_hora
-FROM monitoramento m
-JOIN sensor ON sensor.idSensor = m.fkSensor
-JOIN setor s ON s.idSetor = sensor.fkSetor
-JOIN filial f ON f.idFilial = s.fkFilial;
+	SELECT 
+		s.setor, 
+        f.fkEmpresa, 
+        m.idMonitoramento, 
+        m.data_hora
+	FROM monitoramento m
+		JOIN sensor ON sensor.idSensor = m.fkSensor
+		JOIN setor s ON s.idSetor = sensor.fkSetor
+		JOIN filial f ON f.idFilial = s.fkFilial;
 
--- INSERÇÃO DE DADOS
+-- inserção de dados
+
 INSERT INTO empresa(nome, status_empresa) VALUES 
-('Loxen', 'Ativa');
+('SuperMercados Loxen', 'Ativa');
 
-INSERT INTO filial(codigo, nome, cnpj, logradouro, cidade, estado, cep, fkEmpresa) VALUES
-(12345, 'Filial Loxen', '1234567891234567891', 'Rua A', 'São Paulo', 'SP', '07500-000', 1);
+INSERT INTO filial(codigo, nome, cnpj, logradouro, cidade, estado, cep, fkEmpresa, fkMatriz) VALUES
+(12345, 'SuperMercado Central - central administrativa', '12345678000191', 'Av. Paulista, 1000', 'São Paulo', 'SP', '01310-100', 1, NULL),
+(13465, 'Unidade Santana', '12345678000192', 'Rua Voluntários da Pátria, 2500', 'São Paulo', 'SP', '02010-200', 1, 1),
+(53456, 'Unidade Mooca', '12345678000193', 'Rua da Mooca, 1500', 'São Paulo', 'SP', '03104-000', 1, 1),
+(84567, 'Unidade Santo Amaro', '12345678000194', 'Av. Santo Amaro, 3200', 'São Paulo', 'SP', '04702-000', 1, 1);
 
 INSERT INTO usuario(nome, cargo, email, senha, fkFilial) VALUES 
-('sptech', 'Administrador', 'sptech.consulting@gmail.com', 'Urubu100@', 1);
+('Loxen', 'Administrador', 'loxen.adm@gmail.com', 'Urubu100@', 1);
 
-INSERT INTO usuario(nome, cargo, email, senha, fkFilial) VALUES 
-('Loxen Sup', 'Suporte', 'suporte@loxen.com', 'Loxen321@', 1);
+INSERT INTO setor (setor, fkFilial) VALUES
+-- Unidade Santana
+('Bebidas', 2),
+('Hortifruti', 2),
+('Açougue', 2),
+('Padaria', 2),
+('Laticínios', 2),
+('Higiene', 2),
+-- Unidade Mooca
+('Bebidas', 3),
+('Hortifruti', 3),
+('Açougue', 3),
+('Padaria', 3),
+('Laticínios', 3),
+('Higiene', 3),
+-- Unidade Santo Amaro
+('Bebidas', 4),
+('Hortifruti', 4),
+('Açougue', 4),
+('Padaria', 4),
+('Laticínios', 4),
+('Higiene', 4);
 
-INSERT INTO setor (setor, fkFilial) VALUES 
-('Bebidas', 1);
-
-INSERT INTO sensor(status_sensor, fkSetor) VALUES
-('ativo', 1);
-
-INSERT INTO monitoramento (fkSensor) VALUES
-(1);
-
--- SELECT 
-SELECT * FROM monitoramento;
-SELECT * FROM usuario;
-SELECT * FROM filial;
-SELECT * FROM empresa;
+INSERT INTO sensor (status_sensor, fkSetor) VALUES
+-- Unidade Santana
+('ativo', 2), 
+('ativo', 2), 
+('ativo', 5), 
+('ativo', 5), 
+('ativo', 1), 
+('ativo', 1), 
+('ativo', 6), 
+('ativo', 6), 
+('ativo', 3), 
+('ativo', 3), 
+('ativo', 4), 
+('ativo', 4),
+-- Unidade Mooca
+('ativo', 8), 
+('ativo', 8), 
+('ativo', 11), 
+('ativo', 11), 
+('ativo', 7), 
+('ativo', 7), 
+('ativo', 12), 
+('ativo', 12), 
+('ativo', 9), 
+('ativo', 9), 
+('ativo', 10), 
+('ativo', 10), 
+-- Unidade Santo Amaro
+('ativo', 14), 
+('ativo', 14), 
+('ativo', 17), 
+('ativo', 17), 
+('ativo', 13), 
+('ativo', 13), 
+('ativo', 18), 
+('ativo', 18), 
+('ativo', 15), 
+('ativo', 15), 
+('ativo', 16), 
+('ativo', 16); 
