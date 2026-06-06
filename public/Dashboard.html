@@ -23,8 +23,6 @@
             <button onclick="IrDashGeral()" id="btnDashGeral">Dashboard Geral</button>
             <button onclick="window.location.href='cadastro_usuario.html'" id="btnCadastrarColaborador">Cadastrar
                 Colaborador</button>
-            <button onclick="window.location.href='cadastro_filial.html'" id="btnCadastrarFilial">Cadastrar
-                Filial</button>
             <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')"
                 id="btnSuporte">Suporte</button>
         </div>
@@ -153,18 +151,15 @@
         let permissao = sessionStorage.CARGO_USUARIO
 
         if (permissao == 'Gerente') {
-            btnCadastrarFilial.style.display = "flex";
             btnDashGeral.style.display = "none";
             btnCadastrarColaborador.style.display = "flex";
             btn_seta.style.display = "none";
 
         } else if (permissao == 'Administrador') {
-            btnCadastrarFilial.style.display = "flex";
             btnDashGeral.style.display = "flex";
             btnCadastrarColaborador.style.display = "flex";
 
         } else {
-            btnCadastrarFilial.style.display = "none";
             btnDashGeral.style.display = "none";
             btnCadastrarColaborador.style.display = "none";
             btn_seta.style.display = "none";
