@@ -120,7 +120,8 @@ function buscarFiliais(idFilial) {
                     FROM filial
                     WHERE idFilial = ${idFilial}
                 )
-                AND novoIdFilial != ${idFilial};
+                AND novoIdFilial != ${idFilial}
+                ORDER BY nome;
     `;
     console.log("Executando instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -130,7 +131,8 @@ function buscarFiliais2(idFilial) {
     var instrucaoSql = `
         SELECT *
                 FROM vw_filiais2
-                WHERE fkMatriz = ${idFilial};
+                WHERE fkMatriz = ${idFilial}
+                ORDER BY nome;
     `;
     console.log("Executando instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
