@@ -113,7 +113,7 @@
             </div>
 
             <div class="grafico">
-                <h3>Fluxo Acumulado por Hora | Ontem (<span id="dataOntem"></span>)</h3>
+                <h3>Fluxo Acumulado por Hora | Ontem <span id="dataOntem"></span></h3>
                 <canvas class="canva3" id="graficoFluxoAcumuladoHora"></canvas>
             </div>
 
@@ -433,7 +433,7 @@
 
     function plotarGraficoFluxoMensal(dadosFluxo) {
         if (!dadosFluxo || dadosFluxo.length === 0) {
-            dadosFluxo = [{ metaFilial: 0, diaSemana: '', mediaPorDiaSemana: 0, mes: '-' }];
+            dadosFluxo = [{ metaFilial: 0, diaSemana: '', mediaPorDiaSemana: 0, mes: 'Mês atual' }];
         }
 
         var fluxo = [0, 0, 0, 0, 0, 0, 0];
@@ -492,7 +492,7 @@
 
     function plotarGraficoFluxoSemana(dadosFluxoSemana) {
         if (!dadosFluxoSemana || dadosFluxoSemana.length === 0) {
-            dadosFluxoSemana = [{ dataFormatada: '-', setor: '-', totalPessoas: 0 }];
+            dadosFluxoSemana = [{ dataFormatada: '', setor: 'Nenhum fluxo nos setores', totalPessoas: 0 }];
         }
 
         var dia = [];
@@ -572,7 +572,7 @@
 
     function plotarGraficoFluxoAcumulado(dadosFluxoAcumulado) {
         if (!dadosFluxoAcumulado || dadosFluxoAcumulado.length === 0) {
-            dadosFluxoAcumulado = [{ hora: 0, totalPessoas: 0, dia: '-' }];
+            dadosFluxoAcumulado = [{ hora: 0, totalPessoas: 0, dia: '' }];
         }
 
         var totalPessoas = [];
