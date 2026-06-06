@@ -30,13 +30,14 @@
             <button onclick="window.location.href='cadastro_usuario.html'" id="btnCadastrarColaborador">
                 Cadastrar Colaborador
             </button>
-            <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')" id="btnSuporte">
+            <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')"
+                id="btnSuporte">
                 Suporte
             </button>
         </div>
         <div class="card-codigo">
             <h1>Código da Filial</h1>
-            <p>XXXXX</p>
+            <p id="codigoFilial">XXXXX</p>
         </div>
         <div class="user">
             <img class="userIcon" src="assets/img/userIcon.png">
@@ -71,23 +72,22 @@
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi2.png">
                     <div class="kpiValor" id="kpiMaisVisitado">
-                        <h3><span id="idSetorMaisVisitado">Setor</span> - <span style="color: green;"
-                                id="qtdMaisVisitado">XX</span> <span style="color: green;">Acessos</span> - <span
-                                id="mesMaisVisitado">Mês</span></h3>
+                        <h3><span id="idSetorMaisVisitado">Setor</span> - <span id="qtdMaisVisitado">Nenhum acesso</span>
+                            <span id="mesMaisVisitado"></span>
+                        </h3>
                     </div>
                     <div class="kpiValor" id="kpiMenosVisitado" style="display: none;">
-                        <h3><span id="idSetorMenosVisitado">Setor</span> - <span style="color: rgb(246, 20, 20);"
-                                id="qtdMenosVisitado">XX</span> <span style="color: rgb(246, 20, 20);">Acessos</span> -
-                            <span id="mesMenosVisitado">Mês</span>
+                        <h3><span id="idSetorMenosVisitado">Setor</span> - <span id="qtdMenosVisitado">Nenhum acesso</span>
+                                <span id="mesMenosVisitado"></span>
                         </h3>
                     </div>
                 </div>
             </div>
             <div class="card">
-                <p>Pico de Fluxo (Ontem - <span id="dataPico">dd/mm/YYYY</span>)</p>
+                <p>Pico de Fluxo (Ontem<span id="dataPico"></span>)</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi3.png">
-                    <h3><span id="horaPico">XX</span>h - <span id="qtdPessoasPico">XX</span> Acessos</h3>
+                    <h3><span id="horaPico">Sem acessos ontem</span><span id="qtdPessoasPico"></span></h3>
                 </div>
             </div>
         </div>
@@ -258,7 +258,7 @@
                     }
                 }
 
-                totalPosicao = totalPosicao / 2; 
+                totalPosicao = totalPosicao / 2;
 
                 if (totalPosicao > max) {
                     max = totalPosicao;
@@ -363,20 +363,20 @@
 
     function plotarKpiMais(dadosMais) {
         idSetorMaisVisitado.innerHTML = dadosMais[0].setor;
-        qtdMaisVisitado.innerHTML = dadosMais[0].qtdPessoas;
+        qtdMaisVisitado.innerHTML = `<span style="color: green;">${dadosMais[0].qtdPessoas} acessos</span> <span style="color: black;">-</span>`;
         mesMaisVisitado.innerHTML = dadosMais[0].mes;
     }
 
     function plotarKpiMenos(dadosMenos) {
         idSetorMenosVisitado.innerHTML = dadosMenos[0].setor;
-        qtdMenosVisitado.innerHTML = dadosMenos[0].qtdPessoas;
+        qtdMenosVisitado.innerHTML = `<span style="color: rgb(246, 20, 20);">${dadosMenos[0].qtdPessoas} acessos</span> <span style="color: black;">-</span>`;
         mesMenosVisitado.innerHTML = dadosMenos[0].mes;
     }
 
     function plotarKpiPico(dadosPico) {
-        horaPico.innerHTML = dadosPico[0].hora;
-        dataPico.innerHTML = dadosPico[0].ontem;
-        qtdPessoasPico.innerHTML = dadosPico[0].totalPessoas;
+        horaPico.innerHTML = `${dadosPico[0].hora}h`;
+        dataPico.innerHTML = ` - ${dadosPico[0].ontem}`;
+        qtdPessoasPico.innerHTML = ` - ${dadosPico[0].totalPessoas} acessos`;
     }
 
     function plotarKpiComparacao(dadosComparacaoFluxo) {
@@ -401,6 +401,7 @@
     function plotarNomeFilial(dadosNome) {
         filialAtual.innerHTML = dadosNome[0].nome;
         idMatriz = dadosNome[0].idMatriz;
+        codigoFilial.innerHTML = dadosNome[0].codigo;
 
         let idFilialAtual = parseInt(sessionStorage.FKFILIAL_USUARIO);
 
@@ -417,7 +418,7 @@
 
     function plotarFiliais(dadosFiliais) {
         for (let i = 0; i < dadosFiliais.length; i++) {
-            modalFilial.innerHTML += `<button class="btn-filial" onclick="mudarFilial(${dadosFiliais[i].novoIdFilial})">${dadosFiliais[i].nome}</button>`
+            modalFilial.innerHTML += `<button class="btn-filial" onclick="mudarFilial(${dadosFiliais[i].novoIdFilial})">${dadosFiliais[i].nome}</button>`;
         }
     }
 
@@ -770,7 +771,7 @@
                     }
                 }
 
-                totalPosicao = totalPosicao / 2; 
+                totalPosicao = totalPosicao / 2;
 
                 if (totalPosicao > max) {
                     max = totalPosicao;

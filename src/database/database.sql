@@ -294,7 +294,8 @@ CREATE VIEW vw_nome_matriz AS
 	SELECT
 		f.idFilial,
 		f.nome,
-		f.fkMatriz
+		f.fkMatriz,
+        f.codigo
 	FROM filial f
 		LEFT JOIN filial m ON m.idFilial = f.fkMatriz;
 

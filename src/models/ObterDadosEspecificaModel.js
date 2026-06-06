@@ -142,6 +142,7 @@ function BuscarNomeIdMatriz(idFilial) {
     var instrucaoSql = `
        SELECT
             nome,
+            codigo,
             IFNULL(fkMatriz, idFilial) AS idMatriz
         FROM vw_nome_matriz
         WHERE idFilial = ${idFilial};
