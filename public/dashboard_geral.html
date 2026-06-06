@@ -152,6 +152,8 @@
         .then(function (resultado) {
             setorMenos = resultado[0].setor;
             totalSetorMenos = resultado[0].total;
+            idSetorMenosVisitado.innerHTML = setorMenos;
+            qtdSetorMenosVisitado.innerHTML = totalSetorMenos;
         })
         .catch(function (erro) {
             console.log(erro);
@@ -179,6 +181,8 @@
         .then(function (resultado) {
             filialMenos = resultado[0].nome;
             totalFilialMenos = resultado[0].total;
+            idFilialMenosVisitada.innerHTML = filialMenos;
+            qtdFilialMenosVisitada.innerHTML = totalFilialMenos;
         })
         .catch(function (erro) {
             console.log(erro);
