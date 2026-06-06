@@ -333,3 +333,25 @@ body {
     color: #333333;
     line-height: 1.6;
 }
+
+.card-codigo {
+    margin-top: 50px;
+    border: 2px solid purple;
+    border-radius: 20px;
+    padding: 10px;
+    background-color: #e0e0e0;
+}
+
+.card-codigo h1 {
+    font-size: 18px;
+    text-align: center;
+    padding-bottom: 5px;
+    color: #242424;
+}
+
+.card-codigo p {
+    font-size: 16px;
+    text-align: center;
+    color: purple;
+    font-weight: bold;
+}
