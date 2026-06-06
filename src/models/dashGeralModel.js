@@ -2,7 +2,7 @@ var database = require("../database/config")
 
 function setorMaisVisitado(idEmpresa) {
     var instrucaoSql = `
-        SELECT setor, SUM(presenca) AS total
+        SELECT setor, COUNT(idMonitoramento) AS total
         FROM vw_fluxo_por_setor
         WHERE fkEmpresa = ${idEmpresa}
         AND MONTH(data_hora) = MONTH(CURDATE())
@@ -16,7 +16,7 @@ function setorMaisVisitado(idEmpresa) {
 
 function setorMenosVisitado(idEmpresa) {
     var instrucaoSql = `
-        SELECT setor, SUM(presenca) AS total
+        SELECT setor, COUNT(idMonitoramento) AS total
         FROM vw_fluxo_por_setor
         WHERE fkEmpresa = ${idEmpresa}
         AND MONTH(data_hora) = MONTH(CURDATE())
@@ -30,7 +30,7 @@ function setorMenosVisitado(idEmpresa) {
 
 function filialMaisFluxo(idEmpresa) {
     var instrucaoSql = `
-        SELECT nome, SUM(presenca) AS total
+        SELECT nome, COUNT(idMonitoramento) AS total
         FROM vw_fluxo_por_filial
         WHERE fkEmpresa = ${idEmpresa}
         AND MONTH(data_hora) = MONTH(CURDATE())
@@ -44,7 +44,7 @@ function filialMaisFluxo(idEmpresa) {
 
 function filialMenosFluxo(idEmpresa) {
       var instrucaoSql = `
-        SELECT nome, SUM(presenca) AS total
+        SELECT nome, COUNT(idMonitoramento) AS total
         FROM vw_fluxo_por_filial
         WHERE fkEmpresa = ${idEmpresa}
         AND MONTH(data_hora) = MONTH(CURDATE())

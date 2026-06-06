@@ -300,7 +300,7 @@ CREATE VIEW vw_nome_matriz AS
 
 -- Criação da view para KPI de fluxo por filial
 CREATE VIEW vw_fluxo_por_filial AS
-SELECT f.nome, f.fkEmpresa, m.presenca, m.data_hora
+SELECT f.nome, f.fkEmpresa, m.idMonitoramento, m.data_hora
 FROM monitoramento m
 JOIN sensor ON sensor.idSensor = m.fkSensor
 JOIN setor s ON s.idSetor = sensor.fkSetor
@@ -308,7 +308,7 @@ JOIN filial f ON f.idFilial = s.fkFilial;
 
 -- Criação da view para KPI de fluxo por setor
 CREATE VIEW vw_fluxo_por_setor AS
-SELECT s.setor, f.fkEmpresa, m.presenca, m.data_hora
+SELECT s.setor, f.fkEmpresa, m.idMonitoramento, m.data_hora
 FROM monitoramento m
 JOIN sensor ON sensor.idSensor = m.fkSensor
 JOIN setor s ON s.idSetor = sensor.fkSetor
