@@ -27,6 +27,12 @@
             <div class="agora">
                 Dashboard Filial
             </div>
+        </div>
+        <div class="card-codigo">
+            <h1>Código da Filial</h1>
+            <p id="codigoFilial"></p>
+        </div>
+                <div class="menu">
             <button onclick="window.location.href='cadastro_usuario.html'" id="btnCadastrarColaborador">
                 Cadastrar Colaborador
             </button>
@@ -34,10 +40,6 @@
                 id="btnSuporte">
                 Suporte
             </button>
-        </div>
-        <div class="card-codigo">
-            <h1>Código da Filial</h1>
-            <p id="codigoFilial">XXXXX</p>
         </div>
         <div class="user">
             <img class="userIcon" src="assets/img/userIcon.png">
@@ -60,8 +62,8 @@
                 <p>Comparação de Fluxo (<span id="mesVigente">Mês</span> X <span id="mesPassado">Mês</span>)</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi1.png">
-                    <h3><span id="porcentagemKpi">XX</span><span id="simboloPorcentagem">%</span> (<span
-                            id="qtdMesAtual">XX</span> Acessos)</h3>
+                    <h3><span id="porcentagemKpi">Sem acessos mês passado</span><span id="simboloPorcentagem"></span><span
+                            id="qtdMesAtual"></span></h3>
                 </div>
             </div>
             <div class="card">
@@ -392,8 +394,8 @@
             porcentagemKpi.style.color = "red";
             simboloPorcentagem.style.color = "red";
         }
-        porcentagemKpi.innerHTML = porcent.toFixed(2);
-        qtdMesAtual.innerHTML = dadosComparacaoFluxo[0].totalPessoas;
+        porcentagemKpi.innerHTML = `${porcent.toFixed(2)}<span id="simboloPorcentagem">%</span> `;
+        qtdMesAtual.innerHTML = `(${dadosComparacaoFluxo[0].totalPessoas} acessos)`;
         mesPassado.innerHTML = dadosComparacaoFluxo[1].mes;
         mesVigente.innerHTML = dadosComparacaoFluxo[0].mes;
     }
