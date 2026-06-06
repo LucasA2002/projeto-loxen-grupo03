@@ -33,7 +33,7 @@ body {
 
 .menu li {
     padding: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     cursor: pointer;
     background: linear-gradient(90deg, #6A36FF, #AC5FE6);
     border-radius: 6px;
