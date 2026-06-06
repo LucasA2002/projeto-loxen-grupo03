@@ -30,7 +30,8 @@
                 Cadastrar Filial
             </button>
 
-            <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')" id="filial">
+            <button onclick="window.open('https://sptech-loxen.atlassian.net/servicedesk/customer/portal/35', '_blank')"
+                id="filial">
                 Suporte
             </button>
         </ul>
@@ -53,13 +54,14 @@
                     <div class="kpiValor" id="kpiSetorMaisVisitado">
                         <h3><span id="idSetorMaisVisitado">Setor</span> - <span style="color: green;"
                                 id="qtdSetorMaisVisitado">XX</span> <span style="color: green;">Acessos</span> - <span
-                                id="idMesSetorMais">Mês</span></h3>
+                                id="idMesSetorMais">Mês Atual</span></h3>
                     </div>
                     <div class="kpiValor" id="kpiSetorMenosVisitado" style="display: none;">
                         <h3><span id="idSetorMenosVisitado">Setor</span> - <span style="color: rgb(246, 20, 20);"
-                                id="qtdSetorMenosVisitado">XX</span> <span style="color: rgb(246, 20, 20);">Acessos</span>
+                                id="qtdSetorMenosVisitado">XX</span> <span
+                                style="color: rgb(246, 20, 20);">Acessos</span>
                             -
-                            <span id="idMesSetorMenos">Mês</span>
+                            <span id="idMesSetorMenos">Mês Atual</span>
                         </h3>
                     </div>
                 </div>
@@ -75,13 +77,13 @@
                     <div class="kpiValor" id="kpiFilialMaisVisitada">
                         <h3><span id="idFilialMaisVisitada">Filial</span> - <span style="color: green;"
                                 id="qtdFilialMaisVisitada">XX</span> <span style="color: green;">Acessos</span> - <span
-                                id="idMesFilialMais">Mês</span></h3>
+                                id="idMesFilialMais">Mês Atual</span></h3>
                     </div>
                     <div class="kpiValor" id="kpiFilialMenosVisitada" style="display: none;">
                         <h3><span id="idFilialMenosVisitada">Filial</span> - <span style="color: rgb(246, 20, 20);"
                                 id="qtdFilialMenosVisitada">XX</span> <span
                                 style="color: rgb(246, 20, 20);">Acessos</span> -
-                            <span id="idMesFilialMenos">Mês</span>
+                            <span id="idMesFilialMenos">Mês Atual</span>
                         </h3>
                     </div>
                 </div>
@@ -138,6 +140,12 @@
     let totalFilialMenos = 0;
     var idEmpresa = sessionStorage.FKEMPRESA_USUARIO;
 
+    const meses = [
+        "Janeiro", "Fevereiro", "Março", "Abril",
+        "Maio", "Junho", "Julho", "Agosto",
+        "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
     fetch(`/dashGeral/setorMaisVisitado/${idEmpresa}`)
         .then(function (resposta) {
             return resposta.json();
@@ -147,7 +155,7 @@
             totalSetorMais = resultado[0].total;
             idSetorMaisVisitado.innerHTML = setorMais;
             qtdSetorMaisVisitado.innerHTML = totalSetorMais;
-            //idMesSetorMais.innerHTML = mesAtual;
+            idMesSetorMais.innerHTML = meses[resultado[0].mes - 1];
         })
         .catch(function (erro) {
             console.log(erro);
@@ -162,6 +170,7 @@
             totalSetorMenos = resultado[0].total;
             idSetorMenosVisitado.innerHTML = setorMenos;
             qtdSetorMenosVisitado.innerHTML = totalSetorMenos;
+            idMesSetorMenos.innerHTML = meses[resultado[0].mes - 1];
         })
         .catch(function (erro) {
             console.log(erro);
@@ -176,7 +185,7 @@
             totalFilialMais = resultado[0].total;
             idFilialMaisVisitada.innerHTML = filialMais;
             qtdFilialMaisVisitada.innerHTML = totalFilialMais;
-            //idMesFilialMais.innerHTML = mesAtual;
+            idMesFilialMais.innerHTML = meses[resultado[0].mes - 1];
         })
         .catch(function (erro) {
             console.log(erro);
@@ -191,6 +200,7 @@
             totalFilialMenos = resultado[0].total;
             idFilialMenosVisitada.innerHTML = filialMenos;
             qtdFilialMenosVisitada.innerHTML = totalFilialMenos;
+            idMesFilialMenos.innerHTML = meses[resultado[0].mes - 1];
         })
         .catch(function (erro) {
             console.log(erro);

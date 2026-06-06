@@ -305,7 +305,8 @@ CREATE VIEW vw_fluxo_por_filial AS
 		f.nome, 
 		f.fkEmpresa, 
 		m.idMonitoramento, 
-		m.data_hora
+		m.data_hora, 
+		MONTH(data_hora) as mes
 	FROM monitoramento m
 		JOIN sensor ON sensor.idSensor = m.fkSensor
 		JOIN setor s ON s.idSetor = sensor.fkSetor
@@ -317,7 +318,8 @@ CREATE VIEW vw_fluxo_por_setor AS
 		s.setor, 
         f.fkEmpresa, 
         m.idMonitoramento, 
-        m.data_hora
+        m.data_hora,
+		MONTH(data_hora) as mes
 	FROM monitoramento m
 		JOIN sensor ON sensor.idSensor = m.fkSensor
 		JOIN setor s ON s.idSetor = sensor.fkSetor

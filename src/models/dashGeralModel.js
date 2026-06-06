@@ -2,12 +2,12 @@ var database = require("../database/config")
 
 function setorMaisVisitado(idEmpresa) {
     var instrucaoSql = `
-        SELECT setor, COUNT(idMonitoramento) AS total
+        SELECT setor, mes, COUNT(idMonitoramento) AS total
         FROM vw_fluxo_por_setor
         WHERE fkEmpresa = ${idEmpresa}
         AND MONTH(data_hora) = MONTH(CURDATE())
         AND YEAR(data_hora) = YEAR(CURDATE())
-        GROUP BY setor
+        GROUP BY setor, mes
         ORDER BY total DESC
         LIMIT 1;
     `;
@@ -16,12 +16,12 @@ function setorMaisVisitado(idEmpresa) {
 
 function setorMenosVisitado(idEmpresa) {
     var instrucaoSql = `
-        SELECT setor, COUNT(idMonitoramento) AS total
+        SELECT setor, mes, COUNT(idMonitoramento) AS total
         FROM vw_fluxo_por_setor
         WHERE fkEmpresa = ${idEmpresa}
         AND MONTH(data_hora) = MONTH(CURDATE())
         AND YEAR(data_hora) = YEAR(CURDATE())
-        GROUP BY setor
+        GROUP BY setor, mes
         ORDER BY total ASC
         LIMIT 1;
     `;
@@ -30,12 +30,12 @@ function setorMenosVisitado(idEmpresa) {
 
 function filialMaisFluxo(idEmpresa) {
     var instrucaoSql = `
-        SELECT nome, COUNT(idMonitoramento) AS total
+        SELECT nome, mes, COUNT(idMonitoramento) AS total
         FROM vw_fluxo_por_filial
         WHERE fkEmpresa = ${idEmpresa}
         AND MONTH(data_hora) = MONTH(CURDATE())
         AND YEAR(data_hora) = YEAR(CURDATE())
-        GROUP BY nome
+        GROUP BY nome, mes
         ORDER BY total DESC
         LIMIT 1;
     `;
@@ -44,12 +44,12 @@ function filialMaisFluxo(idEmpresa) {
 
 function filialMenosFluxo(idEmpresa) {
       var instrucaoSql = `
-        SELECT nome, COUNT(idMonitoramento) AS total
+        SELECT nome, mes, COUNT(idMonitoramento) AS total
         FROM vw_fluxo_por_filial
         WHERE fkEmpresa = ${idEmpresa}
         AND MONTH(data_hora) = MONTH(CURDATE())
         AND YEAR(data_hora) = YEAR(CURDATE())
-        GROUP BY nome
+        GROUP BY nome, mes
         ORDER BY total ASC
         LIMIT 1;
     `;
