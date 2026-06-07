@@ -402,3 +402,49 @@ INSERT INTO sensor (status_sensor, fkSetor) VALUES
 ('ativo', 15), 
 ('ativo', 16), 
 ('ativo', 16); 
+
+
+INSERT INTO empresa(nome, status_empresa) VALUES 
+('Loxen', 'Ativa');
+
+INSERT INTO filial(codigo, nome, cnpj, logradouro, cidade, estado, cep, fkEmpresa, fkMatriz) VALUES
+(00000, 'Loxen', '10203040506070', 'Av. Santa Isabel', 'São Paulo', 'SP', '04702-000', 2, null);
+
+INSERT INTO usuario(nome, cargo, email, senha, fkFilial) VALUES 
+('Suporte Loxen', 'Suporte', 'suporte@loxen.com', 'Suporte321@', 5);
+
+-- Empresa de cada usuario
+SELECT
+    u.idFuncionario,
+    u.nome AS usuario,
+    u.cargo,
+    f.nome AS filial,
+    e.nome AS empresa
+FROM usuario u
+JOIN filial f ON u.fkFilial = f.idFilial
+JOIN empresa e ON f.fkEmpresa = e.idEmpresa;
+
+-- Filial de cada empresa
+SELECT
+    f.idFilial,
+    f.nome AS filial,
+    f.cidade,
+    f.estado,
+    e.nome AS empresa
+FROM filial f
+JOIN empresa e ON f.fkEmpresa = e.idEmpresa;
+
+-- Usuario | Filial | Empresa
+SELECT
+    u.nome AS usuario,
+    u.cargo,
+    u.email,
+    f.nome AS filial,
+    e.nome AS empresa
+FROM usuario u
+INNER JOIN filial f
+    ON u.fkFilial = f.idFilial
+INNER JOIN empresa e
+    ON f.fkEmpresa = e.idEmpresa
+ORDER BY e.nome, f.nome, u.nome;
+
