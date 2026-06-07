@@ -17,6 +17,15 @@
             <img src="./assets/img/arrow-left.png">
         </a>
         <div class="info">
+            <div class="popUp">
+                <span class="popUp-icon" id="icon">⚠️</span>
+
+                <div class="popUp-conteudo">
+                    <h3 id="popUpTitulo">Falha ao realizar cadastro de usuário</h3>
+                    <p id="popUpTexto"></p>
+                </div>
+            </div>
+
             <div class="formulario">
                 <img src="assets/icon/logo.png" alt="Logo">
                 <h3>Cadastro de Usuário</h3>
@@ -57,6 +66,7 @@
 
 </html>
 <script>
+    const popup = document.querySelector('.popUp');
     let validacaoFeita = false
     function registrar() {
         let codigo = ipt_codigo.value
@@ -69,21 +79,56 @@
         let verificacaoEmailPonto = email.indexOf('.')
 
         if (codigo == '' || nome == '' || email == '' || cargo == 0 || senha == '' || senhaConfirmada == '') {
-            alert('Todos os campos devem ser preenchidos para o cadastro!')
+            icon.innerHTML = "⚠️"
+            popUpTexto.innerHTML = "Todos os campos devem ser preenchidos para o cadastro!"
+                popup.classList.add("ativo")
+
+                setTimeout(() => {
+                    popup.classList.remove("ativo");
+                }, 3000)
         } else {
             if (verificacaoEmailArroba == -1) {
-                alert('Insira um email válido')
+                icon.innerHTML = "⚠️"
+                popUpTexto.innerHTML = "Insira um Email válido"
+                popup.classList.add("ativo")
+
+                setTimeout(() => {
+                    popup.classList.remove("ativo");
+                }, 3000)
+
                 validacaoFeita = false
             } else if (verificacaoEmailPonto == -1) {
-                alert('Insira um email válido')
+                icon.innerHTML = "⚠️"
+                popUpTexto.innerHTML = "Insira um Email válido"
+                popup.classList.add("ativo")
+
+                setTimeout(() => {
+                    popup.classList.remove("ativo")
+                }, 3000)
+
                 validacaoFeita = false
             } else if (senha != senhaConfirmada) {
-                alert('As senhas não se coincidem')
+                icon.innerHTML = "⚠️"
+                popUpTexto.innerHTML = "As senhas devem se coincidir"
+                popup.classList.add("ativo")
+
+                setTimeout(() => {
+                    popup.classList.remove("ativo");
+                }, 3000)
+
                 validacaoFeita = false
             } else {
                 validacaoFeita = true
 
-                alert('Cadastro realizado com sucesso!')
+                icon.innerHTML = "✅"
+                popUpTitulo.innerHTML = "Cadastro realizado com sucesso!"
+                popUpTexto.innerHTML = ""
+                popup.classList.add("ativo")
+
+                setTimeout(() => {
+                    popup.classList.remove("ativo");
+                }, 3000)
+                
 
                 ipt_codigo.value = ''
                 ipt_nome_usuario.value = ''
@@ -110,6 +155,13 @@
                     })
                     .catch(function (resposta) {
                         console.log(`#ERRO: ${resposta}`);
+                        icon.innerHTML = "⚠️"
+                        popup.classList.add("ativo");
+
+                        setTimeout(() => {
+                            popup.classList.remove("ativo");
+                        }, 3000);
+                        return false;
                     });
 
                 return false;
