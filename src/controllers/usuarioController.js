@@ -46,14 +46,13 @@ function autenticar(req, res) {
 }
 
 function cadastrar(req, res) {
-    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
+
     var nome = req.body.nomeServer;
     var cargo = req.body.cargoServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var codigo = req.body.codigoServer;
 
-    // Faça as validações dos valores
     if (nome == undefined) {
         res.status(400).send("O nome está undefined!");
     } else if (cargo == undefined) {
@@ -63,23 +62,28 @@ function cadastrar(req, res) {
     } else if (senha == undefined) {
         res.status(400).send("A senha está undefined!");
     } else {
+        usuarioModel.verificarCodigo(codigo)
+            .then((resultado) => {
 
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, cargo, email, senha, codigo)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
+                if (resultado.length == 0) {
+                    return res.status(404).json({
+                        mensagem: "Código de ativação inválido"
+                    });
                 }
-            ).catch(
-                function (erro) {
+
+                usuarioModel.cadastrar(nome,cargo,email,senha,codigo)
+                .then((resultadoCadastro) => {
+                    res.json(resultadoCadastro);
+                })
+                .catch((erro) => {
                     console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
                     res.status(500).json(erro.sqlMessage);
-                }
-            );
+                });
+            })
+            .catch((erro) => {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
     }
 }
 

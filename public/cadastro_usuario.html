@@ -67,155 +67,194 @@
 </html>
 <script>
     const popup = document.querySelector('.popUp');
-    let validacaoFeita = false
-    function registrar() {
-        let codigo = ipt_codigo.value
-        let nome = ipt_nome_usuario.value
-        let email = ipt_email.value
-        let cargo = slt_cargo.value
-        let senha = ipt_senha.value
-        let senhaConfirmada = ipt_senha_confirmada.value
-        let verificacaoEmailArroba = email.indexOf('@')
-        let verificacaoEmailPonto = email.indexOf('.')
+    let validacaoFeita = false;
 
-        if (codigo == '' || nome == '' || email == '' || cargo == 0 || senha == '' || senhaConfirmada == '') {
-            icon.innerHTML = "⚠️"
-            popUpTexto.innerHTML = "Todos os campos devem ser preenchidos para o cadastro!"
-            popup.classList.add("ativo")
+    function registrar() {
+
+        validar();
+        senhasCoincidem();
+
+        let codigo = ipt_codigo.value;
+        let nome = ipt_nome_usuario.value;
+        let email = ipt_email.value;
+        let cargo = slt_cargo.value;
+        let senha = ipt_senha.value;
+        let senhaConfirmada = ipt_senha_confirmada.value;
+
+        let verificacaoEmailArroba = email.indexOf('@');
+        let verificacaoEmailPonto = email.indexOf('.');
+
+        if (
+            codigo == '' ||
+            nome == '' ||
+            email == '' ||
+            cargo == 0 ||
+            senha == '' ||
+            senhaConfirmada == ''
+        ) {
+            icon.innerHTML = "⚠️";
+            popUpTitulo.innerHTML = "Falha ao realizar cadastro de usuário";
+            popUpTexto.innerHTML = "Todos os campos devem ser preenchidos para o cadastro!";
+            popup.classList.add("ativo");
 
             setTimeout(() => {
                 popup.classList.remove("ativo");
-            }, 3000)
-        } else {
-            if (verificacaoEmailArroba == -1) {
-                icon.innerHTML = "⚠️"
-                popUpTexto.innerHTML = "Insira um Email válido"
-                popup.classList.add("ativo")
+            }, 3000);
 
-                setTimeout(() => {
-                    popup.classList.remove("ativo");
-                }, 3000)
-
-                validacaoFeita = false
-            } else if (verificacaoEmailPonto == -1) {
-                icon.innerHTML = "⚠️"
-                popUpTexto.innerHTML = "Insira um Email válido"
-                popup.classList.add("ativo")
-
-                setTimeout(() => {
-                    popup.classList.remove("ativo")
-                }, 3000)
-
-                validacaoFeita = false
-            } else if (senha != senhaConfirmada) {
-                icon.innerHTML = "⚠️"
-                popUpTexto.innerHTML = "As senhas devem se coincidir"
-                popup.classList.add("ativo")
-
-                setTimeout(() => {
-                    popup.classList.remove("ativo");
-                }, 3000)
-
-                validacaoFeita = false
-            } else {
-                validacaoFeita = true
-
-                icon.innerHTML = "✅"
-                popUpTitulo.innerHTML = "Cadastro realizado com sucesso!"
-                popUpTexto.innerHTML = ""
-                popup.classList.add("ativo")
-
-                setTimeout(() => {
-                    popup.classList.remove("ativo");
-                }, 3000)
-                
-
-                ipt_codigo.value = ''
-                ipt_nome_usuario.value = ''
-                ipt_email.value = ''
-                slt_cargo.value = '0'
-                ipt_senha.value = ''
-                ipt_senha_confirmada.value = ''
-
-                fetch("/usuarios/cadastrar", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        nomeServer: nome,
-                        cargoServer: cargo,
-                        emailServer: email,
-                        senhaServer: senha,
-                        codigoServer: codigo,
-                    }),
-                })
-                    .then(function (resposta) {
-                        console.log("resposta: ", resposta);
-                    })
-                    .catch(function (resposta) {
-                        console.log(`#ERRO: ${resposta}`);
-                        icon.innerHTML = "⚠️"
-                        popup.classList.add("ativo");
-
-                        setTimeout(() => {
-                            popup.classList.remove("ativo");
-                        }, 3000);
-                        return false;
-                    });
-
-                return false;
-
-            }
-
+            return;
         }
+
+        if (verificacaoEmailArroba == -1 || verificacaoEmailPonto == -1) {
+            icon.innerHTML = "⚠️";
+            popUpTitulo.innerHTML = "Falha ao realizar cadastro de usuário";
+            popUpTexto.innerHTML = "Insira um Email válido";
+            popup.classList.add("ativo");
+
+            setTimeout(() => {
+                popup.classList.remove("ativo");
+            }, 3000);
+
+            return;
+        }
+
+        if (senha != senhaConfirmada) {
+            icon.innerHTML = "⚠️";
+            popUpTitulo.innerHTML = "Falha ao realizar cadastro de usuário";
+            popUpTexto.innerHTML = "As senhas devem coincidir";
+            popup.classList.add("ativo");
+
+            setTimeout(() => {
+                popup.classList.remove("ativo");
+            }, 3000);
+
+            return;
+        }
+
+        if (!validacaoFeita) {
+            icon.innerHTML = "⚠️";
+            popUpTitulo.innerHTML = "Falha ao realizar cadastro de usuário";
+            popUpTexto.innerHTML = "A senha não atende aos requisitos mínimos";
+            popup.classList.add("ativo");
+
+            setTimeout(() => {
+                popup.classList.remove("ativo");
+            }, 3000);
+
+            return;
+        }
+
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nomeServer: nome,
+                cargoServer: cargo,
+                emailServer: email,
+                senhaServer: senha,
+                codigoServer: codigo,
+            }),
+        })
+            .then(async (resposta) => {
+
+                const dados = await resposta.json();
+
+                if (!resposta.ok) {
+                    throw new Error(dados.mensagem);
+                }
+
+                return dados;
+            })
+            .then(() => {
+
+                icon.innerHTML = "✅";
+                popUpTitulo.innerHTML = "Cadastro realizado com sucesso!";
+                popUpTexto.innerHTML = "";
+
+                popup.classList.add("ativo");
+
+                setTimeout(() => {
+                    popup.classList.remove("ativo");
+                }, 3000);
+
+                ipt_codigo.value = '';
+                ipt_nome_usuario.value = '';
+                ipt_email.value = '';
+                slt_cargo.selectedIndex = 0;
+                ipt_senha.value = '';
+                ipt_senha_confirmada.value = '';
+                validacao.innerHTML = '';
+                validacao2.innerHTML = '';
+                validacaoFeita = false;
+
+            })
+            .catch((erro) => {
+
+                icon.innerHTML = "⚠️";
+                popUpTitulo.innerHTML = "Falha ao realizar cadastro";
+
+                if (erro.message == "Código de ativação inválido") {
+                    popUpTexto.innerHTML = "O código informado não pertence a nenhuma filial.";
+                } else {
+                    popUpTexto.innerHTML = erro.message;
+                }
+
+                popup.classList.add("ativo");
+
+                setTimeout(() => {
+                    popup.classList.remove("ativo");
+                }, 3000);
+            });
+
+        return false;
     }
 
     function validar() {
-        let senha = ipt_senha.value
-        let senhaConfirmada = ipt_senha_confirmada.value
-        let tamanho = senha.length
-        let senhaMaiuscula = senha.toUpperCase()
-        let senhaMinuscula = senha.toLowerCase()
-        let especial = ['!', '@', '#', '$', '%', '&', '*', '~', ';', '.', ',', '/', '+', '-', '=', '|']
-        let temEspecial = false
+        let senha = ipt_senha.value;
 
+        let temMaiuscula = /[A-Z]/.test(senha);
+        let temMinuscula = /[a-z]/.test(senha);
+        let temEspecial = /[!@#$%&*~;.,\/+\-=|]/.test(senha);
 
-        if (tamanho < 8) {
-            validacao.innerHTML = `A senha precisa ter no mínimo 8 caracteres`
-        } else if (senha == senhaMaiuscula) {
-            validacao.innerHTML = 'A senha precisa conter ao menos uma letra minúscula'
-        } else if (senha == senhaMinuscula) {
-            validacao.innerHTML = 'A senha precisa conter ao menos uma letra maiúscula'
+        if (senha.length < 8) {
+            validacao.innerHTML = 'A senha precisa ter no mínimo 8 caracteres';
+            validacaoFeita = false;
+
+        } else if (!temMinuscula) {
+            validacao.innerHTML = 'A senha precisa conter ao menos uma letra minúscula';
+            validacaoFeita = false;
+
+        } else if (!temMaiuscula) {
+            validacao.innerHTML = 'A senha precisa conter ao menos uma letra maiúscula';
+            validacaoFeita = false;
+
+        } else if (!temEspecial) {
+            validacao.innerHTML = 'A senha precisa ter pelo menos um caractere especial';
+            validacaoFeita = false;
+
         } else {
-            for (let i = 0; i < tamanho; i++) {
-                if (especial.includes(senha[i])) {
-                    temEspecial = true;
-                    break;
-                }
-            }
-
-            if (!temEspecial) {
-                validacao.innerHTML = 'A senha precisa ter pelo menos um caractere especial'
-            } else {
-                validacao.innerHTML = ``
-                validacaoFeita = true
-            }
+            validacao.innerHTML = '';
+            validacaoFeita = true;
         }
     }
 
     function senhasCoincidem() {
-        let senha = ipt_senha.value
-        let senhaConfirmada = ipt_senha_confirmada.value
+        let senha = ipt_senha.value;
+        let senhaConfirmada = ipt_senha_confirmada.value;
+
+        if (senhaConfirmada.length == 0) {
+            validacao2.innerHTML = '';
+            return;
+        }
 
         if (senha != senhaConfirmada) {
-            validacao2.innerHTML = `As senhas não se coincidem`
-            validacaoFeita = false
+            validacao2.innerHTML = 'As senhas não coincidem';
         } else {
-            validacao2.innerHTML = ''
-            validacaoFeita = true
+            validacao2.innerHTML = '';
         }
     }
+
     function mostrar() {
         if (ipt_senha.type === "password") {
             ipt_senha.type = "text";
@@ -223,6 +262,7 @@
             ipt_senha.type = "password";
         }
     }
+
     function mostrar2() {
         if (ipt_senha_confirmada.type === "password") {
             ipt_senha_confirmada.type = "text";
@@ -230,5 +270,4 @@
             ipt_senha_confirmada.type = "password";
         }
     }
-
 </script>

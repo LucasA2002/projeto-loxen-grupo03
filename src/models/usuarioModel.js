@@ -13,6 +13,16 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
+function verificarCodigo(codigo) {
+    var instrucaoSql = `
+        SELECT idFilial
+        FROM filial
+        WHERE codigo = '${codigo}';
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
 function cadastrar(nome, cargo, email, senha, codigo) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, cargo, email, senha);
@@ -55,5 +65,6 @@ function cadastrarFilial(nome, cnpj, logradouro, cidade, estado, cep, fkFilial) 
 module.exports = {
     autenticar,
     cadastrar,
-    cadastrarFilial
+    cadastrarFilial,
+    verificarCodigo
 };
