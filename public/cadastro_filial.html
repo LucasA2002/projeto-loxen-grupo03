@@ -16,6 +16,16 @@
             <img src="./assets/img/arrow-left.png">
         </a>
         <div class="info">
+
+            <div class="popUp">
+                <span class="popUp-icon" id="icon">⚠️</span>
+
+                <div class="popUp-conteudo">
+                    <h3 id="popUpTitulo">Falha ao realizar cadastro de filial</h3>
+                    <p id="popUpTexto"></p>
+                </div>
+            </div>
+
             <div class="formulario">
                 <img src="assets/icon/logo.png" alt="Logo">
                 <h3>Cadastro Filial</h3>
@@ -75,6 +85,7 @@
 </html>
 
 <script>
+    const popup = document.querySelector('.popUp');
 
     function cnpj() {
         let cnpj = ipt_cnpj.value.replace(/\D/g, ``);
@@ -150,13 +161,41 @@
         let tamanhoCep = cep.length;
 
         if (nome == `` || cep == `` || cnpj == `` || rua == `` || uf == `vazio`) {
-            alert(`Preencha todos os campos!`);
+            icon.innerHTML = "⚠️"
+            popUpTexto.innerHTML = "Todos os campos devem ser preenchidos para o cadastro!"
+            popup.classList.add("ativo")
+
+            setTimeout(() => {
+                popup.classList.remove("ativo");
+            }, 3000)
+            
         } else if (tamanhoCnpj !== 18) {
-            alert(`Insira um CNPJ válido!`);
+            icon.innerHTML = "⚠️"
+            popUpTexto.innerHTML = "Insira um CNPJ válido!"
+            popup.classList.add("ativo")
+
+            setTimeout(() => {
+                popup.classList.remove("ativo");
+            }, 3000)
+
         } else if (tamanhoCep !== 9) {
-            alert(`Insira um CEP válido!`);
+            icon.innerHTML = "⚠️"
+            popUpTexto.innerHTML = "Insira um CEP válido!"
+            popup.classList.add("ativo")
+
+            setTimeout(() => {
+                popup.classList.remove("ativo");
+            }, 3000)
+            
         } else {
-            alert(`Cadastro realizado com sucesso!`);
+            icon.innerHTML = "✅"
+            popUpTitulo.innerHTML = "Cadastro realizado com sucesso!"
+            popUpTexto.innerHTML = ""
+            popup.classList.add("ativo")
+
+            setTimeout(() => {
+                popup.classList.remove("ativo");
+            }, 3000)
 
             // Enviando o valor da nova input
             fetch("/usuarios/cadastrar-filial", {
@@ -180,6 +219,15 @@
                 })
                 .catch(function (resposta) {
                     console.log(`#ERRO: ${resposta}`);
+
+                    icon.innerHTML = "⚠️"
+                    popUpTitulo.innerHTML = "Falha ao realizar cadastro de filial"
+                    popUpTexto.innerHTML = ""
+                    popup.classList.add("ativo")
+
+                    setTimeout(() => {
+                        popup.classList.remove("ativo");
+                    }, 3000)
                 });
 
             return false;

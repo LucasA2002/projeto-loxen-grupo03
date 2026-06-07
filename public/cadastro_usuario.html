@@ -81,11 +81,11 @@
         if (codigo == '' || nome == '' || email == '' || cargo == 0 || senha == '' || senhaConfirmada == '') {
             icon.innerHTML = "⚠️"
             popUpTexto.innerHTML = "Todos os campos devem ser preenchidos para o cadastro!"
-                popup.classList.add("ativo")
+            popup.classList.add("ativo")
 
-                setTimeout(() => {
-                    popup.classList.remove("ativo");
-                }, 3000)
+            setTimeout(() => {
+                popup.classList.remove("ativo");
+            }, 3000)
         } else {
             if (verificacaoEmailArroba == -1) {
                 icon.innerHTML = "⚠️"
