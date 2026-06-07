@@ -395,7 +395,7 @@
         data3.datasets[0].data = [];
         valorMeta = inp_meta.value;
 
-        for (i = 0; i < filial.length; i++) {
+        for (i = 0; i < labels3.length; i++) {
             data3.datasets[0].data.push(valorMeta);
         }
         myChart3.update();
@@ -410,6 +410,7 @@
             borderColor: 'rgb(46, 11, 127)',
             backgroundColor: 'rgb(46, 11, 127)',
             type: 'line',
+            pointRadius: 0,
             order: 0
         },
         {
