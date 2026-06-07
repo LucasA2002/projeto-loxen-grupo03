@@ -15,10 +15,10 @@
     <div class="login_usuario">
         <div class="popUp">
             <span class="popUp-icon">⚠️</span>
-            
+
             <div class="popUp-conteudo">
                 <h3>Falha ao realizar o login</h3>
-                <p>E-mail e/ou senha inválidos.</p>
+                <p id="popUpTexto">E-mail e/ou senha inválidos.</p>
             </div>
         </div>
 
@@ -58,7 +58,12 @@
         let senhaVar = ipt_senha.value
 
         if (emailVar == "" || senhaVar == "") {
-            div_msg.innerHTML = "Preencha todos os campos";
+            popup.classList.add("ativo");
+            popUpTexto.innerHTML = "Preencha todos os campos";
+
+            setTimeout(() => {
+                popup.classList.remove("ativo");
+            }, 3000);
             return false;
         }
         else {
@@ -106,17 +111,16 @@
 
             } else {
                 console.log("Houve um erro ao tentar realizar o login!");
-                div_msg.innerHTML = "Email e/ou senha inválidos"
-            }
+                
+                popup.classList.add("ativo");
+                popUpTexto.innerHTML = "E-mail e/ou senha inválidos.";
 
+                setTimeout(() => {
+                    popup.classList.remove("ativo");
+                }, 3000);
+            }
         }).catch(function (erro) {
             console.log(erro);
-
-            popup.classList.add("ativo");
-
-            setTimeout(() => {
-                popup.classList.remove("ativo");
-            }, 3000);
         })
 
         return false;
