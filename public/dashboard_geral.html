@@ -94,17 +94,17 @@
 
         <div class="graficos">
             <div class="grafico">
-                <h3>Fluxo Médio Mensal - Todas as Filiais | Maio</h3>
+                <h3>Fluxo Médio Mensal - Todas as Filiais | <span id="idMesAtual1"></span></h3>
                 <canvas class="canva1" id="myChart"></canvas>
             </div>
             <div class="grafico">
-                <h3>Fluxo Médio Semanal por Setor - Todas as Filiais | 20/05 - 26/05</h3>
+                <h3>Fluxo Médio Mensal por Setor - Todas as Filiais | <span id="idMesAtual2"></span></h3>
                 <canvas class="canva2" id="myChart2"></canvas>
             </div>
 
             <div class="grafico_total">
                 <div class="texto">
-                    <h3>Fluxo mensal das filiais | Maio</h3>
+                    <h3>Fluxo mensal das filiais | <span id="idMesAtual3"></span></h3>
                     <div class="meta">
                         <input type="text" id="inp_meta" placeholder="Insira a meta">
                         <button onclick="inserirMeta()">Ver no gráfico</button>
@@ -281,8 +281,10 @@
         options: {}
     };
 
-    fetch(`/dashgeral/fluxoSemanal/${idEmpresa}`)
+    
+    fetch(`/dashGeral/fluxoSemanal/${idEmpresa}`)
         .then(function (resposta) {
+            
             if (resposta.ok) {
                 resposta.json().then(function (resultado) {
                     let listaMedias = {}
@@ -290,6 +292,7 @@
                         let nomeDia = dias[resultado[i].dia_semana]
                         listaMedias[nomeDia] = resultado[i].media
                     }
+                    idMesAtual1.innerHTML = meses[resultado[0].mes - 1]
                     for (let i = 0; i < labels.length; i++) {
                         data.datasets[0].data[i] = listaMedias[labels[i]] || 0
                     }
@@ -358,7 +361,7 @@
             }
         }
     };
-    fetch(`/dashgeral/fluxoSetor/${idEmpresa}`)
+    fetch(`/dashGeral/fluxoSetor/${idEmpresa}`)
         .then(function (resposta) {
             if (resposta.ok) {
                 resposta.json().then(function (resultado) {
@@ -372,6 +375,9 @@
                             totalOutros += resultado[i].media
                         }
                     }
+                    
+                    idMesAtual2.innerHTML = meses[resultado[0].mes - 1]
+                    
                     if (totalOutros > 0) {
                         labels2.push('Outros')
                         data2.datasets[0].data.push(totalOutros)
@@ -429,7 +435,7 @@
         data: data3,
         options: {}
     };
-    fetch(`/dashgeral/fluxoFilial/${idEmpresa}`)
+    fetch(`/dashGeral/fluxoFilial/${idEmpresa}`)
         .then(function (resposta) {
             if (resposta.ok) {
                 resposta.json().then(function (resultado) {
@@ -438,6 +444,9 @@
                         data3.datasets[1].data.push(resultado[i].total)
                         data3.datasets[0].data.push(0)
                     }
+
+                    idMesAtual3.innerHTML = meses[resultado[0].mes - 1]
+
                     myChart3.update()
                 })
             } else {

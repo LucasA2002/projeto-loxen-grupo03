@@ -59,13 +59,13 @@ function filialMenosFluxo(idEmpresa) {
 function buscarFluxoSemanal(idEmpresa) {
     var instrucaoSql = `
         SELECT
-            dia_semana,
+            dia_semana, mes,
             ROUND(COUNT(idMonitoramento) / 4, 0) AS media
         FROM vw_fluxo_semanal_empresa
         WHERE fkEmpresa = ${idEmpresa}
             AND MONTH(data_hora) = MONTH(CURRENT_DATE())
             AND YEAR(data_hora) = YEAR(CURRENT_DATE())
-        GROUP BY dia_semana;
+        GROUP BY dia_semana, mes;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -74,13 +74,13 @@ function buscarFluxoSemanal(idEmpresa) {
 function buscarFluxoPorSetor(idEmpresa) {
     var instrucaoSql = `
         SELECT
-            setor AS nome_setor,
+            setor AS nome_setor, mes,
             ROUND(COUNT(idMonitoramento) / COUNT(DISTINCT idFilial), 0) AS media
         FROM vw_fluxo_setor_empresa
         WHERE fkEmpresa = ${idEmpresa}
-            AND WEEK(data_hora) = WEEK(CURRENT_DATE())
+            AND MONTH(data_hora) = MONTH(CURRENT_DATE())
             AND YEAR(data_hora) = YEAR(CURRENT_DATE())
-        GROUP BY setor
+        GROUP BY setor, mes
         ORDER BY media DESC;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -90,13 +90,13 @@ function buscarFluxoPorSetor(idEmpresa) {
 function buscarTotalPorFilial(idEmpresa) {
     var instrucaoSql = `
         SELECT
-            nome_filial,
+            nome_filial, mes,
             COUNT(idMonitoramento) AS total
         FROM vw_fluxo_filial_empresa
         WHERE fkEmpresa = ${idEmpresa}
             AND MONTH(data_hora) = MONTH(CURRENT_DATE())
             AND YEAR(data_hora) = YEAR(CURRENT_DATE())
-        GROUP BY idFilial, nome_filial
+        GROUP BY idFilial, nome_filial, mes
         ORDER BY total DESC;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
