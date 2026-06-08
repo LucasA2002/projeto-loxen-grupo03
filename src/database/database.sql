@@ -325,6 +325,44 @@ CREATE VIEW vw_fluxo_por_setor AS
 		JOIN setor s ON s.idSetor = sensor.fkSetor
 		JOIN filial f ON f.idFilial = s.fkFilial;
 
+
+-- Fluxo semanal (média por dia da semana, mês atual), filtrada por empresa
+CREATE VIEW vw_fluxo_semanal_empresa AS
+    SELECT
+        f.fkEmpresa,
+        DAYNAME(m.data_hora) AS dia_semana,
+        m.data_hora
+    FROM monitoramento AS m
+        JOIN sensor ON sensor.idSensor = m.fkSensor
+        JOIN setor AS s ON s.idSetor = sensor.fkSetor
+        JOIN filial AS f ON f.idFilial = s.fkFilial;
+
+-- Fluxo por setor com empresa, para média semanal
+CREATE VIEW vw_fluxo_setor_empresa AS
+    SELECT
+        f.fkEmpresa,
+        f.idFilial,
+        s.setor,
+        m.idMonitoramento,
+        m.data_hora
+    FROM monitoramento AS m
+        JOIN sensor ON sensor.idSensor = m.fkSensor
+        JOIN setor AS s ON s.idSetor = sensor.fkSetor
+        JOIN filial AS f ON f.idFilial = s.fkFilial;
+
+-- Fluxo total por filial com empresa
+CREATE VIEW vw_fluxo_filial_empresa AS
+    SELECT
+        f.fkEmpresa,
+        f.idFilial,
+        f.nome AS nome_filial,
+        m.idMonitoramento,
+        m.data_hora
+    FROM monitoramento AS m
+        JOIN sensor ON sensor.idSensor = m.fkSensor
+        JOIN setor AS s ON s.idSetor = sensor.fkSetor
+        JOIN filial AS f ON f.idFilial = s.fkFilial;
+
 -- inserção de dados
 
 INSERT INTO empresa(nome, status_empresa) VALUES 
