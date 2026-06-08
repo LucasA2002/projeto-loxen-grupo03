@@ -270,24 +270,20 @@ body {
 
 .popUp{
    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-
-    position: fixed;
-    top: 20px;
-    left: 50%;
-
-    background: linear-gradient(135deg, #4154d8, #2b3fbf);
-    color: white;
-    padding: 15px 25px;
-    border-radius: 15px;
-
-    opacity: 0;
-    transform: translateX(-50%) translateY(-20px);
-
-    transition: opacity 0.4s ease, transform 0.4s ease;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 15px;
+   position: fixed;
+   top: 20px;
+   left: 50%;
+   background: linear-gradient(135deg, #4154d8, #2b3fbf);
+   color: white;
+   padding: 15px 25px;
+   border-radius: 15px;
+   opacity: 0;
+   transform: translateX(-50%) translateY(-20px);
+   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .popUp.ativo{
@@ -310,4 +306,3 @@ body {
     font-size: 0.9rem;
     opacity: 0.9;
 }
-

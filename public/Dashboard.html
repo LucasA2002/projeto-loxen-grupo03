@@ -12,7 +12,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/heatmap.js"></script>
-
 </head>
 
 <body>
@@ -60,6 +59,18 @@
     </div>
 
     <div class="conteudo">
+
+        <div class="popUp" id="popUpAlerta">
+
+            <div class="popUp-conteudo">
+                <h3 id="popUpTitulo"></h3>
+                <p id="popUpMensagem"></p>
+            </div>
+
+            <button class="popUp-botao-fechar" onclick="fecharPopUp()">X</button>
+
+        </div>
+
         <div class="titulo-filial">
 
             <button class="botao-seta" id="btn_seta" onclick="exibirFiliais()">
@@ -77,7 +88,8 @@
                 <p>Comparação de Fluxo (<span id="mesVigente">Mês</span> X <span id="mesPassado">Mês</span>)</p>
                 <div class="conteudoKpi">
                     <img class="kpiImg" src="assets/img/kpi1.png">
-                    <h3><span id="porcentagemKpi">Sem acessos mês passado</span><span id="simboloPorcentagem"></span><span id="qtdMesAtual"></span></h3>
+                    <h3><span id="porcentagemKpi">Nenhum fluxo encontrado mês passado</span><span
+                            id="simboloPorcentagem"></span><span id="qtdMesAtual"></span></h3>
                 </div>
             </div>
 
@@ -92,17 +104,19 @@
 
                     <img class="kpiImg" src="assets/img/kpi2.png">
                     <div class="kpiValor" id="kpiMaisVisitado">
-                        <h3><span id="idSetorMaisVisitado">Setor</span> - <span id="qtdMaisVisitado">Nenhum acesso</span>
+                        <h3><span id="idSetorMaisVisitado">Setor</span> - <span id="qtdMaisVisitado">Nenhum
+                                acesso</span>
                             <span id="mesMaisVisitado"></span>
                         </h3>
                     </div>
 
                     <div class="kpiValor" id="kpiMenosVisitado" style="display: none;">
-                        <h3><span id="idSetorMenosVisitado">Setor</span> - <span id="qtdMenosVisitado">Nenhum acesso</span>
-                                <span id="mesMenosVisitado"></span>
+                        <h3><span id="idSetorMenosVisitado">Setor</span> - <span id="qtdMenosVisitado">Nenhum
+                                acesso</span>
+                            <span id="mesMenosVisitado"></span>
                         </h3>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -147,7 +161,7 @@
                 <div class="heatmap"></div>
                 <img src="./assets/img/regua_heatMap.png" class="regua-heatmap">
             </div>
-            
+
         </div>
     </div>
 </body>
@@ -155,6 +169,7 @@
 </html>
 
 <script src="js/sessao.js"></script>
+<script src="./js/alerta.js"></script>
 
 <script>
     var nomeFilial = sessionStorage.NOME_FILIAL;
@@ -254,6 +269,7 @@
             return res.json();
         }).then(function (dadosFluxoSemana) {
             plotarGraficoFluxoSemana(dadosFluxoSemana);
+            verificarAlertasSemana(dadosFluxoSemana);
 
             proximaAtualizacaoSemana = setTimeout(function () {
                 atualizarFluxoSemana(idFilial);
@@ -763,6 +779,8 @@
                     graficoFluxoSemanal.update();
                 }
             }
+
+            verificarAlertasSemana(dadosFluxoSemana);
 
             proximaAtualizacaoSemana = setTimeout(function () {
                 atualizarFluxoSemana(idFilial);
