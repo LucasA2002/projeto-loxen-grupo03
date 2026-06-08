@@ -57,53 +57,52 @@ function filialMenosFluxo(idEmpresa) {
 }
 
 function buscarFluxoSemanal(idEmpresa) {
-    var instrucaoSql = `SELECT
-        DAYNAME(m.data_hora) AS dia_semana,
-        ROUND(COUNT(m.idMonitoramento) / 4, 0) AS media
-        FROM monitoramento as m
-        JOIN sensor ON sensor.idSensor = m.fkSensor
-        JOIN setor AS s ON s.idSetor = sensor.fkSetor
-        JOIN filial AS f ON f.idFilial = s.fkFilial
-        WHERE f.fkEmpresa = ${idEmpresa}
-            AND MONTH(m.data_hora) = MONTH(CURRENT_DATE())
-            AND YEAR(m.data_hora) = YEAR(CURRENT_DATE())
-        GROUP BY DAYNAME(m.data_hora)`
-    console.log("Executando a instrução SQL: \n" + instrucaoSql)
-    return database.executar(instrucaoSql)
+    var instrucaoSql = `
+        SELECT
+            dia_semana,
+            ROUND(COUNT(idMonitoramento) / 4, 0) AS media
+        FROM vw_fluxo_semanal_empresa
+        WHERE fkEmpresa = ${idEmpresa}
+            AND MONTH(data_hora) = MONTH(CURRENT_DATE())
+            AND YEAR(data_hora) = YEAR(CURRENT_DATE())
+        GROUP BY dia_semana;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 function buscarFluxoPorSetor(idEmpresa) {
-    var instrucaoSql = `SELECT
-        s.setor AS nome_setor, 
-        ROUND(COUNT(m.idMonitoramento) / COUNT(DISTINCT f.idFilial), 0) AS media
-        FROM monitoramento AS m
-        JOIN sensor ON sensor.idSensor = m.fkSensor
-        JOIN setor AS s ON s.idSetor = sensor.fkSetor
-        JOIN filial AS f ON f.idFilial = s.fkFilial
-        WHERE f.fkEmpresa = ${idEmpresa}
-            AND WEEK(m.data_hora) = WEEK(CURRENT_DATE())
-            AND YEAR(m.data_hora) = YEAR(CURRENT_DATE())
-        GROUP BY s.setor
-        ORDER BY media DESC;`
-    console.log("Executando a instrução SQL: \n" + instrucaoSql)
-    return database.executar(instrucaoSql)
+    var instrucaoSql = `
+        SELECT
+            setor AS nome_setor,
+            ROUND(COUNT(idMonitoramento) / COUNT(DISTINCT idFilial), 0) AS media
+        FROM vw_fluxo_setor_empresa
+        WHERE fkEmpresa = ${idEmpresa}
+            AND WEEK(data_hora) = WEEK(CURRENT_DATE())
+            AND YEAR(data_hora) = YEAR(CURRENT_DATE())
+        GROUP BY setor
+        ORDER BY media DESC;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
+
 function buscarTotalPorFilial(idEmpresa) {
-    var instrucaoSql = `SELECT
-    f.nome AS nome_filial,
-    COUNT(m.idMonitoramento) AS total
-    FROM monitoramento AS m
-    JOIN sensor ON sensor.idSensor = m.fkSensor
-    JOIN setor AS s ON s.idSetor = sensor.fkSetor
-    JOIN filial AS f ON f.idFilial = s.fkFilial
-    WHERE f.fkEmpresa = ${idEmpresa}
-        AND MONTH(m.data_hora) = MONTH(CURRENT_DATE())
-        AND YEAR(m.data_hora) = YEAR(CURRENT_DATE())
-        GROUP BY f.idFilial, f.nome
-        ORDER BY total DESC;`
-    console.log("Executando a instrução SQL: \n" + instrucaoSql)
-    return database.executar(instrucaoSql)
+    var instrucaoSql = `
+        SELECT
+            nome_filial,
+            COUNT(idMonitoramento) AS total
+        FROM vw_fluxo_filial_empresa
+        WHERE fkEmpresa = ${idEmpresa}
+            AND MONTH(data_hora) = MONTH(CURRENT_DATE())
+            AND YEAR(data_hora) = YEAR(CURRENT_DATE())
+        GROUP BY idFilial, nome_filial
+        ORDER BY total DESC;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
+
 
 module.exports = {
     setorMaisVisitado,
