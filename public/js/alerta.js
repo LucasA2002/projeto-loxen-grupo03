@@ -49,7 +49,7 @@ function verificarAlertasSemana(dadosFluxoSemana) {
                     let minutosSemMudanca = (Date.now() - registro.ultimaMudanca) / 60000;
                     console.log(`[${setor}] Sem mudança há ${minutosSemMudanca.toFixed(2)} min`);
 
-                    if (minutosSemMudanca >= 1 && !registro.alertaDisparado) {
+                    if (minutosSemMudanca >= 0.2 && !registro.alertaDisparado) {
                         registro.alertaDisparado = true;
                         enfileirarAlerta(
                             'semMovimento',
